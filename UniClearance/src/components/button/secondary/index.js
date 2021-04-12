@@ -36,9 +36,10 @@ const styles = StyleSheet.create({
     textTransform: 'lowercase',
   },
   buttonStyle: {
-    width: wp('40'),
-    height: 50,
-    padding: theme.spacing.m,
+    width: wp('30'),
+    height: hp(5),
+    alignContent: 'center',
+    justifyContent: 'center',
     borderRadius: theme.borderRadii.m,
     shadowColor: theme.colors.text,
     shadowOffset: {
