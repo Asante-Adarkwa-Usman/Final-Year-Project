@@ -11,12 +11,7 @@ const AuthenticationStack = createStackNavigator();
 
 const AuthenticationNavigator = () => {
   return (
-    <AuthenticationStack.Navigator
-      screenOptions={{
-        gestureEnabled: true,
-        gestureDirection: 'horizontal',
-      }}
-      headerMode="none">
+    <AuthenticationStack.Navigator headerMode="none">
       <AuthenticationStack.Screen name="GetStarted" component={GetStarted} />
       <AuthenticationStack.Screen name="Login" component={LoginScreen} />
       <AuthenticationStack.Screen
