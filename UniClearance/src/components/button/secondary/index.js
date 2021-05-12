@@ -20,7 +20,8 @@ const SecondaryButton = ({...props}) => {
           {
             backgroundColor: props.disabled
               ? theme.colors.lightGrey
-              : theme.colors.primary,
+              : props.backgroundColor,
+            borderRadius: props.borderRadius,
           },
         ]}>
         <Text style={styles.buttonText}>{props.text}</Text>
@@ -32,14 +33,13 @@ const SecondaryButton = ({...props}) => {
 const styles = StyleSheet.create({
   buttonContainer: {
     alignItems: 'center',
-    marginTop: theme.spacing.xl,
     textTransform: 'lowercase',
   },
   buttonStyle: {
-    width: wp('40'),
-    height: 50,
-    padding: theme.spacing.m,
-    borderRadius: theme.borderRadii.m,
+    width: wp('30'),
+    height: hp(5),
+    alignContent: 'center',
+    justifyContent: 'center',
     shadowColor: theme.colors.text,
     shadowOffset: {
       width: 0,
@@ -63,4 +63,6 @@ SecondaryButton.propTypes = {
   text: PropTypes.string,
   onPress: PropTypes.func,
   disabled: PropTypes.bool,
+  backgroundColor: PropTypes.any,
+  borderRadius: PropTypes.any,
 };

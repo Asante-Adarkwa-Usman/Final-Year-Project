@@ -1,5 +1,12 @@
 import * as React from 'react';
-import {View, Text, ScrollView, StyleSheet, Image} from 'react-native';
+import {
+  View,
+  Text,
+  ScrollView,
+  StyleSheet,
+  Image,
+  ActivityIndicator,
+} from 'react-native';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -7,10 +14,41 @@ import {
 import theme from '../../Theme';
 import {TextInput, Provider as PaperProvider} from 'react-native-paper';
 import PrimaryButton from '../../components/button/primary';
+import {postLoginSuccess} from '../../redux/actions/login_actions';
+import connect from 'react-redux';
+import axios from 'axios';
+import {axiosConfig} from '../../network/utils/axiosConfig';
+import {loginURL} from '../../network/login_url';
+import {useFormik} from 'formik';
 
-const LoginScreen = ({navigation}) => {
-  const [studentID, setStudentID] = React.useState('');
-  const [password, setPassword] = React.useState('');
+const LoginScreen = ({UserDetails, sendUserDetails, navigation}) => {
+  const formik = useFormik({
+    initialValues: {
+      email: '',
+      password: '',
+    },
+    onSubmit: values => {
+      //post login data
+      const config = axiosConfig();
+      axios
+        .post(loginURL, values, config)
+        .then(res => {
+          //dispatch user data
+          sendUserDetails(res.data);
+          setTimeout(() => {
+            navigation.navigate('Main');
+          }, 3000);
+        })
+        .catch(error => {
+          if (error.request) {
+            console.log(error.request);
+          } else if (error.response) {
+            console.log(error.response);
+          }
+        });
+    },
+  });
+
   return (
     <PaperProvider>
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -33,8 +71,8 @@ const LoginScreen = ({navigation}) => {
                 },
               }}
               placeholderTextColor={theme.colors.offWhite}
-              value={studentID}
-              onChangeText={student => setStudentID(student)}
+              value={formik.values.email}
+              onChangeText={formik.handleChange}
               left={<TextInput.Icon name="account" />}
             />
             <TextInput
@@ -52,8 +90,8 @@ const LoginScreen = ({navigation}) => {
                 },
               }}
               placeholderTextColor={theme.colors.offWhite}
-              value={password}
-              onChangeText={password => setPassword(password)}
+              value={formik.values.password}
+              onChangeText={formik.handleChange}
               left={<TextInput.Icon name="lock" />}
             />
           </View>
@@ -102,4 +140,17 @@ const styles = StyleSheet.create({
     fontSize: theme.spacing.m,
   },
 });
+
+// const mapStateToProps = state => {
+//   return {
+//     UserDetails: state.userLogin,
+//   };
+// };
+
+// const mapDispatchToProps = dispatch => {
+//   return {
+//     sendUserDetails: userData => dispatch(postLoginSuccess(userData)),
+//   };
+// };
 export default LoginScreen;
+// export default connect(mapStateToProps, mapDispatchToProps)(LoginScreen);
