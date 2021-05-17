@@ -8,6 +8,13 @@ import {
   SettingScreen,
   TranscriptScreen,
 } from '../screens/Main';
+import {
+  SchoolDepartmentScreen,
+  AccountDepartmentScreen,
+  HostelDepartmentScreen,
+  LibraryDepartmentScreen,
+} from '../screens/Main/Department';
+import NotificationScreen from '../screens/Main/HomeScreen/notificaton';
 
 const Stack = createStackNavigator();
 
@@ -27,6 +34,31 @@ const HomeStackNavigator = () => {
         component={HomeScreen}
         options={{headerShown: false}}
       />
+      <Stack.Screen
+        name="Notification"
+        component={NotificationScreen}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="School"
+        component={SchoolDepartmentScreen}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="Hostel"
+        component={HostelDepartmentScreen}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="Account"
+        component={AccountDepartmentScreen}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="Library"
+        component={LibraryDepartmentScreen}
+        options={{headerShown: false}}
+      />
     </Stack.Navigator>
   );
 };
@@ -35,8 +67,28 @@ const DepartmentStackNavigator = () => {
   return (
     <Stack.Navigator screenOptions={screenOptionStyle}>
       <Stack.Screen
-        name="Department"
+        name="Departments"
         component={DepartmentScreen}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="School"
+        component={SchoolDepartmentScreen}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="Hostel"
+        component={HostelDepartmentScreen}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="Account"
+        component={AccountDepartmentScreen}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="Library"
+        component={LibraryDepartmentScreen}
         options={{headerShown: false}}
       />
     </Stack.Navigator>

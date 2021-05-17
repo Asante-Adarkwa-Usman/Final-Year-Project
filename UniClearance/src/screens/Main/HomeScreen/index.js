@@ -43,6 +43,7 @@ const HomeScreen = ({navigation}) => {
           <View style={styles.bellContainer}>
             <ButtonWithImage
               imageSrc={require('../../../assets/images/bell.png')}
+              onPress={() => navigation.navigate('Notification')}
             />
           </View>
         </View>
@@ -56,7 +57,7 @@ const HomeScreen = ({navigation}) => {
         </View>
       </View>
       <ScrollView showsVerticalScrollIndicator={false}>
-        <TouchableOpacity onPress={() => alert('show all departments')}>
+        <TouchableOpacity onPress={() => navigation.navigate('Departments')}>
           <Text style={styles.seeAllStyle}>See All</Text>
         </TouchableOpacity>
         <View
@@ -74,7 +75,7 @@ const HomeScreen = ({navigation}) => {
               <SecondaryButton
                 text="Schools"
                 backgroundColor={theme.colors.faculty}
-                onPress={() => alert('Go to Faculty screen')}
+                onPress={() => navigation.navigate('School')}
               />
             </View>
             <View
@@ -84,7 +85,7 @@ const HomeScreen = ({navigation}) => {
               <SecondaryButton
                 text="Hostel"
                 backgroundColor={theme.colors.hostel}
-                onPress={() => alert('Go to Hostel screen')}
+                onPress={() => navigation.navigate('Hostel')}
               />
             </View>
             <View
@@ -94,14 +95,14 @@ const HomeScreen = ({navigation}) => {
               <SecondaryButton
                 text="Accounts"
                 backgroundColor={theme.colors.account}
-                onPress={() => alert('Go to Accounts screen')}
+                onPress={() => navigation.navigate('Account')}
               />
             </View>
             <View style={{marginRight: theme.spacing.m}}>
               <SecondaryButton
                 text="Library"
                 backgroundColor={theme.colors.red}
-                onPress={() => alert('Go to Library screen')}
+                onPress={() => navigation.navigate('Library')}
               />
             </View>
           </View>
@@ -121,7 +122,7 @@ const HomeScreen = ({navigation}) => {
             />
           </View>
         </ScrollView>
-        <TouchableOpacity onPress={() => alert('show all announcements')}>
+        <TouchableOpacity onPress={() => navigation.navigate('Announcements')}>
           <Text style={styles.seeAllStyle}>See All</Text>
         </TouchableOpacity>
         <View
@@ -140,7 +141,8 @@ const HomeScreen = ({navigation}) => {
                 imageSrc={require('../../../assets/images/library.png')}
                 news="Students Departure"
                 department="Uenr Library"
-                onPress={() => alert('Go to specified announcement')}
+                onPress={() => navigation.navigate('Announcements')}
+                readButtonOnPress={() => navigation.navigate('Announcements')}
               />
             </View>
             <View
@@ -151,7 +153,8 @@ const HomeScreen = ({navigation}) => {
                 imageSrc={require('../../../assets/images/library.png')}
                 news="Students Departure"
                 department="Uenr Library"
-                onPress={() => alert('Go to specified announcement')}
+                onPress={() => navigation.navigate('Announcements')}
+                readButtonOnPress={() => navigation.navigate('Announcements')}
               />
             </View>
             <View
@@ -162,7 +165,8 @@ const HomeScreen = ({navigation}) => {
                 imageSrc={require('../../../assets/images/library.png')}
                 news="Students Departure"
                 department="Uenr Library"
-                onPress={() => alert('Go to specified announcement')}
+                onPress={() => navigation.navigate('Announcements')}
+                readButtonOnPress={() => navigation.navigate('Announcements')}
               />
             </View>
             <View
@@ -173,7 +177,8 @@ const HomeScreen = ({navigation}) => {
                 imageSrc={require('../../../assets/images/library.png')}
                 news="Students Departure"
                 department="Uenr Library"
-                onPress={() => alert('Go to specified announcement')}
+                onPress={() => navigation.navigate('Announcements')}
+                readButtonOnPress={() => navigation.navigate('Announcements')}
               />
             </View>
           </View>

@@ -14,7 +14,7 @@ export default function DrawerContent(props) {
           <View style={styles.userInfoSection}>
             <View style={{flexDirection: 'row', marginTop: 15}}>
               <Avatar.Image
-                source={require('../assets/images/cat.jpg')}
+                source={require('../assets/images/profile.png')}
                 size={50}
               />
               <View
@@ -60,7 +60,7 @@ export default function DrawerContent(props) {
             />
             <DrawerItem
               icon={({color}) => <Icon name="domain" color={color} size={35} />}
-              label="Department"
+              label="Departments"
               onPress={() => {
                 props.navigation.navigate('Departments');
               }}
@@ -69,7 +69,7 @@ export default function DrawerContent(props) {
               icon={({color}) => (
                 <Icon name="bullhorn-outline" color={color} size={35} />
               )}
-              label="Announcement"
+              label="Announcements"
               onPress={() => {
                 props.navigation.navigate('Announcements');
               }}
