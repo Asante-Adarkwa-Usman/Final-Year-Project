@@ -31,21 +31,16 @@ const NotificationScreen = ({navigation}) => {
           />
         </TouchableOpacity>
       </View>
-      <View style={styles.allDepartmentContainer}>
-        <Text style={styles.allDepartmentStyle}>Notifications</Text>
+      <View style={styles.notificationContainer}>
+        <Text style={styles.notificationStyle}>Notifications</Text>
       </View>
       <ScrollView showsVerticalScrollIndicator={false}>
-        <View
-          style={{
-            marginBottom: theme.spacing.m,
-            borderBottomWidth: 1,
-            borderBottomColor: theme.colors.lightGrey,
-          }}>
+        <View style={{marginBottom: theme.spacing.m}}>
           <ViewAllComponent
             announcement="Changes made in the library"
             onPress={() => alert('go to specific page')}
-            imageSrc={require('../../../../assets/images/bell.png')}
-            backgroundColor={theme.colors.grey}
+            imageSrc={require('../../../../assets/images/blackBell.png')}
+            backgroundColor={theme.colors.white}
             textColor={theme.colors.text}
           />
         </View>
@@ -53,8 +48,8 @@ const NotificationScreen = ({navigation}) => {
           <ViewAllComponent
             announcement="Changes made in the library"
             onPress={() => alert('go to specific page')}
-            imageSrc={require('../../../../assets/images/bell.png')}
-            backgroundColor={theme.colors.grey}
+            imageSrc={require('../../../../assets/images/blackBell.png')}
+            backgroundColor={theme.colors.white}
             textColor={theme.colors.text}
           />
         </View>
@@ -62,8 +57,8 @@ const NotificationScreen = ({navigation}) => {
           <ViewAllComponent
             announcement="Changes made in the library"
             onPress={() => alert('go to specific page')}
-            imageSrc={require('../../../../assets/images/bell.png')}
-            backgroundColor={theme.colors.grey}
+            imageSrc={require('../../../../assets/images/blackBell.png')}
+            backgroundColor={theme.colors.white}
             textColor={theme.colors.text}
           />
         </View>
@@ -80,7 +75,7 @@ const styles = StyleSheet.create({
     top: hp('2'),
     left: wp('2'),
   },
-  allDepartmentContainer: {
+  notificationContainer: {
     marginTop: theme.spacing.m,
     marginBottom: theme.spacing.xl,
     justifyContent: 'center',
@@ -88,7 +83,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     alignSelf: 'center',
   },
-  allDepartmentStyle: {
+  notificationStyle: {
     fontFamily: 'roboto-regular',
     fontSize: theme.spacing.m,
     fontWeight: 'bold',

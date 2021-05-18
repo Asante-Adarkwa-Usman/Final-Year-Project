@@ -23,8 +23,7 @@ const DepartmentScreen = ({navigation}) => {
           activeOpacity={activeOpacity}
           onPress={() => {
             navigation.navigate('Home');
-          }}
-          style={styles.DrbuttonStyle}>
+          }}>
           <Image
             source={require('../../../assets/images/back.png')}
             style={{resizeMode: 'contain'}}
