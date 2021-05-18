@@ -11,7 +11,7 @@ import {SecondaryButton} from '../button';
 const activeOpacity = 0.8;
 const AnnouncementView = ({...props}) => {
   return (
-    <View style={{}}>
+    <View>
       <TouchableOpacity
         style={styles.container}
         activeOpacity={activeOpacity}
@@ -26,7 +26,7 @@ const AnnouncementView = ({...props}) => {
           text="Read"
           backgroundColor={theme.colors.primary}
           borderRadius={theme.borderRadii.m}
-          onPress={() => alert('go to specified announcement')}
+          onPress={props.readButtonOnPress}
         />
       </View>
     </View>
@@ -58,4 +58,5 @@ AnnouncementView.prototype = {
   news: PropTypes.string,
   department: PropTypes.string,
   onPress: PropTypes.func,
+  readButtonOnPress: PropTypes.func,
 };
