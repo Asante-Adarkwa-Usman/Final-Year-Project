@@ -3,17 +3,17 @@ import {createStackNavigator} from '@react-navigation/stack';
 import theme from '../Theme';
 import {
   HomeScreen,
-  DepartmentScreen,
+  AdministrationScreen,
   AnnouncementScreen,
   SettingScreen,
   TranscriptScreen,
 } from '../screens/Main';
 import {
-  SchoolDepartmentScreen,
-  AccountDepartmentScreen,
-  HostelDepartmentScreen,
-  LibraryDepartmentScreen,
-} from '../screens/Main/Department';
+  DepartmentScreen,
+  AccountScreen,
+  HostelScreen,
+  LibraryScreen,
+} from '../screens/Main/Administration';
 import NotificationScreen from '../screens/Main/HomeScreen/notificaton';
 
 const Stack = createStackNavigator();
@@ -40,55 +40,55 @@ const HomeStackNavigator = () => {
         options={{headerShown: false}}
       />
       <Stack.Screen
-        name="School"
-        component={SchoolDepartmentScreen}
+        name="Department"
+        component={DepartmentScreen}
         options={{headerShown: false}}
       />
       <Stack.Screen
         name="Hostel"
-        component={HostelDepartmentScreen}
+        component={HostelScreen}
         options={{headerShown: false}}
       />
       <Stack.Screen
         name="Account"
-        component={AccountDepartmentScreen}
+        component={AccountScreen}
         options={{headerShown: false}}
       />
       <Stack.Screen
         name="Library"
-        component={LibraryDepartmentScreen}
+        component={LibraryScreen}
         options={{headerShown: false}}
       />
     </Stack.Navigator>
   );
 };
 
-const DepartmentStackNavigator = () => {
+const AdministrationStackNavigator = () => {
   return (
     <Stack.Navigator screenOptions={screenOptionStyle}>
       <Stack.Screen
-        name="Departments"
+        name="Administrations"
+        component={AdministrationScreen}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="Department"
         component={DepartmentScreen}
         options={{headerShown: false}}
       />
       <Stack.Screen
-        name="School"
-        component={SchoolDepartmentScreen}
-        options={{headerShown: false}}
-      />
-      <Stack.Screen
         name="Hostel"
-        component={HostelDepartmentScreen}
+        component={HostelScreen}
         options={{headerShown: false}}
       />
       <Stack.Screen
         name="Account"
-        component={AccountDepartmentScreen}
+        component={AccountScreen}
         options={{headerShown: false}}
       />
       <Stack.Screen
         name="Library"
-        component={LibraryDepartmentScreen}
+        component={LibraryScreen}
         options={{headerShown: false}}
       />
     </Stack.Navigator>
@@ -132,7 +132,7 @@ const TranscriptStackNavigator = () => {
 
 export {
   HomeStackNavigator,
-  DepartmentStackNavigator,
+  AdministrationStackNavigator,
   AnnouncementStackNavigator,
   SettingStackNavigator,
   TranscriptStackNavigator,

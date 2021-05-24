@@ -3,10 +3,10 @@ import * as React from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 
 // create a component
-const SchoolDepartmentScreen = () => {
+const DepartmentScreen = () => {
   return (
     <View style={styles.container}>
-      <Text>SchoolDepartmentScreen</Text>
+      <Text>DepartmentScreen</Text>
     </View>
   );
 };
@@ -22,4 +22,4 @@ const styles = StyleSheet.create({
 });
 
 //make this component available to the app
-export default SchoolDepartmentScreen;
+export default DepartmentScreen;

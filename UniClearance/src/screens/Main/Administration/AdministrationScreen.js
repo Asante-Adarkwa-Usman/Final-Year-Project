@@ -12,10 +12,10 @@ import {
   Image,
   ScrollView,
 } from 'react-native';
-import AllDepartments from '../../../components/button/allDepartments';
+import AllAdministration from '../../../components/button/allAdministration';
 
 const activeOpacity = 0.5;
-const DepartmentScreen = ({navigation}) => {
+const AdministrationScreen = ({navigation}) => {
   return (
     <View style={styles.container}>
       <View style={styles.buttonContainer}>
@@ -23,42 +23,41 @@ const DepartmentScreen = ({navigation}) => {
           activeOpacity={activeOpacity}
           onPress={() => {
             navigation.navigate('Home');
-          }}
-          style={styles.DrbuttonStyle}>
+          }}>
           <Image
             source={require('../../../assets/images/back.png')}
             style={{resizeMode: 'contain'}}
           />
         </TouchableOpacity>
       </View>
-      <View style={styles.allDepartmentContainer}>
-        <Text style={styles.allDepartmentStyle}>All Departments</Text>
+      <View style={styles.allAdminContainer}>
+        <Text style={styles.allAdminStyle}>All Administrations</Text>
       </View>
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={{marginBottom: theme.spacing.m}}>
-          <AllDepartments
-            departmentName="SCHOOLS"
+          <AllAdministration
+            administrationName="DEPARTMENT"
             backgroundColor={theme.colors.faculty}
-            onPress={() => navigation.navigate('School')}
+            onPress={() => navigation.navigate('Department')}
           />
         </View>
         <View style={{marginBottom: theme.spacing.m}}>
-          <AllDepartments
-            departmentName="HOSTEL"
+          <AllAdministration
+            administrationName="HOSTEL"
             backgroundColor={theme.colors.hostel}
             onPress={() => navigation.navigate('Hostel')}
           />
         </View>
         <View style={{marginBottom: theme.spacing.m}}>
-          <AllDepartments
-            departmentName="ACCOUNTS"
+          <AllAdministration
+            administrationName="ACCOUNTS"
             backgroundColor={theme.colors.account}
             onPress={() => navigation.navigate('Account')}
           />
         </View>
         <View style={{marginBottom: theme.spacing.m}}>
-          <AllDepartments
-            departmentName="LIBRARY"
+          <AllAdministration
+            administrationName="LIBRARY"
             backgroundColor={theme.colors.red}
             onPress={() => navigation.navigate('Library')}
           />
@@ -76,7 +75,7 @@ const styles = StyleSheet.create({
     top: hp('2'),
     left: wp('2'),
   },
-  allDepartmentContainer: {
+  allAdminContainer: {
     marginTop: theme.spacing.m,
     marginBottom: theme.spacing.xl,
     justifyContent: 'center',
@@ -84,7 +83,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     alignSelf: 'center',
   },
-  allDepartmentStyle: {
+  allAdminStyle: {
     fontFamily: 'roboto-regular',
     fontSize: theme.spacing.m,
     fontWeight: 'bold',
@@ -92,4 +91,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default DepartmentScreen;
+export default AdministrationScreen;

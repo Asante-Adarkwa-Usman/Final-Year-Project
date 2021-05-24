@@ -2,7 +2,7 @@ import * as React from 'react';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import {
   HomeStackNavigator,
-  DepartmentStackNavigator,
+  AdministrationStackNavigator,
   AnnouncementStackNavigator,
   SettingStackNavigator,
   TranscriptStackNavigator,
@@ -20,7 +20,10 @@ const DrawerNavigator = () => {
       <Drawer.Screen name="Home" component={HomeStackNavigator} />
       <Drawer.Screen name="Transcript" component={TranscriptStackNavigator} />
       <Drawer.Screen name="Settings" component={SettingStackNavigator} />
-      <Drawer.Screen name="Departments" component={DepartmentStackNavigator} />
+      <Drawer.Screen
+        name="Administrations"
+        component={AdministrationStackNavigator}
+      />
       <Drawer.Screen
         name="Announcements"
         component={AnnouncementStackNavigator}
