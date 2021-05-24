@@ -18,7 +18,7 @@ import ClearanceFailed from '../../../../components/clearanceFailed';
 
 // create a component
 const activeOpacity = 0.5;
-const HostelDepartmentScreen = ({navigation}) => {
+const HostelScreen = ({navigation}) => {
   return (
     <View style={styles.container}>
       <View style={styles.buttonContainer}>
@@ -137,4 +137,4 @@ const styles = StyleSheet.create({
 });
 
 //make this component available to the app
-export default HostelDepartmentScreen;
+export default HostelScreen;

@@ -60,9 +60,9 @@ export default function DrawerContent(props) {
             />
             <DrawerItem
               icon={({color}) => <Icon name="domain" color={color} size={35} />}
-              label="Departments"
+              label="Administrations"
               onPress={() => {
-                props.navigation.navigate('Departments');
+                props.navigation.navigate('Administrations');
               }}
             />
             <DrawerItem

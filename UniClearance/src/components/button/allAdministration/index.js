@@ -8,7 +8,7 @@ import {
 } from 'react-native-responsive-screen';
 
 const activeOpacity = 0.8;
-const AllDepartments = ({...props}) => {
+const AllAdministration = ({...props}) => {
   return (
     <View style={styles.buttonContainer}>
       <TouchableOpacity
@@ -21,7 +21,7 @@ const AllDepartments = ({...props}) => {
             backgroundColor: props.backgroundColor,
           },
         ]}>
-        <Text style={styles.buttonText}>{props.departmentName}</Text>
+        <Text style={styles.buttonText}>{props.administrationName}</Text>
       </TouchableOpacity>
     </View>
   );
@@ -44,10 +44,10 @@ const styles = StyleSheet.create({
     color: theme.colors.white,
   },
 });
-export default AllDepartments;
+export default AllAdministration;
 
-AllDepartments.propTypes = {
-  departmentName: PropTypes.string,
+AllAdministration.propTypes = {
+  administrationName: PropTypes.string,
   onPress: PropTypes.func,
   backgroundColor: PropTypes.any,
 };

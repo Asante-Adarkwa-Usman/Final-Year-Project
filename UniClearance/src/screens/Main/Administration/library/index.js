@@ -3,7 +3,7 @@ import * as React from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 
 // create a component
-const LibraryDepartmentScreen = () => {
+const LibraryScreen = () => {
   return (
     <View style={styles.container}>
       <Text>LibraryDepartmentScreen</Text>
@@ -22,4 +22,4 @@ const styles = StyleSheet.create({
 });
 
 //make this component available to the app
-export default LibraryDepartmentScreen;
+export default LibraryScreen;

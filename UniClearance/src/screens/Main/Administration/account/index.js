@@ -3,7 +3,7 @@ import * as React from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 
 // create a component
-const AccountDepartmentScreen = () => {
+const AccountScreen = () => {
   return (
     <View style={styles.container}>
       <Text>AccountDepartmentScreen</Text>
@@ -22,4 +22,4 @@ const styles = StyleSheet.create({
 });
 
 //make this component available to the app
-export default AccountDepartmentScreen;
+export default AccountScreen;

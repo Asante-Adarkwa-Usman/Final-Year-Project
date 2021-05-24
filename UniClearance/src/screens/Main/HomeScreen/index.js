@@ -57,25 +57,26 @@ const HomeScreen = ({navigation}) => {
         </View>
       </View>
       <ScrollView showsVerticalScrollIndicator={false}>
-        <TouchableOpacity onPress={() => navigation.navigate('Departments')}>
+        <TouchableOpacity
+          onPress={() => navigation.navigate('Administrations')}>
           <Text style={styles.seeAllStyle}>See All</Text>
         </TouchableOpacity>
         <View
           style={{
             marginLeft: theme.spacing.m,
           }}>
-          <Text style={styles.departmentStyle}>Department</Text>
+          <Text style={styles.adminStyle}>Administrations</Text>
         </View>
         <ScrollView showsHorizontalScrollIndicator={false} horizontal={true}>
-          <View style={styles.departmentContainer}>
+          <View style={styles.adminContainer}>
             <View
               style={{
                 marginRight: theme.spacing.m,
               }}>
               <SecondaryButton
-                text="Schools"
+                text="Department"
                 backgroundColor={theme.colors.faculty}
-                onPress={() => navigation.navigate('School')}
+                onPress={() => navigation.navigate('Department')}
               />
             </View>
             <View
@@ -228,12 +229,12 @@ const styles = StyleSheet.create({
     marginRight: theme.spacing.m,
     marginTop: theme.spacing.s,
   },
-  departmentStyle: {
+  adminStyle: {
     fontFamily: 'roboto-regular',
     fontSize: theme.spacing.m + 3,
     fontWeight: 'bold',
   },
-  departmentContainer: {
+  adminContainer: {
     flexDirection: 'row',
     marginTop: theme.spacing.m,
     marginLeft: theme.spacing.m,
