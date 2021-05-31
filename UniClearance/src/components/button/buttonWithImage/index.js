@@ -12,7 +12,7 @@ const ButtonWithImage = ({...props}) => {
       </TouchableOpacity>
     </View>
   );
-}
+};
 const styles = StyleSheet.create({
   imageStyle: {
     resizeMode: 'contain',

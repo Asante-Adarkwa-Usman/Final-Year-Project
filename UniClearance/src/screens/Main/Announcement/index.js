@@ -7,6 +7,7 @@ import {
   ScrollView,
   TouchableOpacity,
   Image,
+  SafeAreaView,
 } from 'react-native';
 import theme from '../../../Theme';
 import {
@@ -23,7 +24,7 @@ const AnnouncementScreen = ({navigation}) => {
   //   fetchPosts();
   // }, [fetchPosts]);
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <View style={styles.buttonContainer}>
         <TouchableOpacity
           activeOpacity={activeOpacity}
@@ -66,7 +67,7 @@ const AnnouncementScreen = ({navigation}) => {
           />
         </View>
       </ScrollView>
-    </View>
+    </SafeAreaView>
   );
 };
 

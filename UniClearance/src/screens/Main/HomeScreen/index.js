@@ -6,12 +6,14 @@ import {
   StyleSheet,
   Image,
   TouchableOpacity,
+  SafeAreaView,
 } from 'react-native';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import theme from '../../../Theme';
+import StudentSVG from '../../../assets/svg/student.svg';
 import {
   Colors,
   ProgressBar,
@@ -57,139 +59,139 @@ const HomeScreen = ({navigation}) => {
         </View>
       </View>
       <ScrollView showsVerticalScrollIndicator={false}>
-        <TouchableOpacity
-          onPress={() => navigation.navigate('Administrations')}>
-          <Text style={styles.seeAllStyle}>See All</Text>
-        </TouchableOpacity>
-        <View
-          style={{
-            marginLeft: theme.spacing.m,
-          }}>
-          <Text style={styles.adminStyle}>Administrations</Text>
-        </View>
-        <ScrollView showsHorizontalScrollIndicator={false} horizontal={true}>
-          <View style={styles.adminContainer}>
-            <View
-              style={{
-                marginRight: theme.spacing.m,
-              }}>
-              <SecondaryButton
-                text="Department"
-                backgroundColor={theme.colors.faculty}
-                onPress={() => navigation.navigate('Department')}
-              />
-            </View>
-            <View
-              style={{
-                marginRight: theme.spacing.m,
-              }}>
-              <SecondaryButton
-                text="Hostel"
-                backgroundColor={theme.colors.hostel}
-                onPress={() => navigation.navigate('Hostel')}
-              />
-            </View>
-            <View
-              style={{
-                marginRight: theme.spacing.m,
-              }}>
-              <SecondaryButton
-                text="Accounts"
-                backgroundColor={theme.colors.account}
-                onPress={() => navigation.navigate('Account')}
-              />
-            </View>
-            <View style={{marginRight: theme.spacing.m}}>
-              <SecondaryButton
-                text="Library"
-                backgroundColor={theme.colors.red}
-                onPress={() => navigation.navigate('Library')}
-              />
-            </View>
+        <SafeAreaView>
+          <TouchableOpacity
+            onPress={() => navigation.navigate('Administrations')}>
+            <Text style={styles.seeAllStyle}>See All</Text>
+          </TouchableOpacity>
+          <View
+            style={{
+              marginLeft: theme.spacing.m,
+            }}>
+            <Text style={styles.adminStyle}>Administrations</Text>
           </View>
-        </ScrollView>
-        <View style={styles.recentContainer}>
-          <Text style={styles.departmentStyle}>Recent</Text>
-        </View>
-        <ScrollView
-          horizontal={true}
-          style={{
-            alignSelf: 'center',
-          }}>
-          <View>
-            <Image
-              style={styles.recentImageStyle}
-              source={require('../../../assets/images/student.png')}
+          <ScrollView showsHorizontalScrollIndicator={false} horizontal={true}>
+            <View style={styles.adminContainer}>
+              <View
+                style={{
+                  marginRight: theme.spacing.m,
+                }}>
+                <SecondaryButton
+                  text="Department"
+                  backgroundColor={theme.colors.faculty}
+                  onPress={() => navigation.navigate('Department')}
+                />
+              </View>
+              <View
+                style={{
+                  marginRight: theme.spacing.m,
+                }}>
+                <SecondaryButton
+                  text="Hostel"
+                  backgroundColor={theme.colors.hostel}
+                  onPress={() => navigation.navigate('Hostel')}
+                />
+              </View>
+              <View
+                style={{
+                  marginRight: theme.spacing.m,
+                }}>
+                <SecondaryButton
+                  text="Accounts"
+                  backgroundColor={theme.colors.account}
+                  onPress={() => navigation.navigate('Account')}
+                />
+              </View>
+              <View style={{marginRight: theme.spacing.m}}>
+                <SecondaryButton
+                  text="Library"
+                  backgroundColor={theme.colors.red}
+                  onPress={() => navigation.navigate('Library')}
+                />
+              </View>
+            </View>
+          </ScrollView>
+          <View style={styles.recentContainer}>
+            <Text style={styles.departmentStyle}>Recent</Text>
+          </View>
+          <ScrollView
+            horizontal={true}
+            style={{
+              alignSelf: 'center',
+            }}>
+            <View style={{marginLeft: 10}}>
+              <StudentSVG width={180} height={120} />
+            </View>
+          </ScrollView>
+          <TouchableOpacity
+            onPress={() => navigation.navigate('Announcements')}>
+            <Text style={styles.seeAllStyle}>See All</Text>
+          </TouchableOpacity>
+          <View
+            style={{
+              marginLeft: theme.spacing.m,
+            }}>
+            <Text style={styles.departmentStyle}>Announcements</Text>
+          </View>
+          <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+            <View style={styles.AnnouncementViewContainer}>
+              <View
+                style={{
+                  marginRight: theme.spacing.m,
+                }}>
+                <AnnouncementView
+                  imageSrc={require('../../../assets/images/library.png')}
+                  news="Students Departure"
+                  department="Uenr Library"
+                  onPress={() => navigation.navigate('Announcements')}
+                  readButtonOnPress={() => navigation.navigate('Announcements')}
+                />
+              </View>
+              <View
+                style={{
+                  marginRight: theme.spacing.m,
+                }}>
+                <AnnouncementView
+                  imageSrc={require('../../../assets/images/library.png')}
+                  news="Students Departure"
+                  department="Uenr Library"
+                  onPress={() => navigation.navigate('Announcements')}
+                  readButtonOnPress={() => navigation.navigate('Announcements')}
+                />
+              </View>
+              <View
+                style={{
+                  marginRight: theme.spacing.m,
+                }}>
+                <AnnouncementView
+                  imageSrc={require('../../../assets/images/library.png')}
+                  news="Students Departure"
+                  department="Uenr Library"
+                  onPress={() => navigation.navigate('Announcements')}
+                  readButtonOnPress={() => navigation.navigate('Announcements')}
+                />
+              </View>
+              <View
+                style={{
+                  marginRight: theme.spacing.m,
+                }}>
+                <AnnouncementView
+                  imageSrc={require('../../../assets/images/library.png')}
+                  news="Students Departure"
+                  department="Uenr Library"
+                  onPress={() => navigation.navigate('Announcements')}
+                  readButtonOnPress={() => navigation.navigate('Announcements')}
+                />
+              </View>
+            </View>
+          </ScrollView>
+          <View style={{marginVertical: theme.spacing.l}}>
+            <PrimaryButton
+              text="Request Certificate"
+              onPress={() => alert('request certificate')}
             />
           </View>
-        </ScrollView>
-        <TouchableOpacity onPress={() => navigation.navigate('Announcements')}>
-          <Text style={styles.seeAllStyle}>See All</Text>
-        </TouchableOpacity>
-        <View
-          style={{
-            marginLeft: theme.spacing.m,
-          }}>
-          <Text style={styles.departmentStyle}>Announcements</Text>
-        </View>
-        <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-          <View style={styles.AnnouncementViewContainer}>
-            <View
-              style={{
-                marginRight: theme.spacing.m,
-              }}>
-              <AnnouncementView
-                imageSrc={require('../../../assets/images/library.png')}
-                news="Students Departure"
-                department="Uenr Library"
-                onPress={() => navigation.navigate('Announcements')}
-                readButtonOnPress={() => navigation.navigate('Announcements')}
-              />
-            </View>
-            <View
-              style={{
-                marginRight: theme.spacing.m,
-              }}>
-              <AnnouncementView
-                imageSrc={require('../../../assets/images/library.png')}
-                news="Students Departure"
-                department="Uenr Library"
-                onPress={() => navigation.navigate('Announcements')}
-                readButtonOnPress={() => navigation.navigate('Announcements')}
-              />
-            </View>
-            <View
-              style={{
-                marginRight: theme.spacing.m,
-              }}>
-              <AnnouncementView
-                imageSrc={require('../../../assets/images/library.png')}
-                news="Students Departure"
-                department="Uenr Library"
-                onPress={() => navigation.navigate('Announcements')}
-                readButtonOnPress={() => navigation.navigate('Announcements')}
-              />
-            </View>
-            <View
-              style={{
-                marginRight: theme.spacing.m,
-              }}>
-              <AnnouncementView
-                imageSrc={require('../../../assets/images/library.png')}
-                news="Students Departure"
-                department="Uenr Library"
-                onPress={() => navigation.navigate('Announcements')}
-                readButtonOnPress={() => navigation.navigate('Announcements')}
-              />
-            </View>
-          </View>
-        </ScrollView>
-        <View style={{marginVertical: theme.spacing.l}}>
-          <PrimaryButton
-            text="Request Certificate"
-            onPress={() => alert('request certificate')}
-          />
-        </View>
+        </SafeAreaView>
       </ScrollView>
     </PaperProvider>
   );

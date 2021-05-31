@@ -4,6 +4,8 @@ import {
   GetStarted,
   LoginScreen,
   ResetPasswordScreen,
+  ConfirmPinScreen,
+  VerifyEmailScreen,
 } from '../screens/Authentication';
 import DrawerNavigator from './DrawerNavigator';
 
@@ -14,6 +16,14 @@ const AuthenticationNavigator = () => {
     <AuthenticationStack.Navigator headerMode="none">
       <AuthenticationStack.Screen name="GetStarted" component={GetStarted} />
       <AuthenticationStack.Screen name="Login" component={LoginScreen} />
+      <AuthenticationStack.Screen
+        name="VerifyEmail"
+        component={VerifyEmailScreen}
+      />
+      <AuthenticationStack.Screen
+        name="ConfirmPin"
+        component={ConfirmPinScreen}
+      />
       <AuthenticationStack.Screen
         name="ResetPassword"
         component={ResetPasswordScreen}

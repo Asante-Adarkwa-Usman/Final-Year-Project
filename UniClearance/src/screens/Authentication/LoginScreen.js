@@ -5,22 +5,25 @@ import {
   ScrollView,
   StyleSheet,
   Image,
-  ActivityIndicator,
+  SafeAreaView,
 } from 'react-native';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import theme from '../../Theme';
+import BookSVG from '../../assets/svg/book.svg';
 import {TextInput, Provider as PaperProvider} from 'react-native-paper';
 import PrimaryButton from '../../components/button/primary';
-import {postLoginSuccess} from '../../redux/actions/login_actions';
+import {postLoginSuccess} from '../../state-management/auth/login';
 import connect from 'react-redux';
 import axios from 'axios';
 import {axiosConfig} from '../../network/utils/axiosConfig';
-import {loginURL} from '../../network/login_url';
+import {loginURL} from '../../network/URL';
 import {useFormik} from 'formik';
 
+const width = 280;
+const height = 150;
 const LoginScreen = ({UserDetails, sendUserDetails, navigation}) => {
   const formik = useFormik({
     initialValues: {
@@ -51,12 +54,14 @@ const LoginScreen = ({UserDetails, sendUserDetails, navigation}) => {
 
   return (
     <PaperProvider>
-      <ScrollView showsVerticalScrollIndicator={false}>
-        <View style={styles.container}>
-          <Image
-            source={require('../../assets/images/book.png')}
-            style={styles.imageStyle}
-          />
+      <SafeAreaView>
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <View style={styles.container}>
+            <BookSVG width={width} height={height} />
+          </View>
+          <View style={{marginTop: theme.spacing.xl, alignSelf: 'center'}}>
+            <Text style={styles.loginTextStyle}>SIGN IN</Text>
+          </View>
           <View style={styles.inputContainer}>
             <TextInput
               style={styles.input}
@@ -97,7 +102,7 @@ const LoginScreen = ({UserDetails, sendUserDetails, navigation}) => {
           </View>
           <View style={{marginTop: theme.spacing.m}}>
             <Text
-              onPress={() => navigation.navigate('ResetPassword')}
+              onPress={() => navigation.navigate('VerifyEmail')}
               style={styles.resetText}>
               Reset Password
             </Text>
@@ -105,23 +110,24 @@ const LoginScreen = ({UserDetails, sendUserDetails, navigation}) => {
           <View>
             <PrimaryButton
               text="Login"
-              onPress={() => navigation.navigate('Main')}
+              onPress={() => navigation.replace('Main')}
             />
           </View>
-        </View>
-      </ScrollView>
+        </ScrollView>
+      </SafeAreaView>
     </PaperProvider>
   );
 };
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     alignSelf: 'center',
+    marginTop: theme.spacing.xl * 2,
   },
   inputContainer: {
     alignSelf: 'center',
     width: wp('70'),
     margin: 5,
+    marginTop: theme.spacing.l,
   },
   input: {
     fontSize: theme.spacing.m,
@@ -134,10 +140,18 @@ const styles = StyleSheet.create({
     height: hp('35'),
     marginTop: theme.spacing.l,
   },
+  loginTextStyle: {
+    fontFamily: 'roboto-regular',
+    color: theme.colors.text,
+    textAlign: 'center',
+    fontWeight: '700',
+    fontSize: theme.spacing.m + 2,
+  },
   resetText: {
     fontFamily: 'roboto-regular',
     textAlign: 'center',
     fontSize: theme.spacing.m,
+    color: theme.colors.primary,
   },
 });
 

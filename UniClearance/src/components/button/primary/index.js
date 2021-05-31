@@ -20,7 +20,7 @@ const PrimaryButton = ({...props}) => {
           {
             backgroundColor: props.disabled
               ? theme.colors.lightGrey
-              : theme.colors.primary,
+              : theme.colors.primaryButton,
           },
         ]}>
         <Text style={styles.buttonText}>{props.text}</Text>
@@ -32,12 +32,12 @@ const PrimaryButton = ({...props}) => {
 const styles = StyleSheet.create({
   buttonContainer: {
     alignItems: 'center',
-    marginTop: theme.spacing.xl,
+    marginTop: theme.spacing.l,
     textTransform: 'lowercase',
   },
   buttonStyle: {
-    width: wp('70'),
-    height: 50,
+    width: wp('60'),
+    height: hp('6'),
     padding: theme.spacing.s,
     alignContent: 'center',
     justifyContent: 'center',

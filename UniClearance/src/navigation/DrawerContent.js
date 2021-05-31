@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {View, StyleSheet} from 'react-native';
+import {View, SafeAreaView, StyleSheet} from 'react-native';
 import {DrawerContentScrollView, DrawerItem} from '@react-navigation/drawer';
 import {SecondaryButton} from '../components/button';
 import {Avatar, Title, Caption, Drawer} from 'react-native-paper';
@@ -8,7 +8,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 export default function DrawerContent(props) {
   return (
-    <View style={{flex: 1}}>
+    <SafeAreaView style={{flex: 1}}>
       <DrawerContentScrollView {...props}>
         <View style={styles.drawerContent}>
           <View style={styles.userInfoSection}>
@@ -80,12 +80,12 @@ export default function DrawerContent(props) {
       <Drawer.Section style={styles.bottomDrawerSection}>
         <SecondaryButton
           text="Logout"
-          backgroundColor={theme.colors.primary}
+          backgroundColor={theme.colors.primaryButton}
           borderRadius={theme.borderRadii.m}
           onPress={() => props.navigation.navigate('Login')}
         />
       </Drawer.Section>
-    </View>
+    </SafeAreaView>
   );
 }
 
@@ -121,9 +121,9 @@ const styles = StyleSheet.create({
     marginTop: 15,
   },
   bottomDrawerSection: {
-    marginBottom: 15,
+    marginTop: 10,
     borderTopColor: '#f4f4f4',
-    borderTopWidth: 1,
+    borderTopWidth: 2,
     bottom: 5,
   },
   preference: {

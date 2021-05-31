@@ -1,5 +1,15 @@
-import {POST_LOGIN_SUCCESS} from '../action_creators/login_action_creators';
+// Action Creators
+export const POST_LOGIN_SUCCESS = 'POST_LOGIN_SUCCESS';
 
+//Action
+export const fetchPostSuccess = userData => {
+  return {
+    type: POST_LOGIN_SUCCESS,
+    payload: userData,
+  };
+};
+
+//Reducer
 const INITIAL_STATE = {
   loading: false,
   userDetails: {},

@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
     textTransform: 'lowercase',
   },
   buttonStyle: {
-    width: wp('30'),
+    width: wp('28'),
     height: hp(5),
     alignContent: 'center',
     justifyContent: 'center',

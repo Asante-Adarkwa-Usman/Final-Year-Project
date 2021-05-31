@@ -20,9 +20,8 @@ import PrimaryButton from '../../components/button/primary';
 // create a component
 const width = 280;
 const height = 150;
-const ResetPasswordScreen = ({navigation}) => {
-  const [password, setPassword] = React.useState('');
-  const [confirmPassword, setConfirmPassword] = React.useState('');
+const VerifyEmailScreen = ({navigation}) => {
+  const [email, setEmail] = React.useState('');
   return (
     <PaperProvider>
       <SafeAreaView>
@@ -31,41 +30,32 @@ const ResetPasswordScreen = ({navigation}) => {
             <BookSVG width={width} height={height} />
           </View>
           <View style={{marginTop: theme.spacing.xl, alignSelf: 'center'}}>
-            <Text style={styles.resetPasswordStyle}>RESET PASSWORD</Text>
+            <Text style={styles.verifyEmailStyle}>VERIFY EMAIL</Text>
+          </View>
+          <View
+            style={{marginLeft: theme.spacing.xl, marginTop: theme.spacing.l}}>
+            <Text style={styles.provideTextStyle}>
+              Provide email for the Account
+            </Text>
           </View>
           <View style={styles.inputContainer}>
             <TextInput
               style={styles.input}
-              label="New Password"
+              label="email"
+              placeholder="email"
               mode="outlined"
               autoCorrect={false}
-              // minLenght={6}
-              // secureTextEntry={true}
               theme={{
                 colors: {
                   primary: theme.colors.primary,
                   underlineColor: 'transparent',
                 },
               }}
-              value={password}
-              onChangeText={password => setPassword(password)}
-            />
-            <TextInput
-              style={[styles.input, {marginTop: theme.spacing.s}]}
-              label="Confirm Password"
-              mode="outlined"
-              autoCorrect={false}
-              // secureTextEntry={true}
-              theme={{
-                colors: {
-                  primary: theme.colors.primary,
-                  underlineColor: 'transparent',
-                },
-              }}
-              value={confirmPassword}
-              onChangeText={confirmPassword =>
-                setConfirmPassword(confirmPassword)
-              }
+              placeholderTextColor={theme.colors.primaryLight}
+              keyboardType="email-address"
+              value={email}
+              onChangeText={email => setEmail(email)}
+              left={<TextInput.Icon name="email" />}
             />
           </View>
           <View
@@ -76,10 +66,12 @@ const ResetPasswordScreen = ({navigation}) => {
               Go back to login
             </Text>
           </View>
-          <View style={{marginTop: theme.spacing.s, bottom: theme.spacing.s}}>
+          <View style={{bottom: theme.spacing.s}}>
             <PrimaryButton
-              text="Reset"
-              onPress={() => navigation.navigate('Login')}
+              text="Verify"
+              onPress={() => {
+                navigation.navigate('ConfirmPin');
+              }}
             />
           </View>
         </ScrollView>
@@ -95,13 +87,12 @@ const styles = StyleSheet.create({
     width: wp('75'),
     height: hp('30'),
   },
-  resetPasswordStyle: {
+  verifyEmailStyle: {
     fontFamily: 'roboto-regular',
     color: theme.colors.text,
     textAlign: 'center',
     fontWeight: '700',
     fontSize: theme.spacing.m + 2,
-    marginBottom: theme.spacing.l,
   },
   provideTextStyle: {
     fontFamily: 'roboto-regular',
@@ -115,10 +106,9 @@ const styles = StyleSheet.create({
   },
   input: {
     fontSize: theme.spacing.m,
-    fontFamily: 'roboto',
-    textAlign: 'left',
+    fontFamily: 'Arimo-Regular',
   },
 });
 
 //make this component available to the app
-export default ResetPasswordScreen;
+export default VerifyEmailScreen;
