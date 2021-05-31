@@ -12,6 +12,7 @@ import {
   TouchableOpacity,
   Image,
   ScrollView,
+  SafeAreaView,
 } from 'react-native';
 import PrimaryButton from '../../../../components/button/primary';
 import ClearanceFailed from '../../../../components/clearanceFailed';
@@ -20,7 +21,7 @@ import ClearanceFailed from '../../../../components/clearanceFailed';
 const activeOpacity = 0.5;
 const HostelScreen = ({navigation}) => {
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <View style={styles.buttonContainer}>
         <TouchableOpacity
           activeOpacity={activeOpacity}
@@ -91,7 +92,7 @@ const HostelScreen = ({navigation}) => {
           />
         </View>
       </ScrollView>
-    </View>
+    </SafeAreaView>
   );
 };
 

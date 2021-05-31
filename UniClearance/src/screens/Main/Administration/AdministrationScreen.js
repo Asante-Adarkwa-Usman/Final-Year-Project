@@ -11,13 +11,14 @@ import {
   TouchableOpacity,
   Image,
   ScrollView,
+  SafeAreaView,
 } from 'react-native';
 import AllAdministration from '../../../components/button/allAdministration';
 
 const activeOpacity = 0.5;
 const AdministrationScreen = ({navigation}) => {
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <View style={styles.buttonContainer}>
         <TouchableOpacity
           activeOpacity={activeOpacity}
@@ -63,7 +64,7 @@ const AdministrationScreen = ({navigation}) => {
           />
         </View>
       </ScrollView>
-    </View>
+    </SafeAreaView>
   );
 };
 const styles = StyleSheet.create({

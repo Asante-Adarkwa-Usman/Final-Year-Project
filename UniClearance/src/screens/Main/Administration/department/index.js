@@ -1,13 +1,13 @@
 //import liraries
 import * as React from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Text, StyleSheet, SafeAreaView} from 'react-native';
 
 // create a component
 const DepartmentScreen = () => {
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <Text>DepartmentScreen</Text>
-    </View>
+    </SafeAreaView>
   );
 };
 

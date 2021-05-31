@@ -1,6 +1,7 @@
 const theme = {
   colors: {
     primary: '#4C76E1',
+    primaryButton: 'rgba(76, 118, 225, 1)',
     faculty: '#2A5486',
     hostel: '#862A7D',
     account: '#99C739',
