@@ -4,6 +4,7 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
+import BackSVG from '../../../assets/svg/back.svg';
 import {
   View,
   Text,
@@ -13,27 +14,18 @@ import {
   ScrollView,
   SafeAreaView,
 } from 'react-native';
-import AllAdministration from '../../../components/button/allAdministration';
+import {AllAdministration} from '../../../components/button';
+import {HeaderComponent} from '../../../components';
 
-const activeOpacity = 0.5;
 const AdministrationScreen = ({navigation}) => {
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.buttonContainer}>
-        <TouchableOpacity
-          activeOpacity={activeOpacity}
-          onPress={() => {
-            navigation.navigate('Home');
-          }}>
-          <Image
-            source={require('../../../assets/images/back.png')}
-            style={{resizeMode: 'contain'}}
-          />
-        </TouchableOpacity>
-      </View>
-      <View style={styles.allAdminContainer}>
-        <Text style={styles.allAdminStyle}>All Administrations</Text>
-      </View>
+      <HeaderComponent
+        title="All Administrations"
+        onPress={() => {
+          navigation.navigate('Home');
+        }}
+      />
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={{marginBottom: theme.spacing.m}}>
           <AllAdministration
@@ -70,25 +62,6 @@ const AdministrationScreen = ({navigation}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-  },
-  buttonContainer: {
-    position: 'absolute',
-    top: hp('2'),
-    left: wp('2'),
-  },
-  allAdminContainer: {
-    marginTop: theme.spacing.m,
-    marginBottom: theme.spacing.xl,
-    justifyContent: 'center',
-    alignContent: 'center',
-    alignItems: 'center',
-    alignSelf: 'center',
-  },
-  allAdminStyle: {
-    fontFamily: 'roboto-regular',
-    fontSize: theme.spacing.m,
-    fontWeight: 'bold',
-    textAlign: 'center',
   },
 });
 

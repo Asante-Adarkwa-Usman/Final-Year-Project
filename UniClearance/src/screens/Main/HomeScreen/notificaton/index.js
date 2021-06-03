@@ -1,40 +1,18 @@
 import * as React from 'react';
 import theme from '../../../../Theme';
-import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp,
-} from 'react-native-responsive-screen';
-import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  Image,
-  ScrollView,
-  SafeAreaView,
-} from 'react-native';
-import ViewAllComponent from '../../../../components/button/viewAll';
+import {HeaderComponent} from '../../../../components';
+import {View, StyleSheet, ScrollView, SafeAreaView} from 'react-native';
+import {ViewAllComponent} from '../../../../components/button';
 
-const activeOpacity = 0.5;
 const NotificationScreen = ({navigation}) => {
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.buttonContainer}>
-        <TouchableOpacity
-          activeOpacity={activeOpacity}
-          onPress={() => {
-            navigation.navigate('Home');
-          }}
-          style={styles.DrbuttonStyle}>
-          <Image
-            source={require('../../../../assets/images/back.png')}
-            style={{resizeMode: 'contain'}}
-          />
-        </TouchableOpacity>
-      </View>
-      <View style={styles.notificationContainer}>
-        <Text style={styles.notificationStyle}>Notifications</Text>
-      </View>
+      <HeaderComponent
+        title="Notifications"
+        onPress={() => {
+          navigation.navigate('Home');
+        }}
+      />
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={{marginBottom: theme.spacing.m}}>
           <ViewAllComponent
@@ -70,25 +48,6 @@ const NotificationScreen = ({navigation}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-  },
-  buttonContainer: {
-    position: 'absolute',
-    top: hp('2'),
-    left: wp('2'),
-  },
-  notificationContainer: {
-    marginTop: theme.spacing.m,
-    marginBottom: theme.spacing.xl,
-    justifyContent: 'center',
-    alignContent: 'center',
-    alignItems: 'center',
-    alignSelf: 'center',
-  },
-  notificationStyle: {
-    fontFamily: 'roboto-regular',
-    fontSize: theme.spacing.m,
-    fontWeight: 'bold',
-    textAlign: 'center',
   },
 });
 
