@@ -40,7 +40,7 @@ const ConfirmPinScreen = ({navigation}) => {
         <View style={{alignItems: 'center'}}>
           <OTPInputView
             style={{width: '85%', height: 200}}
-            pinCount={4}
+            pinCount={6}
             code={code}
             onCodeChanged={code => setCode(code)}
             autoFocusOnLoad

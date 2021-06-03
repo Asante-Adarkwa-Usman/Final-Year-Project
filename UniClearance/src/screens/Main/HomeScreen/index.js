@@ -185,14 +185,14 @@ const HomeScreen = ({navigation}) => {
               </View>
             </View>
           </ScrollView>
-          <View style={{marginVertical: theme.spacing.l}}>
-            <PrimaryButton
-              text="Request Certificate"
-              onPress={() => alert('request certificate')}
-            />
-          </View>
         </SafeAreaView>
       </ScrollView>
+      <View style={{marginVertical: theme.spacing.l}}>
+        <PrimaryButton
+          text="Request Certificate"
+          onPress={() => alert('request certificate')}
+        />
+      </View>
     </PaperProvider>
   );
 };

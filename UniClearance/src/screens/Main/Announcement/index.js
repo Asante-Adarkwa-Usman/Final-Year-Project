@@ -10,6 +10,7 @@ import {
   SafeAreaView,
 } from 'react-native';
 import theme from '../../../Theme';
+import BackSVG from '../../../assets/svg/back.svg';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -19,6 +20,8 @@ import ViewAllComponent from '../../../components/button/viewAll';
 // import {connect} from 'react-redux';
 
 const activeOpacity = 0.5;
+const width = 30;
+const height = 20;
 const AnnouncementScreen = ({navigation}) => {
   // React.useEffect(() => {
   //   fetchPosts();
@@ -32,10 +35,7 @@ const AnnouncementScreen = ({navigation}) => {
             navigation.navigate('Home');
           }}
           style={styles.DrbuttonStyle}>
-          <Image
-            source={require('../../../assets/images/back.png')}
-            style={{resizeMode: 'contain'}}
-          />
+          <BackSVG width={width} height={height} />
         </TouchableOpacity>
       </View>
       <View style={styles.allAnnouncementContainer}>
@@ -107,7 +107,7 @@ const styles = StyleSheet.create({
   },
   allAnnouncementStyle: {
     fontFamily: 'roboto-regular',
-    fontSize: theme.spacing.m,
+    fontSize: theme.spacing.m + 2,
     fontWeight: 'bold',
     textAlign: 'center',
   },

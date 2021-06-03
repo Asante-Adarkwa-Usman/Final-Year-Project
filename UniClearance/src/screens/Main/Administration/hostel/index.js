@@ -14,34 +14,26 @@ import {
   ScrollView,
   SafeAreaView,
 } from 'react-native';
-import PrimaryButton from '../../../../components/button/primary';
-import ClearanceFailed from '../../../../components/clearanceFailed';
+import HostelSVG from '../../../../assets/svg/hostel.svg';
+import {PrimaryButton} from '../../../../components/button';
+import {
+  ClearanceFailed,
+  HeaderComponent,
+  ClearanceSuccessful,
+} from '../../../../components';
 
 // create a component
-const activeOpacity = 0.5;
 const HostelScreen = ({navigation}) => {
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.buttonContainer}>
-        <TouchableOpacity
-          activeOpacity={activeOpacity}
-          onPress={() => {
-            navigation.navigate('Home');
-          }}>
-          <Image
-            source={require('../../../../assets/images/back.png')}
-            style={{resizeMode: 'contain'}}
-          />
-        </TouchableOpacity>
-      </View>
-      <View style={styles.hostelContainer}>
-        <Text style={styles.hostelStyle}>Hostel Clearance</Text>
-      </View>
+      <HeaderComponent
+        title="Hostel Clearance"
+        onPress={() => {
+          navigation.navigate('Home');
+        }}
+      />
       <View>
-        <Image
-          style={{width: wp('100'), height: hp('40'), resizeMode: 'cover'}}
-          source={require('../../../../assets/images/cat.jpg')}
-        />
+        <HostelSVG width={430} height={240} />
       </View>
       <ScrollView
         showsVerticalScrollIndicator={false}
@@ -84,14 +76,15 @@ const HostelScreen = ({navigation}) => {
           </View>
         </View>
         <View style={styles.borderWidthStyle} />
-        <ClearanceFailed reason="You broke a chair that belongs to the hostel in Level 200" />
-        <View style={{bottom: theme.spacing.m}}>
-          <PrimaryButton
-            text="Request Clearance"
-            onPress={() => alert('request clearance failed')}
-          />
-        </View>
+        {/* <ClearanceFailed reason="You broke a chair that belongs to the hostel in Level 200" /> */}
+        <ClearanceSuccessful />
       </ScrollView>
+      <View style={styles.buttonContainer}>
+        <PrimaryButton
+          text="Request Clearance"
+          onPress={() => alert('request clearance failed')}
+        />
+      </View>
     </SafeAreaView>
   );
 };
@@ -102,9 +95,9 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   buttonContainer: {
-    position: 'absolute',
-    top: hp('2'),
-    left: wp('2'),
+    bottom: theme.spacing.m,
+    alignSelf: 'center',
+    marginTop: theme.spacing.m,
   },
   hostelContainer: {
     marginTop: theme.spacing.m,
