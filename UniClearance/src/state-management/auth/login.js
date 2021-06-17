@@ -13,7 +13,6 @@ export const fetchPostSuccess = userData => {
 const INITIAL_STATE = {
   loading: false,
   userDetails: {},
-  errorMessage: '',
 };
 
 export default (state = INITIAL_STATE, action) => {

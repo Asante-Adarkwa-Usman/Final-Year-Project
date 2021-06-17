@@ -7,4 +7,5 @@ export {default as ClearanceSuccessful} from './clearanceSuccess';
 export {default as StudentInfo} from './studentInfo';
 export {default as ModalContent} from './modalContent';
 export {default as FullScreenLoader} from './fullScreenLoader';
-export {default as LoginValidationSchema} from './validationSchema';
+export {default as LoginValidationSchema} from './validationSchema/LoginValidationSchema';
+export {default as VerifyEmailValidationSchema} from './validationSchema/VerifyEmailValidationSchema';
