@@ -47,10 +47,11 @@ const LoginScreen = ({UserDetails, sendUserDetails, navigation}) => {
     });
   }, []);
 
+  // Form Validation
   const formik = useFormik({
     validationSchema: LoginValidationSchema,
     initialValues: {
-      studentId: '',
+      username: '',
       password: '',
     },
     onSubmit: values => {
@@ -66,7 +67,7 @@ const LoginScreen = ({UserDetails, sendUserDetails, navigation}) => {
           // sendUserDetails(res.data);
           setTimeout(() => {
             setSuccessVisible(false);
-            navigation.navigate('Main');
+            navigation.replace('Main');
           }, 4000);
         })
         .catch(error => {
@@ -123,13 +124,13 @@ const LoginScreen = ({UserDetails, sendUserDetails, navigation}) => {
                 },
               }}
               placeholderTextColor={theme.colors.offWhite}
-              value={formik.values.studentId}
-              onBlur={formik.handleBlur('studentId')}
-              onChangeText={formik.handleChange('studentId')}
+              value={formik.values.username}
+              onBlur={formik.handleBlur('username')}
+              onChangeText={formik.handleChange('username')}
               left={<TextInput.Icon name="account" />}
             />
-            {formik.errors.studentId && (
-              <Text style={styles.errorStyle}>{formik.errors.studentId}</Text>
+            {formik.errors.username && (
+              <Text style={styles.errorStyle}>{formik.errors.username}</Text>
             )}
             <TextInput
               style={styles.input}

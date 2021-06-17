@@ -16,15 +16,93 @@ import {
 } from 'react-native-responsive-screen';
 import {TextInput, Provider as PaperProvider} from 'react-native-paper';
 import PrimaryButton from '../../components/button/primary';
+import {verifyEmailSuccess} from '../../state-management/main/verifyEmail';
+import {connect} from 'react-redux';
+import axios from 'axios';
+import {axiosConfig} from '../../network/utils/axiosConfig';
+import {verifyEmailURL} from '../../network/URL';
+import {Success, Failure, ConnectionStatus} from '../../components/snackbar';
+import {FullScreenLoader, VerifyEmailValidationSchema} from '../../components';
+import {useFormik} from 'formik';
+import NetInfo from '@react-native-community/netinfo';
 
 // create a component
 const width = 280;
 const height = 150;
 const VerifyEmailScreen = ({navigation}) => {
-  const [email, setEmail] = React.useState('');
+  const [loading, setLoading] = React.useState(false);
+  const [successVisible, setSuccessVisible] = React.useState(false);
+  const [errorVisible, setErrorVisible] = React.useState(false);
+  const [connectionVisible, setConnectionVisible] = React.useState(false);
+  React.useEffect(() => {
+    NetInfo.fetch().then(state => {
+      state.isConnected == true
+        ? ''
+        : (setConnectionVisible(true),
+          setTimeout(() => {
+            setConnectionVisible(false);
+          }, 7000));
+    });
+  }, []);
+
+  //Form Validation
+  const formik = useFormik({
+    validationSchema: VerifyEmailValidationSchema,
+    initialValues: {
+      email: '',
+    },
+    onSubmit: values => {
+      //post login data
+      setLoading(true);
+      const config = axiosConfig();
+      axios
+        .post(verifyEmailURL, values, config)
+        .then(res => {
+          //dispatch user data
+          setLoading(false);
+          setSuccessVisible(true);
+          // sendUserDetails(res.data);
+          setTimeout(() => {
+            setSuccessVisible(false);
+            navigation.replace('ComfirmPin');
+          }, 4000);
+        })
+        .catch(error => {
+          if (error.response) {
+            setLoading(false);
+            setErrorVisible(true);
+            console.log(error.response);
+            setTimeout(() => {
+              setErrorVisible(false);
+            }, 7000);
+          } else if (error.request) {
+            setLoading(false);
+            setErrorVisible(true);
+            console.log(error.request);
+            setTimeout(() => {
+              setErrorVisible(false);
+            }, 7000);
+          }
+        });
+    },
+  });
+
   return (
     <PaperProvider>
       <SafeAreaView>
+        <FullScreenLoader isFetching={loading} text={'Verifying Email...'} />
+        <Success
+          message="Check your Email for the auth pin"
+          visible={successVisible}
+        />
+        <Failure
+          message="Failed, Check Email and Try Again "
+          visible={errorVisible}
+        />
+        <ConnectionStatus
+          message="No Internet, Check Your Internet Connection "
+          visible={connectionVisible}
+        />
         <ScrollView showsVerticalScrollIndicator={false}>
           <View style={{alignSelf: 'center', marginTop: theme.spacing.xl * 2}}>
             <BookSVG width={width} height={height} />
@@ -53,10 +131,14 @@ const VerifyEmailScreen = ({navigation}) => {
               }}
               placeholderTextColor={theme.colors.primaryLight}
               keyboardType="email-address"
-              value={email}
-              onChangeText={email => setEmail(email)}
+              value={formik.values.email}
+              onBlur={formik.handleBlur('email')}
+              onChangeText={formik.handleChange('email')}
               left={<TextInput.Icon name="email" />}
             />
+            {formik.errors.email && (
+              <Text style={styles.errorStyle}>{formik.errors.email}</Text>
+            )}
           </View>
           <View
             style={{marginLeft: theme.spacing.xl, marginTop: theme.spacing.m}}>
@@ -69,9 +151,8 @@ const VerifyEmailScreen = ({navigation}) => {
           <View style={{bottom: theme.spacing.s}}>
             <PrimaryButton
               text="Verify"
-              onPress={() => {
-                navigation.navigate('ConfirmPin');
-              }}
+              onPress={formik.handleSubmit}
+              disabled={!formik.isValid}
             />
           </View>
         </ScrollView>
@@ -108,7 +189,18 @@ const styles = StyleSheet.create({
     fontSize: theme.spacing.m,
     fontFamily: 'Arimo-Regular',
   },
+  errorStyle: {fontSize: theme.spacing.m, color: theme.colors.red},
 });
+const mapStateToProps = state => {
+  return {
+    UserEmail: state.verifyEmail,
+  };
+};
 
+const mapDispatchToProps = dispatch => {
+  return {
+    sendUserEmail: email => dispatch(verifyEmailSuccess(email)),
+  };
+};
 //make this component available to the app
-export default VerifyEmailScreen;
+export default connect(mapStateToProps, mapDispatchToProps)(VerifyEmailScreen);
