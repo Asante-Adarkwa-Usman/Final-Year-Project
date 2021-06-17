@@ -20,6 +20,7 @@ import {
   ClearanceFailed,
   HeaderComponent,
   ClearanceSuccessful,
+  StudentInfo,
 } from '../../../../components';
 
 // create a component
@@ -27,54 +28,30 @@ const HostelScreen = ({navigation}) => {
   return (
     <SafeAreaView style={styles.container}>
       <HeaderComponent
-        title="Hostel Clearance"
+        title="GETFUND HOSTEL"
         onPress={() => {
           navigation.navigate('Home');
         }}
       />
-      <View>
+      {/* <View>
         <HostelSVG width={430} height={240} />
+      </View> */}
+      <View>
+        <Image
+          style={{width: wp('100'), height: hp('40'), resizeMode: 'cover'}}
+          source={require('../../../../assets/images/hotel.jpg')}
+        />
       </View>
       <ScrollView
         showsVerticalScrollIndicator={false}
         style={{marginTop: theme.spacing.m}}>
-        <View>
-          <Text style={[styles.hostelStyle, {marginBottom: theme.spacing.m}]}>
-            Student Details
-          </Text>
-        </View>
-        <View style={{flexDirection: 'row'}}>
-          <View style={{alignSelf: 'flex-start', marginLeft: theme.spacing.m}}>
-            <Text style={styles.textStyle}>Name</Text>
-          </View>
-          <View style={{marginLeft: theme.spacing.xl * 2}}>
-            <Text style={styles.textBoldStyle}>Asante Adarkwa Usman</Text>
-          </View>
-        </View>
-        <View style={{flexDirection: 'row', marginTop: theme.spacing.s}}>
-          <View style={{alignSelf: 'flex-start', marginLeft: theme.spacing.m}}>
-            <Text style={styles.textStyle}>Department</Text>
-          </View>
-          <View style={{marginLeft: theme.spacing.xl}}>
-            <Text style={styles.textBoldStyle}>Bsc Computer Science</Text>
-          </View>
-        </View>
-        <View style={{flexDirection: 'row', marginTop: theme.spacing.s}}>
-          <View style={{alignSelf: 'flex-start', marginLeft: theme.spacing.m}}>
-            <Text style={styles.textStyle}>Level</Text>
-          </View>
-          <View style={{marginLeft: 89}}>
-            <Text style={styles.textBoldStyle}>400</Text>
-          </View>
-        </View>
-        <View style={{flexDirection: 'row', marginTop: theme.spacing.s}}>
-          <View style={{alignSelf: 'flex-start', marginLeft: theme.spacing.m}}>
-            <Text style={styles.textStyle}>Hostel</Text>
-          </View>
-          <View style={{marginLeft: theme.spacing.xl * 2}}>
-            <Text style={styles.textBoldStyle}>Getfund</Text>
-          </View>
-        </View>
+        <StudentInfo
+          title="Student Details"
+          studentName="Asante Adarkwa Usman"
+          department="BSc Computer Science"
+          level="400"
+          hostelName="GetFund Hostel"
+        />
         <View style={styles.borderWidthStyle} />
         {/* <ClearanceFailed reason="You broke a chair that belongs to the hostel in Level 200" /> */}
         <ClearanceSuccessful />

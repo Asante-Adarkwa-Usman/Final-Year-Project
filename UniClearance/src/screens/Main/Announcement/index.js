@@ -45,25 +45,22 @@ const AnnouncementScreen = ({navigation}) => {
         <View style={{marginBottom: theme.spacing.m}}>
           <ViewAllComponent
             announcement="Changes made in the library"
-            onPress={() => alert('go to specific page')}
-            imageSrc={require('../../../assets/images/bell.png')}
-            backgroundColor="#4C76E1"
+            onPress={() => navigation.navigate('AnnouncementDetails')}
+            imageSrc={require('../../../assets/images/blackBell.png')}
           />
         </View>
         <View style={{marginBottom: theme.spacing.m}}>
           <ViewAllComponent
             announcement="Changes made in the library"
-            onPress={() => alert('go to specific page')}
-            imageSrc={require('../../../assets/images/bell.png')}
-            backgroundColor="#4C76E1"
+            onPress={() => navigation.navigate('AnnouncementDetails')}
+            imageSrc={require('../../../assets/images/blackBell.png')}
           />
         </View>
         <View style={{marginBottom: theme.spacing.m}}>
           <ViewAllComponent
             announcement="Changes made in the library"
-            onPress={() => alert('go to specific page')}
-            imageSrc={require('../../../assets/images/bell.png')}
-            backgroundColor="#4C76E1"
+            onPress={() => navigation.navigate('AnnouncementDetails')}
+            imageSrc={require('../../../assets/images/blackBell.png')}
           />
         </View>
       </ScrollView>

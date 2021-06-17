@@ -1,4 +1,4 @@
-export const axios_config = (token = null) => {
+export const axiosConfig = (token = null) => {
   if (token === null) {
     return {
       headers: {

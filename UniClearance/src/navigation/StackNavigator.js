@@ -5,8 +5,10 @@ import {
   HomeScreen,
   AdministrationScreen,
   AnnouncementScreen,
+  AnnouncementDetailScreen,
   SettingScreen,
   TranscriptScreen,
+  TranscriptRequestedScreen,
 } from '../screens/Main';
 import {
   DepartmentScreen,
@@ -103,6 +105,11 @@ const AnnouncementStackNavigator = () => {
         component={AnnouncementScreen}
         options={{headerShown: false}}
       />
+      <Stack.Screen
+        name="AnnouncementDetails"
+        component={AnnouncementDetailScreen}
+        options={{headerShown: false}}
+      />
     </Stack.Navigator>
   );
 };
@@ -124,6 +131,11 @@ const TranscriptStackNavigator = () => {
       <Stack.Screen
         name="Transcript"
         component={TranscriptScreen}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="TranscriptRequested"
+        component={TranscriptRequestedScreen}
         options={{headerShown: false}}
       />
     </Stack.Navigator>
