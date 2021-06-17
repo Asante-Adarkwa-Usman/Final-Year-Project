@@ -17,7 +17,6 @@ const ViewAllComponent = ({...props}) => {
         style={[
           styles.buttonStyle,
           {
-            backgroundColor: props.backgroundColor,
             color: props.textColor ? props.textColor : theme.colors.white,
           },
         ]}>
@@ -43,6 +42,7 @@ const styles = StyleSheet.create({
     height: hp('8'),
     alignContent: 'center',
     justifyContent: 'center',
+    backgroundColor: theme.colors.lightGrey,
   },
   buttonText: {
     fontFamily: 'Oxygen-Bold',

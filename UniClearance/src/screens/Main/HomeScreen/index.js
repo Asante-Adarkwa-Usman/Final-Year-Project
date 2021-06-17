@@ -31,11 +31,13 @@ const HomeScreen = ({navigation}) => {
     <PaperProvider>
       <View style={styles.topContainer}>
         <View style={styles.secondContainer}>
-          <ButtonWithImage
-            imageSrc={require('../../../assets/images/menu.png')}
-            onPress={() => navigation.openDrawer()}
-          />
-          <View style={{marginLeft: theme.spacing.xl * 3}}>
+          <View style={{position: 'absolute', left: 0}}>
+            <ButtonWithImage
+              imageSrc={require('../../../assets/images/menu.png')}
+              onPress={() => navigation.openDrawer()}
+            />
+          </View>
+          <View>
             <UserDetails
               imageSrc={require('../../../assets/images/profile.png')}
               name="Prince Angels"
@@ -205,10 +207,15 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: theme.borderRadii.l,
   },
   bellContainer: {
-    marginLeft: theme.spacing.xl * 2,
-    marginRight: theme.spacing.s,
+    position: 'absolute',
+    right: 0,
+    marginRight: theme.spacing.m,
   },
-  secondContainer: {flexDirection: 'row', marginTop: theme.spacing.s},
+  secondContainer: {
+    flexDirection: 'row',
+    marginTop: theme.spacing.s,
+    justifyContent: 'space-evenly',
+  },
   progressContainer: {
     flexDirection: 'row',
     marginTop: theme.spacing.m,

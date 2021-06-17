@@ -16,37 +16,74 @@ import BookSVG from '../../assets/svg/book.svg';
 import {TextInput, Provider as PaperProvider} from 'react-native-paper';
 import PrimaryButton from '../../components/button/primary';
 import {postLoginSuccess} from '../../state-management/auth/login';
-import connect from 'react-redux';
+import {connect} from 'react-redux';
 import axios from 'axios';
 import {axiosConfig} from '../../network/utils/axiosConfig';
 import {loginURL} from '../../network/URL';
+import {FullScreenLoader, LoginValidationSchema} from '../../components';
+import {Success, Failure, ConnectionStatus} from '../../components/snackbar';
 import {useFormik} from 'formik';
+import * as yup from 'yup';
+import NetInfo from '@react-native-community/netinfo';
 
 const width = 280;
 const height = 150;
 const LoginScreen = ({UserDetails, sendUserDetails, navigation}) => {
+  const [loading, setLoading] = React.useState(false);
+  const [successVisible, setSuccessVisible] = React.useState(false);
+  const [errorVisible, setErrorVisible] = React.useState(false);
+  const [connectionVisible, setConnectionVisible] = React.useState(false);
+
+  React.useEffect(() => {
+    NetInfo.fetch().then(state => {
+      console.log('Connection type is', state.type);
+      console.log('Is connected?', state.isConnected);
+      state.isConnected == true
+        ? ''
+        : (setConnectionVisible(true),
+          setTimeout(() => {
+            setErrorVisible(false);
+          }, 3000));
+    });
+  }, []);
+
   const formik = useFormik({
+    validationSchema: LoginValidationSchema,
     initialValues: {
-      email: '',
+      studentId: '',
       password: '',
     },
     onSubmit: values => {
       //post login data
+      setLoading(true);
       const config = axiosConfig();
       axios
         .post(loginURL, values, config)
         .then(res => {
           //dispatch user data
-          sendUserDetails(res.data);
+          setLoading(false);
+          setSuccessVisible(true);
+          // sendUserDetails(res.data);
           setTimeout(() => {
+            setSuccessVisible(false);
             navigation.navigate('Main');
-          }, 3000);
+          }, 4000);
         })
         .catch(error => {
-          if (error.request) {
-            console.log(error.request);
-          } else if (error.response) {
+          if (error.response) {
+            setLoading(false);
+            setErrorVisible(true);
             console.log(error.response);
+            setTimeout(() => {
+              setErrorVisible(false);
+            }, 4000);
+          } else if (error.request) {
+            setLoading(false);
+            setConnectionVisible(true);
+            console.log(error.request);
+            setTimeout(() => {
+              setConnectionVisible(false);
+            }, 4000);
           }
         });
     },
@@ -55,6 +92,16 @@ const LoginScreen = ({UserDetails, sendUserDetails, navigation}) => {
   return (
     <PaperProvider>
       <SafeAreaView>
+        <FullScreenLoader isFetching={loading} text={'Logging in ...'} />
+        <Success message="Login Successful" visible={successVisible} />
+        <Failure
+          message="Failed, Check Your Credentials and Try Again "
+          visible={errorVisible}
+        />
+        <ConnectionStatus
+          message="No Internet, Check Your Internet Connection "
+          visible={connectionVisible}
+        />
         <ScrollView showsVerticalScrollIndicator={false}>
           <View style={styles.container}>
             <BookSVG width={width} height={height} />
@@ -76,10 +123,14 @@ const LoginScreen = ({UserDetails, sendUserDetails, navigation}) => {
                 },
               }}
               placeholderTextColor={theme.colors.offWhite}
-              value={formik.values.email}
-              onChangeText={formik.handleChange}
+              value={formik.values.studentId}
+              onBlur={formik.handleBlur('studentId')}
+              onChangeText={formik.handleChange('studentId')}
               left={<TextInput.Icon name="account" />}
             />
+            {formik.errors.studentId && (
+              <Text style={styles.errorStyle}>{formik.errors.studentId}</Text>
+            )}
             <TextInput
               style={styles.input}
               label="password"
@@ -96,9 +147,13 @@ const LoginScreen = ({UserDetails, sendUserDetails, navigation}) => {
               }}
               placeholderTextColor={theme.colors.offWhite}
               value={formik.values.password}
-              onChangeText={formik.handleChange}
+              onBlur={formik.handleBlur('password')}
+              onChangeText={formik.handleChange('password')}
               left={<TextInput.Icon name="lock" />}
             />
+            {formik.errors.password && (
+              <Text style={styles.errorStyle}>{formik.errors.password}</Text>
+            )}
           </View>
           <View style={{marginTop: theme.spacing.m}}>
             <Text
@@ -110,7 +165,8 @@ const LoginScreen = ({UserDetails, sendUserDetails, navigation}) => {
           <View>
             <PrimaryButton
               text="Login"
-              onPress={() => navigation.replace('Main')}
+              onPress={formik.handleSubmit}
+              disabled={!formik.isValid}
             />
           </View>
         </ScrollView>
@@ -153,18 +209,19 @@ const styles = StyleSheet.create({
     fontSize: theme.spacing.m,
     color: theme.colors.primary,
   },
+  errorStyle: {fontSize: theme.spacing.m, color: theme.colors.red},
 });
 
-// const mapStateToProps = state => {
-//   return {
-//     UserDetails: state.userLogin,
-//   };
-// };
+const mapStateToProps = state => {
+  return {
+    UserDetails: state.userLogin,
+  };
+};
 
-// const mapDispatchToProps = dispatch => {
-//   return {
-//     sendUserDetails: userData => dispatch(postLoginSuccess(userData)),
-//   };
-// };
-export default LoginScreen;
-// export default connect(mapStateToProps, mapDispatchToProps)(LoginScreen);
+const mapDispatchToProps = dispatch => {
+  return {
+    sendUserDetails: userData => dispatch(postLoginSuccess(userData)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(LoginScreen);
