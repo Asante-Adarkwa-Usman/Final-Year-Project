@@ -4,7 +4,8 @@ import {
   Text,
   ScrollView,
   StyleSheet,
-  Image,
+  KeyboardAvoidingView,
+  Platform,
   SafeAreaView,
 } from 'react-native';
 import {
@@ -25,6 +26,7 @@ import {Success, Failure, ConnectionStatus} from '../../components/snackbar';
 import {useFormik} from 'formik';
 import * as yup from 'yup';
 import NetInfo from '@react-native-community/netinfo';
+import {Root, Popup, Toast} from 'popup-ui';
 
 const width = 280;
 const height = 150;
@@ -44,6 +46,17 @@ const LoginScreen = ({UserDetails, sendUserDetails, navigation}) => {
           setTimeout(() => {
             setErrorVisible(false);
           }, 3000));
+    });
+    //Show notice upon rendering
+    Popup.show({
+      type: 'Danger',
+      title: 'Notice',
+      textBody:
+        'Please change the default password to a desired one before login',
+      buttonText: 'Continue',
+      callback: () => {
+        Popup.hide();
+      },
     });
   }, []);
 
@@ -91,88 +104,98 @@ const LoginScreen = ({UserDetails, sendUserDetails, navigation}) => {
   });
 
   return (
-    <PaperProvider>
-      <SafeAreaView>
-        <FullScreenLoader isFetching={loading} text={'Logging in ...'} />
-        <Success message="Login Successful" visible={successVisible} />
-        <Failure
-          message="Failed, Check Your Credentials and Try Again "
-          visible={errorVisible}
-        />
-        <ConnectionStatus
-          message="No Internet, Check Your Internet Connection "
-          visible={connectionVisible}
-        />
-        <ScrollView showsVerticalScrollIndicator={false}>
-          <View style={styles.container}>
-            <BookSVG width={width} height={height} />
-          </View>
-          <View style={{marginTop: theme.spacing.xl, alignSelf: 'center'}}>
-            <Text style={styles.loginTextStyle}>SIGN IN</Text>
-          </View>
-          <View style={styles.inputContainer}>
-            <TextInput
-              style={styles.input}
-              label="Student ID"
-              placeholder="Student ID"
-              mode="outlined"
-              autoCorrect={false}
-              theme={{
-                colors: {
-                  primary: theme.colors.primary,
-                  underlineColor: 'transparent',
-                },
-              }}
-              placeholderTextColor={theme.colors.offWhite}
-              value={formik.values.username}
-              onBlur={formik.handleBlur('username')}
-              onChangeText={formik.handleChange('username')}
-              left={<TextInput.Icon name="account" />}
+    <Root>
+      <PaperProvider>
+        <SafeAreaView>
+          <KeyboardAvoidingView
+            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+            <FullScreenLoader isFetching={loading} text={'Logging in ...'} />
+            <Success message="Login Successful" visible={successVisible} />
+            <Failure
+              message="Failed, Check Your Credentials and Try Again "
+              visible={errorVisible}
             />
-            {formik.errors.username && (
-              <Text style={styles.errorStyle}>{formik.errors.username}</Text>
-            )}
-            <TextInput
-              style={styles.input}
-              label="password"
-              placeholder="password"
-              mode="outlined"
-              autoCorrect={false}
-              minLenght={6}
-              secureTextEntry={true}
-              theme={{
-                colors: {
-                  primary: theme.colors.primary,
-                  underlineColor: 'transparent',
-                },
-              }}
-              placeholderTextColor={theme.colors.offWhite}
-              value={formik.values.password}
-              onBlur={formik.handleBlur('password')}
-              onChangeText={formik.handleChange('password')}
-              left={<TextInput.Icon name="lock" />}
+            <ConnectionStatus
+              message="No Internet, Check Your Internet Connection "
+              visible={connectionVisible}
             />
-            {formik.errors.password && (
-              <Text style={styles.errorStyle}>{formik.errors.password}</Text>
-            )}
-          </View>
-          <View style={{marginTop: theme.spacing.m}}>
-            <Text
-              onPress={() => navigation.navigate('VerifyEmail')}
-              style={styles.resetText}>
-              Reset Password
-            </Text>
-          </View>
-          <View>
-            <PrimaryButton
-              text="Login"
-              onPress={formik.handleSubmit}
-              disabled={!formik.isValid}
-            />
-          </View>
-        </ScrollView>
-      </SafeAreaView>
-    </PaperProvider>
+            <ScrollView showsVerticalScrollIndicator={false}>
+              <View style={styles.container}>
+                <BookSVG width={width} height={height} />
+              </View>
+              <View style={{marginTop: theme.spacing.xl, alignSelf: 'center'}}>
+                <Text style={styles.loginTextStyle}>SIGN IN</Text>
+              </View>
+              <View style={styles.inputContainer}>
+                <TextInput
+                  style={styles.input}
+                  label="Student ID"
+                  placeholder="Student ID"
+                  mode="outlined"
+                  autoCorrect={false}
+                  theme={{
+                    colors: {
+                      primary: theme.colors.primary,
+                      underlineColor: 'transparent',
+                    },
+                  }}
+                  placeholderTextColor={theme.colors.offWhite}
+                  value={formik.values.username}
+                  onBlur={formik.handleBlur('username')}
+                  onChangeText={formik.handleChange('username')}
+                  left={<TextInput.Icon name="account" />}
+                />
+                {formik.errors.username && (
+                  <Text style={styles.errorStyle}>
+                    {formik.errors.username}
+                  </Text>
+                )}
+                <TextInput
+                  style={styles.input}
+                  label="password"
+                  placeholder="password"
+                  mode="outlined"
+                  autoCorrect={false}
+                  minLenght={6}
+                  secureTextEntry={true}
+                  theme={{
+                    colors: {
+                      primary: theme.colors.primary,
+                      underlineColor: 'transparent',
+                    },
+                  }}
+                  placeholderTextColor={theme.colors.offWhite}
+                  value={formik.values.password}
+                  onBlur={formik.handleBlur('password')}
+                  onChangeText={formik.handleChange('password')}
+                  left={<TextInput.Icon name="lock" />}
+                />
+                {formik.errors.password && (
+                  <Text style={styles.errorStyle}>
+                    {formik.errors.password}
+                  </Text>
+                )}
+              </View>
+              <View style={{marginTop: theme.spacing.m}}>
+                <Text
+                  onPress={() => navigation.navigate('VerifyEmail')}
+                  style={styles.resetText}>
+                  Reset Password
+                </Text>
+              </View>
+              <View>
+                <PrimaryButton
+                  text="Login"
+                  onPress={() => navigation.navigate('Main')}
+                  // onPress={formik.handleSubmit}
+                  // disabled={!formik.isValid}
+                />
+              </View>
+            </ScrollView>
+          </KeyboardAvoidingView>
+        </SafeAreaView>
+      </PaperProvider>
+    </Root>
   );
 };
 const styles = StyleSheet.create({

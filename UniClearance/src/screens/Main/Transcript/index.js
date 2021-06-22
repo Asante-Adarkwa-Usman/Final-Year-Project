@@ -4,15 +4,16 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import {HeaderComponent} from '../../../components';
+import {HeaderComponent, ModalContent} from '../../../components';
 import TranscriptSVG from '../../../assets/svg/reportCard.svg';
 import {PrimaryButton} from '../../../components/button';
 import {Portal, Modal, Provider as PaperProvider} from 'react-native-paper';
-import {ModalContent} from '../../../components';
 import {
   View,
   Text,
   StyleSheet,
+  KeyboardAvoidingView,
+  Platform,
   SafeAreaView,
   TouchableOpacity,
 } from 'react-native';
@@ -47,24 +48,27 @@ const TranscriptScreen = ({navigation}) => {
           />
         </View>
         <View>
-          <Portal style={styles.PortalView}>
-            <Modal
-              visible={showModal ? true : false}
-              onDismiss={() => setShowModal(false)}
-              contentContainerStyle={styles.containerStyle}>
-              <View style={{marginTop: theme.spacing.m}}>
-                <ModalContent title="Enter Year and amount of Copies " />
-              </View>
-              <View style={styles.modalButtonContainer}>
-                <TouchableOpacity
-                  activeOpacity={activeOpacity}
-                  onPress={TranscriptRequested}
-                  style={styles.modalButtonStyle}>
-                  <Text style={styles.modalButtonText}>Request</Text>
-                </TouchableOpacity>
-              </View>
-            </Modal>
-          </Portal>
+          <KeyboardAvoidingView
+            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+            <Portal style={styles.PortalView}>
+              <Modal
+                visible={showModal ? true : false}
+                onDismiss={() => setShowModal(false)}
+                contentContainerStyle={styles.containerStyle}>
+                <View style={{marginTop: theme.spacing.m}}>
+                  <ModalContent title="Enter Year and amount of Copies " />
+                </View>
+                <View style={styles.modalButtonContainer}>
+                  <TouchableOpacity
+                    activeOpacity={activeOpacity}
+                    onPress={TranscriptRequested}
+                    style={styles.modalButtonStyle}>
+                    <Text style={styles.modalButtonText}>Request</Text>
+                  </TouchableOpacity>
+                </View>
+              </Modal>
+            </Portal>
+          </KeyboardAvoidingView>
         </View>
       </SafeAreaView>
     </PaperProvider>
@@ -100,10 +104,8 @@ const styles = StyleSheet.create({
   },
   modalButtonContainer: {
     flex: 1,
-    justifyContent: 'flex-end',
-    alignItems: 'center',
+    alignSelf: 'center',
     marginTop: theme.spacing.m,
-    marginBottom: theme.spacing.l,
     bottom: theme.spacing.m,
   },
   borderBottomStyle: {
@@ -117,8 +119,6 @@ const styles = StyleSheet.create({
     height: 34,
     marginTop: theme.spacing.l,
     padding: theme.spacing.s,
-    position: 'absolute',
-
     borderRadius: theme.borderRadii.m,
     shadowColor: theme.colors.text,
     shadowOffset: {
@@ -131,7 +131,7 @@ const styles = StyleSheet.create({
     elevation: 3,
   },
   modalButtonText: {
-    fontFamily: 'Oxygen-Bold',
+    fontFamily: 'roboto-regular',
     textAlign: 'center',
     fontSize: 14,
     color: theme.colors.white,

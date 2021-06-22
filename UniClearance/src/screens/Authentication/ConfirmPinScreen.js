@@ -4,7 +4,8 @@ import {
   View,
   Text,
   StyleSheet,
-  Image,
+  KeyboardAvoidingView,
+  Platform,
   ScrollView,
   SafeAreaView,
 } from 'react-native';
@@ -24,51 +25,54 @@ const ConfirmPinScreen = ({navigation}) => {
   const [code, setCode] = React.useState('');
   return (
     <SafeAreaView>
-      <ScrollView showsVerticalScrollIndicator={false}>
-        <View style={{alignSelf: 'center', marginTop: theme.spacing.xl * 2}}>
-          <BookSVG width={width} height={height} />
-        </View>
-        <View style={{marginTop: theme.spacing.xl, alignSelf: 'center'}}>
-          <Text style={styles.verifyEmailStyle}>CONFIRM EMAIL</Text>
-        </View>
-        <View
-          style={{marginLeft: theme.spacing.xl, marginTop: theme.spacing.l}}>
-          <Text style={styles.provideTextStyle}>
-            Enter the four digits sent to your Email
-          </Text>
-        </View>
-        <View style={{alignItems: 'center'}}>
-          <OTPInputView
-            style={{width: '85%', height: 200}}
-            pinCount={6}
-            code={code}
-            onCodeChanged={code => setCode(code)}
-            autoFocusOnLoad
-            codeInputFieldStyle={styles.underlineStyleBase}
-            codeInputHighlightStyle={styles.underlineStyleHighLighted}
-            onCodeFilled={code => {
-              console.log(`Code is ${code}, you are good to go`);
-            }}
-          />
-        </View>
-        <View style={styles.linkTextStyle}>
-          <Text style={styles.provideTextStyle}>Haven't received Email?</Text>
-          <Text
-            style={[
-              styles.provideTextStyle,
-              {color: theme.colors.primary, marginLeft: theme.spacing.s},
-            ]}
-            onPress={() => alert('resend pin')}>
-            Resend
-          </Text>
-        </View>
-        <View style={{bottom: theme.spacing.s}}>
-          <PrimaryButton
-            text="Confirm"
-            onPress={() => navigation.navigate('ResetPassword')}
-          />
-        </View>
-      </ScrollView>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <View style={{alignSelf: 'center', marginTop: theme.spacing.xl * 2}}>
+            <BookSVG width={width} height={height} />
+          </View>
+          <View style={{marginTop: theme.spacing.xl, alignSelf: 'center'}}>
+            <Text style={styles.verifyEmailStyle}>CONFIRM EMAIL</Text>
+          </View>
+          <View
+            style={{marginLeft: theme.spacing.xl, marginTop: theme.spacing.l}}>
+            <Text style={styles.provideTextStyle}>
+              Enter the four digits sent to your Email
+            </Text>
+          </View>
+          <View style={{alignItems: 'center'}}>
+            <OTPInputView
+              style={{width: '85%', height: 200}}
+              pinCount={6}
+              code={code}
+              onCodeChanged={code => setCode(code)}
+              autoFocusOnLoad
+              codeInputFieldStyle={styles.underlineStyleBase}
+              codeInputHighlightStyle={styles.underlineStyleHighLighted}
+              onCodeFilled={code => {
+                console.log(`Code is ${code}, you are good to go`);
+              }}
+            />
+          </View>
+          <View style={styles.linkTextStyle}>
+            <Text style={styles.provideTextStyle}>Haven't received Email?</Text>
+            <Text
+              style={[
+                styles.provideTextStyle,
+                {color: theme.colors.primary, marginLeft: theme.spacing.s},
+              ]}
+              onPress={() => alert('resend pin')}>
+              Resend
+            </Text>
+          </View>
+          <View style={{bottom: theme.spacing.s}}>
+            <PrimaryButton
+              text="Confirm"
+              onPress={() => navigation.navigate('ResetPassword')}
+            />
+          </View>
+        </ScrollView>
+      </KeyboardAvoidingView>
     </SafeAreaView>
   );
 };

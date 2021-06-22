@@ -4,7 +4,8 @@ import {
   View,
   Text,
   StyleSheet,
-  Image,
+  KeyboardAvoidingView,
+  Platform,
   ScrollView,
   SafeAreaView,
 } from 'react-native';
@@ -29,7 +30,7 @@ import NetInfo from '@react-native-community/netinfo';
 // create a component
 const width = 280;
 const height = 150;
-const VerifyEmailScreen = ({navigation}) => {
+const VerifyEmailScreen = ({sendUserEmail, navigation}) => {
   const [loading, setLoading] = React.useState(false);
   const [successVisible, setSuccessVisible] = React.useState(false);
   const [errorVisible, setErrorVisible] = React.useState(false);
@@ -52,16 +53,16 @@ const VerifyEmailScreen = ({navigation}) => {
       email: '',
     },
     onSubmit: values => {
-      //post login data
+      //post user email
       setLoading(true);
       const config = axiosConfig();
       axios
         .post(verifyEmailURL, values, config)
         .then(res => {
           //dispatch user data
+          sendUserEmail(res.data);
           setLoading(false);
           setSuccessVisible(true);
-          // sendUserDetails(res.data);
           setTimeout(() => {
             setSuccessVisible(false);
             navigation.replace('ComfirmPin');
@@ -90,72 +91,82 @@ const VerifyEmailScreen = ({navigation}) => {
   return (
     <PaperProvider>
       <SafeAreaView>
-        <FullScreenLoader isFetching={loading} text={'Verifying Email...'} />
-        <Success
-          message="Check your Email for the auth pin"
-          visible={successVisible}
-        />
-        <Failure
-          message="Failed, Check Email and Try Again "
-          visible={errorVisible}
-        />
-        <ConnectionStatus
-          message="No Internet, Check Your Internet Connection "
-          visible={connectionVisible}
-        />
-        <ScrollView showsVerticalScrollIndicator={false}>
-          <View style={{alignSelf: 'center', marginTop: theme.spacing.xl * 2}}>
-            <BookSVG width={width} height={height} />
-          </View>
-          <View style={{marginTop: theme.spacing.xl, alignSelf: 'center'}}>
-            <Text style={styles.verifyEmailStyle}>VERIFY EMAIL</Text>
-          </View>
-          <View
-            style={{marginLeft: theme.spacing.xl, marginTop: theme.spacing.l}}>
-            <Text style={styles.provideTextStyle}>
-              Provide email for the Account
-            </Text>
-          </View>
-          <View style={styles.inputContainer}>
-            <TextInput
-              style={styles.input}
-              label="email"
-              placeholder="email"
-              mode="outlined"
-              autoCorrect={false}
-              theme={{
-                colors: {
-                  primary: theme.colors.primary,
-                  underlineColor: 'transparent',
-                },
-              }}
-              placeholderTextColor={theme.colors.primaryLight}
-              keyboardType="email-address"
-              value={formik.values.email}
-              onBlur={formik.handleBlur('email')}
-              onChangeText={formik.handleChange('email')}
-              left={<TextInput.Icon name="email" />}
-            />
-            {formik.errors.email && (
-              <Text style={styles.errorStyle}>{formik.errors.email}</Text>
-            )}
-          </View>
-          <View
-            style={{marginLeft: theme.spacing.xl, marginTop: theme.spacing.m}}>
-            <Text
-              style={[styles.provideTextStyle, {color: theme.colors.primary}]}
-              onPress={() => navigation.navigate('Login')}>
-              Go back to login
-            </Text>
-          </View>
-          <View style={{bottom: theme.spacing.s}}>
-            <PrimaryButton
-              text="Verify"
-              onPress={formik.handleSubmit}
-              disabled={!formik.isValid}
-            />
-          </View>
-        </ScrollView>
+        <KeyboardAvoidingView
+          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+          <FullScreenLoader isFetching={loading} text={'Verifying Email...'} />
+          <Success
+            message="Check your Email for the auth pin"
+            visible={successVisible}
+          />
+          <Failure
+            message="Failed, Check Email and Try Again "
+            visible={errorVisible}
+          />
+          <ConnectionStatus
+            message="No Internet, Check Your Internet Connection "
+            visible={connectionVisible}
+          />
+          <ScrollView showsVerticalScrollIndicator={false}>
+            <View
+              style={{alignSelf: 'center', marginTop: theme.spacing.xl * 2}}>
+              <BookSVG width={width} height={height} />
+            </View>
+            <View style={{marginTop: theme.spacing.xl, alignSelf: 'center'}}>
+              <Text style={styles.verifyEmailStyle}>VERIFY EMAIL</Text>
+            </View>
+            <View
+              style={{
+                marginLeft: theme.spacing.xl,
+                marginTop: theme.spacing.l,
+              }}>
+              <Text style={styles.provideTextStyle}>
+                Provide email for the Account
+              </Text>
+            </View>
+            <View style={styles.inputContainer}>
+              <TextInput
+                style={styles.input}
+                label="email"
+                placeholder="email"
+                mode="outlined"
+                autoCorrect={false}
+                theme={{
+                  colors: {
+                    primary: theme.colors.primary,
+                    underlineColor: 'transparent',
+                  },
+                }}
+                placeholderTextColor={theme.colors.primaryLight}
+                keyboardType="email-address"
+                value={formik.values.email}
+                onBlur={formik.handleBlur('email')}
+                onChangeText={formik.handleChange('email')}
+                left={<TextInput.Icon name="email" />}
+              />
+              {formik.errors.email && (
+                <Text style={styles.errorStyle}>{formik.errors.email}</Text>
+              )}
+            </View>
+            <View
+              style={{
+                marginLeft: theme.spacing.xl,
+                marginTop: theme.spacing.m,
+              }}>
+              <Text
+                style={[styles.provideTextStyle, {color: theme.colors.primary}]}
+                onPress={() => navigation.navigate('Login')}>
+                Go back to login
+              </Text>
+            </View>
+            <View style={{bottom: theme.spacing.s}}>
+              <PrimaryButton
+                text="Verify"
+                onPress={formik.handleSubmit}
+                disabled={!formik.isValid}
+              />
+            </View>
+          </ScrollView>
+        </KeyboardAvoidingView>
       </SafeAreaView>
     </PaperProvider>
   );
