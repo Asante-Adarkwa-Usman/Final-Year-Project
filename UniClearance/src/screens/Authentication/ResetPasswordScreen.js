@@ -4,7 +4,8 @@ import {
   View,
   Text,
   StyleSheet,
-  Image,
+  KeyboardAvoidingView,
+  Platform,
   ScrollView,
   SafeAreaView,
 } from 'react-native';
@@ -26,63 +27,70 @@ const ResetPasswordScreen = ({navigation}) => {
   return (
     <PaperProvider>
       <SafeAreaView>
-        <ScrollView showsVerticalScrollIndicator={false}>
-          <View style={{alignSelf: 'center', marginTop: theme.spacing.xl * 2}}>
-            <BookSVG width={width} height={height} />
-          </View>
-          <View style={{marginTop: theme.spacing.xl, alignSelf: 'center'}}>
-            <Text style={styles.resetPasswordStyle}>RESET PASSWORD</Text>
-          </View>
-          <View style={styles.inputContainer}>
-            <TextInput
-              style={styles.input}
-              label="New Password"
-              mode="outlined"
-              autoCorrect={false}
-              // minLenght={6}
-              // secureTextEntry={true}
-              theme={{
-                colors: {
-                  primary: theme.colors.primary,
-                  underlineColor: 'transparent',
-                },
-              }}
-              value={password}
-              onChangeText={password => setPassword(password)}
-            />
-            <TextInput
-              style={[styles.input, {marginTop: theme.spacing.s}]}
-              label="Confirm Password"
-              mode="outlined"
-              autoCorrect={false}
-              // secureTextEntry={true}
-              theme={{
-                colors: {
-                  primary: theme.colors.primary,
-                  underlineColor: 'transparent',
-                },
-              }}
-              value={confirmPassword}
-              onChangeText={confirmPassword =>
-                setConfirmPassword(confirmPassword)
-              }
-            />
-          </View>
-          <View
-            style={{marginLeft: theme.spacing.xl, marginTop: theme.spacing.m}}>
-            <Text
-              style={[styles.provideTextStyle, {color: theme.colors.primary}]}
-              onPress={() => navigation.navigate('Login')}>
-              Go back to login
-            </Text>
-          </View>
-          <View style={{marginTop: theme.spacing.s, bottom: theme.spacing.s}}>
-            <PrimaryButton
-              text="Reset"
-              onPress={() => navigation.navigate('Login')}
-            />
-          </View>
-        </ScrollView>
+        <KeyboardAvoidingView
+          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+          <ScrollView showsVerticalScrollIndicator={false}>
+            <View
+              style={{alignSelf: 'center', marginTop: theme.spacing.xl * 2}}>
+              <BookSVG width={width} height={height} />
+            </View>
+            <View style={{marginTop: theme.spacing.xl, alignSelf: 'center'}}>
+              <Text style={styles.resetPasswordStyle}>RESET PASSWORD</Text>
+            </View>
+            <View style={styles.inputContainer}>
+              <TextInput
+                style={styles.input}
+                label="New Password"
+                mode="outlined"
+                autoCorrect={false}
+                // minLenght={6}
+                // secureTextEntry={true}
+                theme={{
+                  colors: {
+                    primary: theme.colors.primary,
+                    underlineColor: 'transparent',
+                  },
+                }}
+                value={password}
+                onChangeText={password => setPassword(password)}
+              />
+              <TextInput
+                style={[styles.input, {marginTop: theme.spacing.s}]}
+                label="Confirm Password"
+                mode="outlined"
+                autoCorrect={false}
+                // secureTextEntry={true}
+                theme={{
+                  colors: {
+                    primary: theme.colors.primary,
+                    underlineColor: 'transparent',
+                  },
+                }}
+                value={confirmPassword}
+                onChangeText={confirmPassword =>
+                  setConfirmPassword(confirmPassword)
+                }
+              />
+            </View>
+            <View
+              style={{
+                marginLeft: theme.spacing.xl,
+                marginTop: theme.spacing.m,
+              }}>
+              <Text
+                style={[styles.provideTextStyle, {color: theme.colors.primary}]}
+                onPress={() => navigation.navigate('Login')}>
+                Go back to login
+              </Text>
+            </View>
+            <View style={{marginTop: theme.spacing.s, bottom: theme.spacing.s}}>
+              <PrimaryButton
+                text="Reset"
+                onPress={() => navigation.navigate('Login')}
+              />
+            </View>
+          </ScrollView>
+        </KeyboardAvoidingView>
       </SafeAreaView>
     </PaperProvider>
   );

@@ -11,7 +11,7 @@ const AnnouncementDetails = ({...props}) => {
     <SafeAreaView style={styles.container}>
       <View>
         <Image
-          style={{resizeMode: 'cover', width: wp('100'), height: hp('40')}}
+          style={{resizeMode: 'cover', width: wp('110'), height: hp('40')}}
           source={props.imageSrc}
         />
       </View>
