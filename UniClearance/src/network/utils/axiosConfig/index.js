@@ -1,4 +1,4 @@
-export const axiosConfig = (token = null) => {
+const AxiosConfig = (token = null) => {
   if (token === null) {
     return {
       headers: {
@@ -14,3 +14,4 @@ export const axiosConfig = (token = null) => {
     };
   }
 };
+export default AxiosConfig;

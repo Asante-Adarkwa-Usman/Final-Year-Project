@@ -4,7 +4,7 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import {HeaderComponent, ModalContent} from '../../../components';
+import {HeaderComponent, RequestTranscript} from '../../../components';
 import TranscriptSVG from '../../../assets/svg/reportCard.svg';
 import {PrimaryButton} from '../../../components/button';
 import {Portal, Modal, Provider as PaperProvider} from 'react-native-paper';
@@ -12,8 +12,10 @@ import {
   View,
   Text,
   StyleSheet,
+  TextInput,
   KeyboardAvoidingView,
   Platform,
+  ScrollView,
   SafeAreaView,
   TouchableOpacity,
 } from 'react-native';
@@ -24,9 +26,12 @@ const activeOpacity = 0.8;
 
 const TranscriptScreen = ({navigation}) => {
   const [showModal, setShowModal] = React.useState(false);
+  const [requestTranscript, setRequestTranscript] = React.useState(false);
+  const [year, setYear] = React.useState();
+  const [copies, setCopies] = React.useState();
   const TranscriptRequested = () => {
-    setShowModal(true);
-    navigation.navigate('TranscriptRequested');
+    setShowModal(false);
+    setRequestTranscript(true);
   };
   return (
     <PaperProvider>
@@ -37,11 +42,18 @@ const TranscriptScreen = ({navigation}) => {
             navigation.navigate('Home');
           }}
         />
-        <View style={styles.imageContainer}>
-          <TranscriptSVG width={width} height={height} />
-          <Text style={styles.textStyle}>No Records</Text>
-        </View>
-        <View style={{marginVertical: theme.spacing.xl}}>
+        {requestTranscript === false ? (
+          <View style={styles.imageContainer}>
+            <TranscriptSVG width={width} height={height} />
+            <Text style={styles.textStyle}>No Records</Text>
+          </View>
+        ) : (
+          <ScrollView showsVerticalScrollIndicator={false}>
+            <RequestTranscript pending={true} copies={copies} year={year} />
+            <RequestTranscript pending={false} copies={copies} year={year} />
+          </ScrollView>
+        )}
+        <View style={{position: 'absolute', bottom: 10, alignSelf: 'center'}}>
           <PrimaryButton
             text="Request Transcript"
             onPress={() => setShowModal(true)}
@@ -56,7 +68,62 @@ const TranscriptScreen = ({navigation}) => {
                 onDismiss={() => setShowModal(false)}
                 contentContainerStyle={styles.containerStyle}>
                 <View style={{marginTop: theme.spacing.m}}>
-                  <ModalContent title="Enter Year and amount of Copies " />
+                  <ScrollView>
+                    <View>
+                      <Text
+                        style={[
+                          styles.hostelStyle,
+                          {marginBottom: theme.spacing.m},
+                        ]}>
+                        Enter year and amount of Copies
+                      </Text>
+                    </View>
+                    <View
+                      style={{
+                        flexDirection: 'row',
+                        justifyContent: 'space-evenly',
+                      }}>
+                      <View
+                        style={{
+                          alignSelf: 'flex-start',
+                          padding: theme.spacing.m,
+                        }}>
+                        <Text style={styles.ModaltextStyle}>Academic Year</Text>
+                      </View>
+                      <View>
+                        <TextInput
+                          style={styles.input}
+                          onChangeText={year => setYear(year)}
+                          value={year}
+                          placeholder="eg. 1990"
+                          keyboardType="numeric"
+                        />
+                      </View>
+                    </View>
+                    <View
+                      style={{
+                        flexDirection: 'row',
+                        justifyContent: 'space-evenly',
+                      }}>
+                      <View
+                        style={{
+                          alignSelf: 'flex-start',
+                          padding: theme.spacing.m,
+                          marginRight: theme.spacing.xl + 10,
+                        }}>
+                        <Text style={styles.ModaltextStyle}>Copies</Text>
+                      </View>
+                      <View>
+                        <TextInput
+                          style={styles.input}
+                          onChangeText={copies => setCopies(copies)}
+                          value={copies}
+                          placeholder="eg. 3"
+                          keyboardType="numeric"
+                        />
+                      </View>
+                    </View>
+                  </ScrollView>
                 </View>
                 <View style={styles.modalButtonContainer}>
                   <TouchableOpacity
@@ -135,6 +202,36 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 14,
     color: theme.colors.white,
+  },
+  Modalcontainer: {
+    marginTop: theme.spacing.l,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  hostelStyle: {
+    fontFamily: 'roboto-regular',
+    fontSize: theme.spacing.m + 3,
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+  ModaltextStyle: {
+    fontFamily: 'roboto-regular',
+    fontSize: theme.spacing.m,
+    fontWeight: 'normal',
+  },
+  textBoldStyle: {
+    fontFamily: 'roboto-regular',
+    fontSize: theme.spacing.m,
+    fontWeight: 'bold',
+  },
+  input: {
+    fontSize: theme.spacing.m,
+    fontFamily: 'roboto-regular',
+    textAlign: 'center',
+    height: 40,
+    width: wp('30'),
+    margin: 12,
+    borderWidth: 1,
   },
 });
 

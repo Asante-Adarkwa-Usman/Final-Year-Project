@@ -19,7 +19,7 @@ import PrimaryButton from '../../components/button/primary';
 import {postLoginSuccess} from '../../state-management/auth/login';
 import {connect} from 'react-redux';
 import axios from 'axios';
-import {axiosConfig} from '../../network/utils/axiosConfig';
+import AxiosConfig from '../../network/utils/axiosConfig';
 import {loginURL} from '../../network/URL';
 import {FullScreenLoader, LoginValidationSchema} from '../../components';
 import {Success, Failure, ConnectionStatus} from '../../components/snackbar';
@@ -30,6 +30,7 @@ import {Root, Popup, Toast} from 'popup-ui';
 
 const width = 280;
 const height = 150;
+
 const LoginScreen = ({UserDetails, sendUserDetails, navigation}) => {
   const [loading, setLoading] = React.useState(false);
   const [successVisible, setSuccessVisible] = React.useState(false);
@@ -70,14 +71,13 @@ const LoginScreen = ({UserDetails, sendUserDetails, navigation}) => {
     onSubmit: values => {
       //post login data
       setLoading(true);
-      const config = axiosConfig();
+      const config = AxiosConfig();
       axios
         .post(loginURL, values, config)
         .then(res => {
           //dispatch user data
           setLoading(false);
           setSuccessVisible(true);
-          // sendUserDetails(res.data);
           setTimeout(() => {
             setSuccessVisible(false);
             navigation.replace('Main');

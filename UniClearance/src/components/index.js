@@ -5,7 +5,7 @@ export {default as HeaderComponent} from './headerComponent';
 export {default as ClearanceFailed} from './clearanceFailed';
 export {default as ClearanceSuccessful} from './clearanceSuccess';
 export {default as StudentInfo} from './studentInfo';
-export {default as ModalContent} from './modalContent';
+export {default as RequestTranscript} from './requestTranscript';
 export {default as FullScreenLoader} from './fullScreenLoader';
 export {default as LoginValidationSchema} from './validationSchema/LoginValidationSchema';
 export {default as VerifyEmailValidationSchema} from './validationSchema/VerifyEmailValidationSchema';
