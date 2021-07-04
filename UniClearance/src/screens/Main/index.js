@@ -4,4 +4,3 @@ export {default as AdministrationScreen} from './Administration/AdministrationSc
 export {default as HomeScreen} from './HomeScreen';
 export {default as SettingScreen} from './Settings';
 export {default as TranscriptScreen} from './Transcript';
-export {default as TranscriptRequestedScreen} from './Transcript/TranscriptRequested';

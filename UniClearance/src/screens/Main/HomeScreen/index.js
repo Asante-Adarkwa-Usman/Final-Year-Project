@@ -26,6 +26,7 @@ import {
 } from '../../../components/button';
 import {UserDetails, AnnouncementView} from '../../../components';
 
+const progress = 1.0;
 const HomeScreen = ({navigation}) => {
   return (
     <PaperProvider>
@@ -54,10 +55,10 @@ const HomeScreen = ({navigation}) => {
         <View style={styles.progressContainer}>
           <ProgressBar
             style={styles.progressStyle}
-            progress={0.4}
+            progress={progress}
             color={Colors.red800}
           />
-          <Text style={styles.clearedStyle}>40% Cleared</Text>
+          <Text style={styles.clearedStyle}>{progress * 100}% Cleared</Text>
         </View>
       </View>
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -191,8 +192,9 @@ const HomeScreen = ({navigation}) => {
       </ScrollView>
       <View style={{marginVertical: theme.spacing.l}}>
         <PrimaryButton
-          text="Request Certificate"
-          onPress={() => alert('request certificate')}
+          text="Request Transcript"
+          disabled={progress === 1.0 ? false : true}
+          onPress={() => navigation.navigate('Transcript')}
         />
       </View>
     </PaperProvider>

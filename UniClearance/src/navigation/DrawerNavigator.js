@@ -5,7 +5,6 @@ import {
   AdministrationStackNavigator,
   AnnouncementStackNavigator,
   SettingStackNavigator,
-  TranscriptStackNavigator,
 } from './StackNavigator';
 import DrawerContent from './DrawerContent';
 
@@ -18,7 +17,6 @@ const DrawerNavigator = () => {
       initialRouteName="Home"
       drawerType="slide">
       <Drawer.Screen name="Home" component={HomeStackNavigator} />
-      <Drawer.Screen name="Transcript" component={TranscriptStackNavigator} />
       <Drawer.Screen name="Settings" component={SettingStackNavigator} />
       <Drawer.Screen
         name="Administrations"

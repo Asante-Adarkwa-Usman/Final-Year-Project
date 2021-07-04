@@ -61,6 +61,11 @@ const HomeStackNavigator = () => {
         component={LibraryScreen}
         options={{headerShown: false}}
       />
+      <Stack.Screen
+        name="Transcript"
+        component={TranscriptScreen}
+        options={{headerShown: false}}
+      />
     </Stack.Navigator>
   );
 };
@@ -131,11 +136,6 @@ const TranscriptStackNavigator = () => {
       <Stack.Screen
         name="Transcript"
         component={TranscriptScreen}
-        options={{headerShown: false}}
-      />
-      <Stack.Screen
-        name="TranscriptRequested"
-        component={TranscriptRequestedScreen}
         options={{headerShown: false}}
       />
     </Stack.Navigator>

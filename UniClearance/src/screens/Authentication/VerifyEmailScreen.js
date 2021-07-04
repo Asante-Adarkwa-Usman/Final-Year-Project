@@ -20,7 +20,7 @@ import PrimaryButton from '../../components/button/primary';
 import {verifyEmailSuccess} from '../../state-management/main/verifyEmail';
 import {connect} from 'react-redux';
 import axios from 'axios';
-import {axiosConfig} from '../../network/utils/axiosConfig';
+import AxiosConfig from '../../network/utils/axiosConfig';
 import {verifyEmailURL} from '../../network/URL';
 import {Success, Failure, ConnectionStatus} from '../../components/snackbar';
 import {FullScreenLoader, VerifyEmailValidationSchema} from '../../components';
@@ -55,12 +55,12 @@ const VerifyEmailScreen = ({sendUserEmail, navigation}) => {
     onSubmit: values => {
       //post user email
       setLoading(true);
-      const config = axiosConfig();
+      const config = AxiosConfig();
       axios
         .post(verifyEmailURL, values, config)
         .then(res => {
           //dispatch user data
-          sendUserEmail(res.data);
+          // sendUserEmail(res.data);
           setLoading(false);
           setSuccessVisible(true);
           setTimeout(() => {
@@ -202,10 +202,8 @@ const styles = StyleSheet.create({
   },
   errorStyle: {fontSize: theme.spacing.m, color: theme.colors.red},
 });
-const mapStateToProps = state => {
-  return {
-    UserEmail: state.verifyEmail,
-  };
+const mapStateToProps = () => {
+  return {};
 };
 
 const mapDispatchToProps = dispatch => {
