@@ -41,15 +41,6 @@ export default function DrawerContent(props) {
               }}
             />
             <DrawerItem
-              icon={({color}) => (
-                <Icon name="cog-outline" color={color} size={35} />
-              )}
-              label="Settings"
-              onPress={() => {
-                props.navigation.navigate('Settings');
-              }}
-            />
-            <DrawerItem
               icon={({color}) => <Icon name="domain" color={color} size={35} />}
               label="Administrations"
               onPress={() => {
@@ -63,6 +54,15 @@ export default function DrawerContent(props) {
               label="Announcements"
               onPress={() => {
                 props.navigation.navigate('Announcements');
+              }}
+            />
+            <DrawerItem
+              icon={({color}) => (
+                <Icon name="cog-outline" color={color} size={35} />
+              )}
+              label="Settings"
+              onPress={() => {
+                props.navigation.navigate('Settings');
               }}
             />
           </Drawer.Section>

@@ -21,12 +21,11 @@ import {connect} from 'react-redux';
 import axios from 'axios';
 import AxiosConfig from '../../network/utils/axiosConfig';
 import {loginURL} from '../../network/URL';
+import {Root, Popup, Toast} from 'popup-ui';
 import {FullScreenLoader, LoginValidationSchema} from '../../components';
 import {Success, Failure, ConnectionStatus} from '../../components/snackbar';
 import {useFormik} from 'formik';
 import * as yup from 'yup';
-import NetInfo from '@react-native-community/netinfo';
-import {Root, Popup, Toast} from 'popup-ui';
 
 const width = 280;
 const height = 150;
@@ -38,16 +37,6 @@ const LoginScreen = ({UserDetails, sendUserDetails, navigation}) => {
   const [connectionVisible, setConnectionVisible] = React.useState(false);
 
   React.useEffect(() => {
-    NetInfo.fetch().then(state => {
-      console.log('Connection type is', state.type);
-      console.log('Is connected?', state.isConnected);
-      state.isConnected == true
-        ? ''
-        : (setConnectionVisible(true),
-          setTimeout(() => {
-            setErrorVisible(false);
-          }, 3000));
-    });
     //Show notice upon rendering
     Popup.show({
       type: 'Danger',
