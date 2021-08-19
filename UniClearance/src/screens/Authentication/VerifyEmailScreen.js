@@ -35,16 +35,6 @@ const VerifyEmailScreen = ({sendUserEmail, navigation}) => {
   const [successVisible, setSuccessVisible] = React.useState(false);
   const [errorVisible, setErrorVisible] = React.useState(false);
   const [connectionVisible, setConnectionVisible] = React.useState(false);
-  React.useEffect(() => {
-    NetInfo.fetch().then(state => {
-      state.isConnected == true
-        ? ''
-        : (setConnectionVisible(true),
-          setTimeout(() => {
-            setConnectionVisible(false);
-          }, 7000));
-    });
-  }, []);
 
   //Form Validation
   const formik = useFormik({
@@ -69,19 +59,18 @@ const VerifyEmailScreen = ({sendUserEmail, navigation}) => {
           }, 4000);
         })
         .catch(error => {
+          console.log(error.message);
           if (error.response) {
             setLoading(false);
             setErrorVisible(true);
-            console.log(error.response);
             setTimeout(() => {
               setErrorVisible(false);
             }, 7000);
           } else if (error.request) {
             setLoading(false);
-            setErrorVisible(true);
-            console.log(error.request);
+            setConnectionVisible(true);
             setTimeout(() => {
-              setErrorVisible(false);
+              setConnectionVisible(false);
             }, 7000);
           }
         });

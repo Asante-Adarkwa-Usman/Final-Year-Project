@@ -63,7 +63,7 @@ const LoginScreen = ({UserDetails, sendUserDetails, navigation}) => {
       const config = AxiosConfig();
       axios
         .post(loginURL, values, config)
-        .then(res => {
+        .then(response => {
           //dispatch user data
           setLoading(false);
           setSuccessVisible(true);
@@ -73,17 +73,16 @@ const LoginScreen = ({UserDetails, sendUserDetails, navigation}) => {
           }, 4000);
         })
         .catch(error => {
+          console.log(error.message);
           if (error.response) {
             setLoading(false);
             setErrorVisible(true);
-            console.log(error.response);
             setTimeout(() => {
               setErrorVisible(false);
             }, 4000);
           } else if (error.request) {
             setLoading(false);
             setConnectionVisible(true);
-            console.log(error.request);
             setTimeout(() => {
               setConnectionVisible(false);
             }, 4000);
@@ -175,9 +174,9 @@ const LoginScreen = ({UserDetails, sendUserDetails, navigation}) => {
               <View>
                 <PrimaryButton
                   text="Login"
-                  onPress={() => navigation.navigate('Main')}
-                  // onPress={formik.handleSubmit}
-                  // disabled={!formik.isValid}
+                  // onPress={() => navigation.navigate('Main')}
+                  onPress={formik.handleSubmit}
+                  disabled={!formik.isValid}
                 />
               </View>
             </ScrollView>
