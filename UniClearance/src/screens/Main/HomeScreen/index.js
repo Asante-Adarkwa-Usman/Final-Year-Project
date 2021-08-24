@@ -14,6 +14,7 @@ import {
 } from 'react-native-responsive-screen';
 import theme from '../../../Theme';
 import StudentSVG from '../../../assets/svg/student.svg';
+import RecentClearedSVG from '../../../assets/svg/recentCleared.svg';
 import {
   Colors,
   ProgressBar,
@@ -63,15 +64,16 @@ const HomeScreen = ({navigation}) => {
       </View>
       <ScrollView showsVerticalScrollIndicator={false}>
         <SafeAreaView>
-          <TouchableOpacity
-            onPress={() => navigation.navigate('Administrations')}>
-            <Text style={styles.seeAllStyle}>See All</Text>
-          </TouchableOpacity>
           <View
             style={{
               marginLeft: theme.spacing.m,
+              marginTop: theme.spacing.m,
             }}>
             <Text style={styles.adminStyle}>Administrations</Text>
+            <TouchableOpacity
+            onPress={() => navigation.navigate('Administrations')}>
+            <Text style={styles.seeAllStyle}>See All</Text>
+          </TouchableOpacity>
           </View>
           <ScrollView showsHorizontalScrollIndicator={false} horizontal={true}>
             <View style={styles.adminContainer}>
@@ -117,24 +119,39 @@ const HomeScreen = ({navigation}) => {
           <View style={styles.recentContainer}>
             <Text style={styles.departmentStyle}>Recent</Text>
           </View>
-          <ScrollView
-            horizontal={true}
-            style={{
-              alignSelf: 'center',
-            }}>
-            <View style={{marginLeft: 10}}>
+          <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+            {/* <View style={{marginLeft: 10}}>
               <StudentSVG width={180} height={120} />
+            </View> */}
+            <View style={{ marginRight: theme.spacing.m}}>
+              <RecentClearedSVG />
+              <View style={{position: 'absolute', bottom: 10, alignSelf: 'center'}}>
+                <Text style={{fontFamily: 'roboto', fontWeight: 'bold', color: theme.colors.white}}>HOSTEL CLEARED</Text>
+              </View>
+            </View>
+            <View style={{ marginRight: theme.spacing.m}}>
+              <RecentClearedSVG />
+              <View style={{position: 'absolute', bottom: 10, alignSelf: 'center'}}>
+                <Text style={{fontFamily: 'roboto', fontWeight: 'bold', color: theme.colors.white}}>DEPARTMENT CLEARED</Text>
+              </View>
+            </View>
+            <View style={{ marginRight: theme.spacing.m}}>
+              <RecentClearedSVG />
+              <View style={{position: 'absolute', bottom: 10, alignSelf: 'center'}}>
+                <Text style={{fontFamily: 'roboto', fontWeight: 'bold', color: theme.colors.white}}>LIBRARY CLEARED</Text>
+              </View>
             </View>
           </ScrollView>
-          <TouchableOpacity
-            onPress={() => navigation.navigate('Announcements')}>
-            <Text style={styles.seeAllStyle}>See All</Text>
-          </TouchableOpacity>
           <View
             style={{
               marginLeft: theme.spacing.m,
+              marginTop: theme.spacing.m,
             }}>
-            <Text style={styles.departmentStyle}>Announcements</Text>
+            <Text style={styles.adminStyle}>Announcements</Text>
+            <TouchableOpacity
+            onPress={() => navigation.navigate('Announcements')}>
+            <Text style={styles.seeAllStyle}>See All</Text>
+          </TouchableOpacity>
           </View>
           <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
             <View style={styles.AnnouncementViewContainer}>
@@ -192,9 +209,9 @@ const HomeScreen = ({navigation}) => {
       </ScrollView>
       <View style={{marginVertical: theme.spacing.l}}>
         <PrimaryButton
-          text="Request Transcript"
+          text="Request Certificate"
           disabled={progress === 1.0 ? false : true}
-          onPress={() => navigation.navigate('Transcript')}
+          onPress={() => alert('Certificate request is a future update feature')}
         />
       </View>
     </PaperProvider>
@@ -235,7 +252,7 @@ const styles = StyleSheet.create({
   },
   seeAllStyle: {
     fontFamily: 'roboto-regular',
-    fontSize: theme.spacing.m,
+    fontSize: theme.spacing.m - 3,
     alignSelf: 'flex-end',
     marginRight: theme.spacing.m,
     marginTop: theme.spacing.s,
@@ -253,6 +270,7 @@ const styles = StyleSheet.create({
   recentContainer: {
     marginLeft: theme.spacing.m,
     marginTop: theme.spacing.m,
+    marginBottom: theme.spacing.m - 2,
   },
   recentImageStyle: {
     resizeMode: 'contain',

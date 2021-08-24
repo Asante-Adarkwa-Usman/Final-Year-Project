@@ -49,6 +49,15 @@ export default function DrawerContent(props) {
             />
             <DrawerItem
               icon={({color}) => (
+                <Icon name="folder-settings-outline" color={color} size={35} />
+              )}
+              label="Transcript"
+              onPress={() => {
+                props.navigation.navigate('Transcript');
+              }}
+            />
+            <DrawerItem
+              icon={({color}) => (
                 <Icon name="bullhorn-outline" color={color} size={35} />
               )}
               label="Announcements"

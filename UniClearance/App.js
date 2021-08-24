@@ -19,7 +19,7 @@ const App = () => {
         : (setConnectionVisible(true),
           setTimeout(() => {
             setConnectionVisible(false);
-          }, 3000));
+          }, 4000));
     });
   }, []);
   return (
