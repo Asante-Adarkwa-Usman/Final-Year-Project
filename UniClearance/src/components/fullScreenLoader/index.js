@@ -9,28 +9,19 @@ const FullScreenLoader = props => {
     <Modal animationType="fade" transparent={true} visible={props.isFetching}>
       <View
         style={{
-          // flex: 1,
           justifyContent: 'center',
           alignItems: 'center',
         }}>
         <View
           style={{
             flexDirection: 'column',
-            backgroundColor: 'rgba(0,0,0,0.6)',
+            backgroundColor: 'rgba(0,0,0,0.4)',
             width: window.width,
             height: window.height,
             alignItems: 'center',
             justifyContent: 'center',
           }}>
           <ActivityIndicator size="large" color={theme.colors.primary} />
-          <Text
-            style={{
-              color: 'blue',
-              fontSize: theme.spacing.l,
-              alignSelf: 'center',
-            }}>
-            {props.text ? props.text : 'Loading...'}
-          </Text>
         </View>
       </View>
     </Modal>

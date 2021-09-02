@@ -26,9 +26,41 @@ import {
   ButtonWithImage,
 } from '../../../components/button';
 import {UserDetails, AnnouncementView} from '../../../components';
+import store from '../../../state-management/store';
+
+import AsyncStorage from '@react-native-async-storage/async-storage';
+const storage = AsyncStorage;
 
 const progress = 1.0;
 const HomeScreen = ({navigation}) => {
+  const [userDataFullname, setUserDataFullname] = React.useState('');
+  const [userDataUsername, setUserDataUsername] = React.useState('');
+  React.useEffect(() => {
+    //Fetching store data
+    // store.subscribe(() => {
+    //   let details = store.getState().userDetails;
+    //   setUserDataFullname(details.fullname);
+    //   setUserDataFullname(details.username);
+    // });
+    loadData();
+  });
+
+  // Loading data from async storage
+  let loadData = async () => {
+    let userLoginData = await storage.getItem('userLoginData');
+    if (userLoginData) {
+      try {
+        let studentData = JSON.parse(userLoginData);
+        setUserDataUsername(studentData.username);
+        setUserDataFullname(studentData.fullname);
+        return studentData.data;
+      } catch (error) {
+        return null;
+      }
+    }
+    return null;
+  };
+
   return (
     <PaperProvider>
       <View style={styles.topContainer}>
@@ -42,8 +74,8 @@ const HomeScreen = ({navigation}) => {
           <View>
             <UserDetails
               imageSrc={require('../../../assets/images/profile.png')}
-              name="Prince Angels"
-              userId="UE2003111"
+              name={userDataFullname}
+              userId={userDataUsername}
             />
           </View>
           <View style={styles.bellContainer}>
@@ -71,9 +103,9 @@ const HomeScreen = ({navigation}) => {
             }}>
             <Text style={styles.adminStyle}>Administrations</Text>
             <TouchableOpacity
-            onPress={() => navigation.navigate('Administrations')}>
-            <Text style={styles.seeAllStyle}>See All</Text>
-          </TouchableOpacity>
+              onPress={() => navigation.navigate('Administrations')}>
+              <Text style={styles.seeAllStyle}>See All</Text>
+            </TouchableOpacity>
           </View>
           <ScrollView showsHorizontalScrollIndicator={false} horizontal={true}>
             <View style={styles.adminContainer}>
@@ -123,22 +155,46 @@ const HomeScreen = ({navigation}) => {
             {/* <View style={{marginLeft: 10}}>
               <StudentSVG width={180} height={120} />
             </View> */}
-            <View style={{ marginRight: theme.spacing.m}}>
+            <View style={{marginRight: theme.spacing.m}}>
               <RecentClearedSVG />
-              <View style={{position: 'absolute', bottom: 10, alignSelf: 'center'}}>
-                <Text style={{fontFamily: 'roboto', fontWeight: 'bold', color: theme.colors.white}}>HOSTEL CLEARED</Text>
+              <View
+                style={{position: 'absolute', bottom: 10, alignSelf: 'center'}}>
+                <Text
+                  style={{
+                    fontFamily: 'roboto',
+                    fontWeight: 'bold',
+                    color: theme.colors.white,
+                  }}>
+                  HOSTEL CLEARED
+                </Text>
               </View>
             </View>
-            <View style={{ marginRight: theme.spacing.m}}>
+            <View style={{marginRight: theme.spacing.m}}>
               <RecentClearedSVG />
-              <View style={{position: 'absolute', bottom: 10, alignSelf: 'center'}}>
-                <Text style={{fontFamily: 'roboto', fontWeight: 'bold', color: theme.colors.white}}>DEPARTMENT CLEARED</Text>
+              <View
+                style={{position: 'absolute', bottom: 10, alignSelf: 'center'}}>
+                <Text
+                  style={{
+                    fontFamily: 'roboto',
+                    fontWeight: 'bold',
+                    color: theme.colors.white,
+                  }}>
+                  DEPARTMENT CLEARED
+                </Text>
               </View>
             </View>
-            <View style={{ marginRight: theme.spacing.m}}>
+            <View style={{marginRight: theme.spacing.m}}>
               <RecentClearedSVG />
-              <View style={{position: 'absolute', bottom: 10, alignSelf: 'center'}}>
-                <Text style={{fontFamily: 'roboto', fontWeight: 'bold', color: theme.colors.white}}>LIBRARY CLEARED</Text>
+              <View
+                style={{position: 'absolute', bottom: 10, alignSelf: 'center'}}>
+                <Text
+                  style={{
+                    fontFamily: 'roboto',
+                    fontWeight: 'bold',
+                    color: theme.colors.white,
+                  }}>
+                  LIBRARY CLEARED
+                </Text>
               </View>
             </View>
           </ScrollView>
@@ -149,9 +205,9 @@ const HomeScreen = ({navigation}) => {
             }}>
             <Text style={styles.adminStyle}>Announcements</Text>
             <TouchableOpacity
-            onPress={() => navigation.navigate('Announcements')}>
-            <Text style={styles.seeAllStyle}>See All</Text>
-          </TouchableOpacity>
+              onPress={() => navigation.navigate('Announcements')}>
+              <Text style={styles.seeAllStyle}>See All</Text>
+            </TouchableOpacity>
           </View>
           <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
             <View style={styles.AnnouncementViewContainer}>
@@ -211,12 +267,15 @@ const HomeScreen = ({navigation}) => {
         <PrimaryButton
           text="Request Certificate"
           disabled={progress === 1.0 ? false : true}
-          onPress={() => alert('Certificate request is a future update feature')}
+          onPress={() =>
+            alert('Certificate request is a future update feature')
+          }
         />
       </View>
     </PaperProvider>
   );
 };
+
 const styles = StyleSheet.create({
   topContainer: {
     width: wp('100'),

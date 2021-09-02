@@ -16,21 +16,23 @@ import theme from '../../Theme';
 import BookSVG from '../../assets/svg/book.svg';
 import {TextInput, Provider as PaperProvider} from 'react-native-paper';
 import PrimaryButton from '../../components/button/primary';
-import {postLoginSuccess} from '../../state-management/auth/login';
+import {fetchPostSuccess} from '../../state-management/auth/login';
 import {connect} from 'react-redux';
 import axios from 'axios';
 import AxiosConfig from '../../network/utils/axiosConfig';
+import {saveData} from '../../network/utils/localStorage';
 import {loginURL} from '../../network/URL';
 import {Root, Popup, Toast} from 'popup-ui';
 import {FullScreenLoader, LoginValidationSchema} from '../../components';
 import {Success, Failure, ConnectionStatus} from '../../components/snackbar';
 import {useFormik} from 'formik';
-import * as yup from 'yup';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+const storage = AsyncStorage;
 
 const width = 280;
 const height = 150;
 
-const LoginScreen = ({UserDetails, sendUserDetails, navigation}) => {
+const LoginScreen = ({userDetails, navigation}) => {
   const [loading, setLoading] = React.useState(false);
   const [successVisible, setSuccessVisible] = React.useState(false);
   const [errorVisible, setErrorVisible] = React.useState(false);
@@ -57,7 +59,7 @@ const LoginScreen = ({UserDetails, sendUserDetails, navigation}) => {
       username: '',
       password: '',
     },
-    onSubmit: values => {
+    onSubmit: async values => {
       //post login data
       setLoading(true);
       const config = AxiosConfig();
@@ -65,12 +67,20 @@ const LoginScreen = ({UserDetails, sendUserDetails, navigation}) => {
         .post(loginURL, values, config)
         .then(response => {
           //dispatch user data
+          console.log(response.data.data);
+          saveData('userLoginData', JSON.stringify(response.data.data));
+          saveData('userToken', JSON.stringify(response.data.token));
+          let details = {};
+          details.username = response.data.username;
+          details.fullname = response.data.fullname;
+          userDetails(details);
           setLoading(false);
           setSuccessVisible(true);
           setTimeout(() => {
             setSuccessVisible(false);
             navigation.replace('Main');
           }, 4000);
+          saveData('isLoggedIn', 'true');
         })
         .catch(error => {
           console.log(error.message);
@@ -80,7 +90,7 @@ const LoginScreen = ({UserDetails, sendUserDetails, navigation}) => {
             setTimeout(() => {
               setErrorVisible(false);
             }, 4000);
-          } else if (error.request) {
+          } else if (error.message === 'Network Error') {
             setLoading(false);
             setConnectionVisible(true);
             setTimeout(() => {
@@ -90,6 +100,12 @@ const LoginScreen = ({UserDetails, sendUserDetails, navigation}) => {
         });
     },
   });
+  // const fetchFromStore = () => {
+  //   store.subscribe(() => {
+  //     let details = store.getState().userDetails;
+  //     console.log(details);
+  //   });
+  // };
 
   return (
     <Root>
@@ -97,7 +113,7 @@ const LoginScreen = ({UserDetails, sendUserDetails, navigation}) => {
         <SafeAreaView>
           <KeyboardAvoidingView
             behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-            <FullScreenLoader isFetching={loading} text={'Logging in ...'} />
+            <FullScreenLoader isFetching={loading} />
             <Success message="Login Successful" visible={successVisible} />
             <Failure
               message="Failed, Check Your Credentials and Try Again "
@@ -224,15 +240,13 @@ const styles = StyleSheet.create({
   errorStyle: {fontSize: theme.spacing.m, color: theme.colors.red},
 });
 
-const mapStateToProps = state => {
-  return {
-    UserDetails: state.userLogin,
-  };
+const mapStateToProps = () => {
+  return {};
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    sendUserDetails: userData => dispatch(postLoginSuccess(userData)),
+    userDetails: userData => dispatch(fetchPostSuccess(userData)),
   };
 };
 

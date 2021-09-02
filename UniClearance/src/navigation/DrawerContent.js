@@ -1,12 +1,35 @@
 import * as React from 'react';
-import {View, SafeAreaView, StyleSheet} from 'react-native';
+import {View, SafeAreaView, StyleSheet, Alert} from 'react-native';
 import {DrawerContentScrollView, DrawerItem} from '@react-navigation/drawer';
 import {SecondaryButton} from '../components/button';
 import {Avatar, Title, Caption, Drawer} from 'react-native-paper';
+import {deleteUserData} from '../network/utils/localStorage';
 import theme from '../Theme';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
-export default function DrawerContent(props) {
+export default function DrawerContent({navigation, props}) {
+  const Logout = () => {
+    Alert.alert(
+      'Logout Warning',
+      'Are you sure you want to logout?',
+      [
+        {
+          text: 'Yes',
+          onPress: () => {
+            deleteUserData();
+            console.log('async storage cleared and logged out');
+            navigation.navigate('Login');
+          },
+        },
+        {
+          text: 'Cancel',
+          onPress: () => console.log('Cancel Pressed'),
+          style: 'cancel',
+        },
+      ],
+      {cancelable: false},
+    );
+  };
   return (
     <SafeAreaView style={{flex: 1}}>
       <DrawerContentScrollView {...props}>
@@ -82,7 +105,7 @@ export default function DrawerContent(props) {
           text="Logout"
           backgroundColor={theme.colors.primaryButton}
           borderRadius={theme.borderRadii.m}
-          onPress={() => props.navigation.navigate('Login')}
+          onPress={Logout}
         />
       </Drawer.Section>
     </SafeAreaView>

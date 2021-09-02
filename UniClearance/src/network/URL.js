@@ -1,4 +1,4 @@
-const baseURL = 'https://staging.api.uniclearance.xyz';
+const baseURL = 'https://uniclearance-backend.herokuapp.com';
 export const loginURL = `${baseURL}/auth/login/student`;
 export const departmentURL = `${baseURL}/departments`;
 export const studentURL = `${baseURL}/students`;
