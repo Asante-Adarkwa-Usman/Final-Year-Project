@@ -36,14 +36,6 @@ const StudentInfo = ({...props}) => {
           <Text style={styles.textBoldStyle}>{props.level}</Text>
         </View>
       </View>
-      <View style={{flexDirection: 'row', marginTop: theme.spacing.s}}>
-        <View style={{alignSelf: 'flex-start', marginLeft: theme.spacing.m}}>
-          <Text style={styles.textStyle}>Hostel</Text>
-        </View>
-        <View style={{marginLeft: theme.spacing.xl * 2}}>
-          <Text style={styles.textBoldStyle}>{props.hostelName}</Text>
-        </View>
-      </View>
     </View>
   );
 };

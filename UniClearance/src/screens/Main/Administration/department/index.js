@@ -16,19 +16,99 @@ import {
 } from 'react-native';
 import HostelSVG from '../../../../assets/svg/hostel.svg';
 import {PrimaryButton} from '../../../../components/button';
+import axios from 'axios';
+import AxiosConfig from '../../../../network/utils/axiosConfig';
+import {departmentURL} from '../../../../network/URL';
 import {
   ClearanceFailed,
   HeaderComponent,
   ClearanceSuccessful,
   StudentInfo,
 } from '../../../../components';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+const storage = AsyncStorage;
 
 // create a component
 const DepartmentScreen = ({navigation}) => {
+  const [fullname, setFullname] = React.useState('');
+  const [deptId, setDeptId] = React.useState();
+  const [userToken, setUserToken] = React.useState('');
+  const [deptName, setDeptName] = React.useState('');
+
+  //upon rendering
+  React.useEffect(() => {
+    loadData();
+    loadUserToken();
+    loadDeptId();
+    fetchDepartment();
+  });
+
+  // Loading data from async storage
+  const loadData = async () => {
+    let userLoginData = await storage.getItem('userLoginData');
+    if (userLoginData) {
+      try {
+        let studentData = JSON.parse(userLoginData);
+        setFullname(studentData.user.fullname);
+        return studentData.user.fullname;
+      } catch (error) {
+        return null;
+      }
+    }
+    return null;
+  };
+
+  const loadUserToken = async () => {
+    let userToken = await storage.getItem('userToken');
+    if (userToken) {
+      try {
+        let studentToken = JSON.parse(userToken);
+        setUserToken(studentToken);
+        return studentToken;
+      } catch (error) {
+        return null;
+      }
+    }
+    return null;
+  };
+  const loadDeptId = async () => {
+    let deptId = await storage.getItem('deptId');
+    if (deptId) {
+      try {
+        let departmentId = JSON.parse(deptId);
+        setDeptId(departmentId);
+        return departmentId;
+      } catch (error) {
+        return null;
+      }
+    }
+    return null;
+  };
+
+  //fetching department data
+  const fetchDepartment = () => {
+    const config = AxiosConfig(userToken);
+    axios
+      .get(departmentURL, config)
+      .then(response => {
+        for (let i = 0, l = response.data.departments.length; i < l; i++) {
+          let obj = response.data.departments[i];
+          if (obj.uuid === deptId) {
+            setDeptName(obj.name);
+          } else {
+            return null;
+          }
+        }
+      })
+      .catch(error => {
+        console.log(error.message);
+      });
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <HeaderComponent
-        title="BSC COMPUTER SCIENCE"
+        title={deptName}
         onPress={() => {
           navigation.navigate('Home');
         }}
@@ -47,14 +127,13 @@ const DepartmentScreen = ({navigation}) => {
         style={{marginTop: theme.spacing.m}}>
         <StudentInfo
           title="Student Details"
-          studentName="Asante Adarkwa Usman"
-          department="BSc Computer Science"
+          studentName={fullname}
+          department={deptName}
           level="400"
-          hostelName="GetFund Hostel"
         />
         <View style={styles.borderWidthStyle} />
         {/* <ClearanceFailed reason="You broke a chair that belongs to the hostel in Level 200" /> */}
-        <ClearanceSuccessful />
+        {/* <ClearanceSuccessful /> */}
       </ScrollView>
       <View style={styles.buttonContainer}>
         <PrimaryButton

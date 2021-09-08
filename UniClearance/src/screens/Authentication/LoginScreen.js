@@ -16,11 +16,9 @@ import theme from '../../Theme';
 import BookSVG from '../../assets/svg/book.svg';
 import {TextInput, Provider as PaperProvider} from 'react-native-paper';
 import PrimaryButton from '../../components/button/primary';
-import {fetchPostSuccess} from '../../state-management/auth/login';
 import {connect} from 'react-redux';
 import axios from 'axios';
 import AxiosConfig from '../../network/utils/axiosConfig';
-import {saveData} from '../../network/utils/localStorage';
 import {loginURL} from '../../network/URL';
 import {Root, Popup, Toast} from 'popup-ui';
 import {FullScreenLoader, LoginValidationSchema} from '../../components';
@@ -32,7 +30,7 @@ const storage = AsyncStorage;
 const width = 280;
 const height = 150;
 
-const LoginScreen = ({userDetails, navigation}) => {
+const LoginScreen = ({navigation}) => {
   const [loading, setLoading] = React.useState(false);
   const [successVisible, setSuccessVisible] = React.useState(false);
   const [errorVisible, setErrorVisible] = React.useState(false);
@@ -60,27 +58,26 @@ const LoginScreen = ({userDetails, navigation}) => {
       password: '',
     },
     onSubmit: async values => {
-      //post login data
       setLoading(true);
       const config = AxiosConfig();
       axios
         .post(loginURL, values, config)
         .then(response => {
-          //dispatch user data
-          console.log(response.data.data);
-          saveData('userLoginData', JSON.stringify(response.data.data));
-          saveData('userToken', JSON.stringify(response.data.token));
-          let details = {};
-          details.username = response.data.username;
-          details.fullname = response.data.fullname;
-          userDetails(details);
+          //save user details if success
+          console.log(response.data);
+          storage.setItem('userLoginData', JSON.stringify(response.data.data));
+          storage.setItem(
+            'deptId',
+            JSON.stringify(response.data.data.student.department.uuid),
+          );
+          storage.setItem('userToken', JSON.stringify(response.data.token));
           setLoading(false);
           setSuccessVisible(true);
           setTimeout(() => {
             setSuccessVisible(false);
             navigation.replace('Main');
           }, 4000);
-          saveData('isLoggedIn', 'true');
+          storage.setItem('isLoggedIn', 'true');
         })
         .catch(error => {
           console.log(error.message);
@@ -100,12 +97,6 @@ const LoginScreen = ({userDetails, navigation}) => {
         });
     },
   });
-  // const fetchFromStore = () => {
-  //   store.subscribe(() => {
-  //     let details = store.getState().userDetails;
-  //     console.log(details);
-  //   });
-  // };
 
   return (
     <Root>
@@ -240,14 +231,4 @@ const styles = StyleSheet.create({
   errorStyle: {fontSize: theme.spacing.m, color: theme.colors.red},
 });
 
-const mapStateToProps = () => {
-  return {};
-};
-
-const mapDispatchToProps = dispatch => {
-  return {
-    userDetails: userData => dispatch(fetchPostSuccess(userData)),
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(LoginScreen);
+export default LoginScreen;

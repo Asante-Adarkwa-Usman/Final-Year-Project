@@ -28,7 +28,7 @@ const HostelScreen = ({navigation}) => {
   return (
     <SafeAreaView style={styles.container}>
       <HeaderComponent
-        title="GETFUND HOSTEL"
+        title="HOSTEL CLEARANCE"
         onPress={() => {
           navigation.navigate('Home');
         }}
@@ -50,7 +50,6 @@ const HostelScreen = ({navigation}) => {
           studentName="Asante Adarkwa Usman"
           department="BSc Computer Science"
           level="400"
-          hostelName="GetFund Hostel"
         />
         <View style={styles.borderWidthStyle} />
         {/* <ClearanceFailed reason="You broke a chair that belongs to the hostel in Level 200" /> */}

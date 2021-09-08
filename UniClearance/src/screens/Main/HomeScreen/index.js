@@ -26,8 +26,6 @@ import {
   ButtonWithImage,
 } from '../../../components/button';
 import {UserDetails, AnnouncementView} from '../../../components';
-import store from '../../../state-management/store';
-
 import AsyncStorage from '@react-native-async-storage/async-storage';
 const storage = AsyncStorage;
 
@@ -36,23 +34,17 @@ const HomeScreen = ({navigation}) => {
   const [userDataFullname, setUserDataFullname] = React.useState('');
   const [userDataUsername, setUserDataUsername] = React.useState('');
   React.useEffect(() => {
-    //Fetching store data
-    // store.subscribe(() => {
-    //   let details = store.getState().userDetails;
-    //   setUserDataFullname(details.fullname);
-    //   setUserDataFullname(details.username);
-    // });
     loadData();
   });
 
   // Loading data from async storage
-  let loadData = async () => {
+  const loadData = async () => {
     let userLoginData = await storage.getItem('userLoginData');
     if (userLoginData) {
       try {
         let studentData = JSON.parse(userLoginData);
-        setUserDataUsername(studentData.username);
-        setUserDataFullname(studentData.fullname);
+        setUserDataUsername(studentData.user.username);
+        setUserDataFullname(studentData.user.fullname);
         return studentData.data;
       } catch (error) {
         return null;
@@ -151,11 +143,20 @@ const HomeScreen = ({navigation}) => {
           <View style={styles.recentContainer}>
             <Text style={styles.departmentStyle}>Recent</Text>
           </View>
-          <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-            {/* <View style={{marginLeft: 10}}>
+          <View>
+            <View
+              style={{
+                flex: 1,
+                alignItems: 'center',
+                marginLeft: 10,
+                alignSelf: 'center',
+              }}>
               <StudentSVG width={180} height={120} />
-            </View> */}
-            <View style={{marginRight: theme.spacing.m}}>
+            </View>
+            <ScrollView
+              horizontal={true}
+              showsHorizontalScrollIndicator={false}>
+              {/* <View style={{marginRight: theme.spacing.m}}>
               <RecentClearedSVG />
               <View
                 style={{position: 'absolute', bottom: 10, alignSelf: 'center'}}>
@@ -168,8 +169,8 @@ const HomeScreen = ({navigation}) => {
                   HOSTEL CLEARED
                 </Text>
               </View>
-            </View>
-            <View style={{marginRight: theme.spacing.m}}>
+            </View> */}
+              {/* <View style={{marginRight: theme.spacing.m}}>
               <RecentClearedSVG />
               <View
                 style={{position: 'absolute', bottom: 10, alignSelf: 'center'}}>
@@ -196,8 +197,9 @@ const HomeScreen = ({navigation}) => {
                   LIBRARY CLEARED
                 </Text>
               </View>
-            </View>
-          </ScrollView>
+            </View> */}
+            </ScrollView>
+          </View>
           <View
             style={{
               marginLeft: theme.spacing.m,

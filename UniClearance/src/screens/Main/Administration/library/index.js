@@ -28,7 +28,7 @@ const LibraryScreen = ({navigation}) => {
   return (
     <SafeAreaView style={styles.container}>
       <HeaderComponent
-        title="LIBRARY DEPARTMENT"
+        title="LIBRARY CLEARANCE"
         onPress={() => {
           navigation.navigate('Home');
         }}

@@ -22,10 +22,7 @@ const DrawerNavigator = () => {
         name="Administrations"
         component={AdministrationStackNavigator}
       />
-      <Drawer.Screen
-        name="Transcript"
-        component={TranscriptStackNavigator}
-      />
+      <Drawer.Screen name="Transcript" component={TranscriptStackNavigator} />
       <Drawer.Screen
         name="Announcements"
         component={AnnouncementStackNavigator}
