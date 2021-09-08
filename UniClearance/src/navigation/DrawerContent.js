@@ -6,8 +6,33 @@ import {Avatar, Title, Caption, Drawer} from 'react-native-paper';
 import {deleteUserData} from '../network/utils/localStorage';
 import theme from '../Theme';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+const storage = AsyncStorage;
 
-export default function DrawerContent({navigation, props}) {
+export default function DrawerContent({navigation, ...props}) {
+  const [userDataFullname, setUserDataFullname] = React.useState('');
+  const [userDataUsername, setUserDataUsername] = React.useState('');
+
+  React.useEffect(() => {
+    loadData();
+  });
+
+  // Loading data from async storage
+  const loadData = async () => {
+    let userLoginData = await storage.getItem('userLoginData');
+    if (userLoginData) {
+      try {
+        let studentData = JSON.parse(userLoginData);
+        setUserDataUsername(studentData.user.username);
+        setUserDataFullname(studentData.user.fullname);
+        return studentData.data;
+      } catch (error) {
+        return null;
+      }
+    }
+    return null;
+  };
+  // logout function
   const Logout = () => {
     Alert.alert(
       'Logout Warning',
@@ -18,7 +43,7 @@ export default function DrawerContent({navigation, props}) {
           onPress: () => {
             deleteUserData();
             console.log('async storage cleared and logged out');
-            navigation.navigate('Login');
+            navigation.replace('Login');
           },
         },
         {
@@ -46,8 +71,8 @@ export default function DrawerContent({navigation, props}) {
                   flexDirection: 'column',
                   marginBottom: 15,
                 }}>
-                <Title style={styles.title}>Prince Angels</Title>
-                <Caption style={styles.caption}>example@gmail.com</Caption>
+                <Title style={styles.title}>{userDataFullname}</Title>
+                <Caption style={styles.caption}>{userDataUsername}</Caption>
               </View>
             </View>
           </View>
@@ -60,14 +85,14 @@ export default function DrawerContent({navigation, props}) {
               )}
               label="Home"
               onPress={() => {
-                props.navigation.navigate('Home');
+                navigation.navigate('Home');
               }}
             />
             <DrawerItem
               icon={({color}) => <Icon name="domain" color={color} size={35} />}
               label="Administrations"
               onPress={() => {
-                props.navigation.navigate('Administrations');
+                navigation.navigate('Administrations');
               }}
             />
             <DrawerItem
@@ -76,7 +101,7 @@ export default function DrawerContent({navigation, props}) {
               )}
               label="Transcript"
               onPress={() => {
-                props.navigation.navigate('Transcript');
+                navigation.navigate('Transcript');
               }}
             />
             <DrawerItem
@@ -85,7 +110,7 @@ export default function DrawerContent({navigation, props}) {
               )}
               label="Announcements"
               onPress={() => {
-                props.navigation.navigate('Announcements');
+                navigation.navigate('Announcements');
               }}
             />
             <DrawerItem
@@ -94,7 +119,7 @@ export default function DrawerContent({navigation, props}) {
               )}
               label="Settings"
               onPress={() => {
-                props.navigation.navigate('Settings');
+                navigation.navigate('Settings');
               }}
             />
           </Drawer.Section>

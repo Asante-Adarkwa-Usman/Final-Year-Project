@@ -47,6 +47,7 @@ const styles = StyleSheet.create({
     fontFamily: 'roboto-regular',
     fontSize: theme.spacing.m + 2,
     fontWeight: 'bold',
+    textTransform: 'uppercase',
     textAlign: 'center',
   },
 });

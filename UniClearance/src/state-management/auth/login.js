@@ -2,28 +2,22 @@
 export const POST_LOGIN_SUCCESS = 'POST_LOGIN_SUCCESS';
 
 //Action
-export const fetchPostSuccess = userDetails => {
+export const fetchUserDataSuccess = userDetails => {
   return {
     type: POST_LOGIN_SUCCESS,
-    userDetails: {
-      username: userDetails.username,
-      fullname: userDetails.fullname,
-    },
+    payload: userDetails,
   };
 };
 
 //Reducer
 const INITIAL_STATE = {
-  userDetails: {
-    username: '',
-    fullname: '',
-  },
+  userDetails: {},
 };
 
-export default (state = INITIAL_STATE, action) => {
+export const loginReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case POST_LOGIN_SUCCESS:
-      return {...state, userDetails: action.userDetails};
+      return {...state, userDetails: action.payload};
     default:
       return state;
   }

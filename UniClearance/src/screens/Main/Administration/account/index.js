@@ -28,7 +28,7 @@ const AccountScreen = ({navigation}) => {
   return (
     <SafeAreaView style={styles.container}>
       <HeaderComponent
-        title="FINANCE DEPARTMENT"
+        title="FINANCE CLEARANCE"
         onPress={() => {
           navigation.navigate('Home');
         }}
