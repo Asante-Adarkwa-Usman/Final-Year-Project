@@ -16,9 +16,10 @@ import theme from '../../Theme';
 import BookSVG from '../../assets/svg/book.svg';
 import {TextInput, Provider as PaperProvider} from 'react-native-paper';
 import PrimaryButton from '../../components/button/primary';
-import {connect} from 'react-redux';
 import axios from 'axios';
 import AxiosConfig from '../../network/utils/axiosConfig';
+import {connect} from 'react-redux';
+import {getUserDataSuccess} from '../../state-management/main/userData';
 import {loginURL} from '../../network/URL';
 import {Root, Popup, Toast} from 'popup-ui';
 import {FullScreenLoader, LoginValidationSchema} from '../../components';
@@ -30,7 +31,7 @@ const storage = AsyncStorage;
 const width = 280;
 const height = 150;
 
-const LoginScreen = ({navigation}) => {
+const LoginScreen = ({getUserData, navigation}) => {
   const [loading, setLoading] = React.useState(false);
   const [successVisible, setSuccessVisible] = React.useState(false);
   const [errorVisible, setErrorVisible] = React.useState(false);
@@ -65,6 +66,7 @@ const LoginScreen = ({navigation}) => {
         .then(response => {
           //save user details if success
           console.log(response.data);
+          getUserData(response.data);
           storage.setItem('userLoginData', JSON.stringify(response.data.data));
           storage.setItem(
             'deptId',
@@ -231,4 +233,13 @@ const styles = StyleSheet.create({
   errorStyle: {fontSize: theme.spacing.m, color: theme.colors.red},
 });
 
-export default LoginScreen;
+//mapStateToProps and mapDispatchToProps
+const mapStateToProps = () => ({});
+
+const mapDispatchToProps = dispatch => {
+  return {
+    getUserData: userData => dispatch(getUserDataSuccess(userData)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(LoginScreen);

@@ -6,6 +6,7 @@ import {Avatar, Title, Caption, Drawer} from 'react-native-paper';
 import {deleteUserData} from '../network/utils/localStorage';
 import theme from '../Theme';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import store from '../state-management/store';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 const storage = AsyncStorage;
 
@@ -14,23 +15,14 @@ export default function DrawerContent({navigation, ...props}) {
   const [userDataUsername, setUserDataUsername] = React.useState('');
 
   React.useEffect(() => {
-    loadData();
+    getStoreData();
   });
 
-  // Loading data from async storage
-  const loadData = async () => {
-    let userLoginData = await storage.getItem('userLoginData');
-    if (userLoginData) {
-      try {
-        let studentData = JSON.parse(userLoginData);
-        setUserDataUsername(studentData.user.username);
-        setUserDataFullname(studentData.user.fullname);
-        return studentData.data;
-      } catch (error) {
-        return null;
-      }
-    }
-    return null;
+  // get data from redux store
+  const getStoreData = () => {
+    const state = store.getState();
+    setUserDataFullname(state.userDetails.userDetails.data.user.fullname);
+    setUserDataUsername(state.userDetails.userDetails.data.user.username);
   };
   // logout function
   const Logout = () => {

@@ -25,8 +25,7 @@ import {
   ClearanceSuccessful,
   StudentInfo,
 } from '../../../../components';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-const storage = AsyncStorage;
+import store from '../../../../state-management/store';
 
 // create a component
 const DepartmentScreen = ({navigation}) => {
@@ -37,52 +36,15 @@ const DepartmentScreen = ({navigation}) => {
 
   //upon rendering
   React.useEffect(() => {
-    loadData();
-    loadUserToken();
-    loadDeptId();
+    getStoreData();
     fetchDepartment();
   });
-
-  // Loading data from async storage
-  const loadData = async () => {
-    let userLoginData = await storage.getItem('userLoginData');
-    if (userLoginData) {
-      try {
-        let studentData = JSON.parse(userLoginData);
-        setFullname(studentData.user.fullname);
-        return studentData.user.fullname;
-      } catch (error) {
-        return null;
-      }
-    }
-    return null;
-  };
-
-  const loadUserToken = async () => {
-    let userToken = await storage.getItem('userToken');
-    if (userToken) {
-      try {
-        let studentToken = JSON.parse(userToken);
-        setUserToken(studentToken);
-        return studentToken;
-      } catch (error) {
-        return null;
-      }
-    }
-    return null;
-  };
-  const loadDeptId = async () => {
-    let deptId = await storage.getItem('deptId');
-    if (deptId) {
-      try {
-        let departmentId = JSON.parse(deptId);
-        setDeptId(departmentId);
-        return departmentId;
-      } catch (error) {
-        return null;
-      }
-    }
-    return null;
+  // get data from redux store
+  const getStoreData = () => {
+    const state = store.getState();
+    setFullname(state.userDetails.userDetails.data.user.fullname);
+    setDeptId(state.userDetails.userDetails.data.student.department.uuid);
+    setUserToken(state.userDetails.userDetails.token);
   };
 
   //fetching department data
@@ -104,7 +66,6 @@ const DepartmentScreen = ({navigation}) => {
         console.log(error.message);
       });
   };
-
   return (
     <SafeAreaView style={styles.container}>
       <HeaderComponent
@@ -186,4 +147,5 @@ const styles = StyleSheet.create({
   },
 });
 //make this component available to the app
+
 export default DepartmentScreen;
