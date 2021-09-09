@@ -4,13 +4,15 @@ import {DrawerContentScrollView, DrawerItem} from '@react-navigation/drawer';
 import {SecondaryButton} from '../components/button';
 import {Avatar, Title, Caption, Drawer} from 'react-native-paper';
 import {deleteUserData} from '../network/utils/localStorage';
+import {resetReduxStore} from '../state-management/main/userData';
+import {connect} from 'react-redux';
 import theme from '../Theme';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import store from '../state-management/store';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 const storage = AsyncStorage;
 
-export default function DrawerContent({navigation, ...props}) {
+const DrawerContent = ({resetState, navigation, ...props}) => {
   const [userDataFullname, setUserDataFullname] = React.useState('');
   const [userDataUsername, setUserDataUsername] = React.useState('');
 
@@ -34,7 +36,10 @@ export default function DrawerContent({navigation, ...props}) {
           text: 'Yes',
           onPress: () => {
             deleteUserData();
+            resetState();
             console.log('async storage cleared and logged out');
+            const state = store.getState('userDetails');
+            console.log(state);
             navigation.replace('Login');
           },
         },
@@ -127,7 +132,7 @@ export default function DrawerContent({navigation, ...props}) {
       </Drawer.Section>
     </SafeAreaView>
   );
-}
+};
 
 const styles = StyleSheet.create({
   drawerContent: {
@@ -173,3 +178,12 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
   },
 });
+//mapStateToProps and mapDispatchToProps
+const mapStateToProps = () => ({});
+
+const mapDispatchToProps = dispatch => {
+  return {
+    resetState: () => dispatch(resetReduxStore()),
+  };
+};
+export default connect(mapStateToProps, mapDispatchToProps)(DrawerContent);
