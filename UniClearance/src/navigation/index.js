@@ -8,29 +8,25 @@ import {
   VerifyEmailScreen,
 } from '../screens/Authentication';
 import DrawerNavigator from './DrawerNavigator';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-const storage = AsyncStorage;
+import store from '../state-management/store';
 
 const AuthenticationStack = createStackNavigator();
 
 const AuthenticationNavigator = () => {
-  const [isLoggedIn, setIsLoggedIn] = React.useState('');
-  //Fetching isLoggedIn data
+  const [token, setToken] = React.useState();
   React.useEffect(() => {
-    loadData();
+    getStoreData();
   });
 
-  // Loading data from async storage
-  const loadData = async () => {
-    let alreadyLoggedIn = await storage.getItem('isLoggedIn');
-    setIsLoggedIn(alreadyLoggedIn);
-    console.log(alreadyLoggedIn);
-    return alreadyLoggedIn;
+  // get data from redux store
+  const getStoreData = () => {
+    const state = store.getState();
+    setToken(state.userDetails.userDetails.token);
   };
   return (
     <AuthenticationStack.Navigator
       headerMode="none"
-      initialRouteName={isLoggedIn != true ? 'GetStarted' : 'Main'}>
+      initialRouteName={token ? 'Main' : 'GetStarted'}>
       <AuthenticationStack.Screen name="GetStarted" component={GetStarted} />
       <AuthenticationStack.Screen name="Login" component={LoginScreen} />
       <AuthenticationStack.Screen

@@ -26,31 +26,21 @@ import {
   ButtonWithImage,
 } from '../../../components/button';
 import {UserDetails, AnnouncementView} from '../../../components';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-const storage = AsyncStorage;
+import store from '../../../state-management/store';
 
 const progress = 1.0;
 const HomeScreen = ({navigation}) => {
   const [userDataFullname, setUserDataFullname] = React.useState('');
   const [userDataUsername, setUserDataUsername] = React.useState('');
   React.useEffect(() => {
-    loadData();
+    getStoreData();
   });
 
-  // Loading data from async storage
-  const loadData = async () => {
-    let userLoginData = await storage.getItem('userLoginData');
-    if (userLoginData) {
-      try {
-        let studentData = JSON.parse(userLoginData);
-        setUserDataUsername(studentData.user.username);
-        setUserDataFullname(studentData.user.fullname);
-        return studentData.data;
-      } catch (error) {
-        return null;
-      }
-    }
-    return null;
+  // get data from redux store
+  const getStoreData = () => {
+    const state = store.getState();
+    setUserDataFullname(state.userDetails.userDetails.data.user.fullname);
+    setUserDataUsername(state.userDetails.userDetails.data.user.username);
   };
 
   return (

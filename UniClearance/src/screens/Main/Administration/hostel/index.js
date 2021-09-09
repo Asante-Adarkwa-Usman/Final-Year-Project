@@ -16,15 +16,57 @@ import {
 } from 'react-native';
 import HostelSVG from '../../../../assets/svg/hostel.svg';
 import {PrimaryButton} from '../../../../components/button';
+import axios from 'axios';
+import AxiosConfig from '../../../../network/utils/axiosConfig';
+import {departmentURL} from '../../../../network/URL';
 import {
   ClearanceFailed,
   HeaderComponent,
   ClearanceSuccessful,
   StudentInfo,
 } from '../../../../components';
+import store from '../../../../state-management/store';
 
 // create a component
 const HostelScreen = ({navigation}) => {
+  const [fullname, setFullname] = React.useState('');
+  const [deptId, setDeptId] = React.useState();
+  const [userToken, setUserToken] = React.useState('');
+  const [deptName, setDeptName] = React.useState('');
+
+  //upon rendering
+  React.useEffect(() => {
+    getStoreData();
+    fetchDepartment();
+  });
+  // get data from redux store
+  const getStoreData = () => {
+    const state = store.getState();
+    setFullname(state.userDetails.userDetails.data.user.fullname);
+    setDeptId(state.userDetails.userDetails.data.student.department.uuid);
+    setUserToken(state.userDetails.userDetails.token);
+  };
+
+  //fetching department data
+  const fetchDepartment = () => {
+    const config = AxiosConfig(userToken);
+    axios
+      .get(departmentURL, config)
+      .then(response => {
+        for (let i = 0, l = response.data.departments.length; i < l; i++) {
+          let obj = response.data.departments[i];
+          if (obj.uuid === deptId) {
+            setDeptName(obj.name);
+          } else {
+            return null;
+          }
+        }
+      })
+      .catch(error => {
+        console.log(error.message);
+      });
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <HeaderComponent
@@ -47,13 +89,13 @@ const HostelScreen = ({navigation}) => {
         style={{marginTop: theme.spacing.m}}>
         <StudentInfo
           title="Student Details"
-          studentName="Asante Adarkwa Usman"
-          department="BSc Computer Science"
+          studentName={fullname}
+          department={deptName}
           level="400"
         />
         <View style={styles.borderWidthStyle} />
         {/* <ClearanceFailed reason="You broke a chair that belongs to the hostel in Level 200" /> */}
-        <ClearanceSuccessful />
+        {/* <ClearanceSuccessful /> */}
       </ScrollView>
       <View style={styles.buttonContainer}>
         <PrimaryButton
