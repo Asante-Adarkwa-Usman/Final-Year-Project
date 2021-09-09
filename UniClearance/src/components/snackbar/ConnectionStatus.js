@@ -19,7 +19,13 @@ const ConnectionStatus = ({...props}) => {
           paddingHorizontal: 24,
           paddingVertical: 14,
         }}>
-        <Text style={{color: 'white', fontSize: 16, fontWeight: 'bold'}}>
+        <Text
+          style={{
+            color: 'white',
+            fontSize: 16,
+            fontWeight: 'bold',
+            alignSelf: 'center',
+          }}>
           {props.message}
         </Text>
       </View>

@@ -20,6 +20,8 @@ import axios from 'axios';
 import AxiosConfig from '../../../../network/utils/axiosConfig';
 import {departmentURL} from '../../../../network/URL';
 import store from '../../../../state-management/store';
+import {ConnectionStatus} from '../../../../components/snackbar';
+import NetInfo from '@react-native-community/netinfo';
 import {
   ClearanceFailed,
   HeaderComponent,
@@ -33,8 +35,22 @@ const LibraryScreen = ({navigation}) => {
   const [deptId, setDeptId] = React.useState();
   const [userToken, setUserToken] = React.useState('');
   const [deptName, setDeptName] = React.useState('');
+  const [connectionVisible, setConnectionVisible] = React.useState(false);
 
   //upon rendering
+  React.useEffect(() => {
+    NetInfo.fetch().then(state => {
+      console.log('Connection type is', state.type);
+      console.log('Is connected?', state.isConnected);
+      state.isConnected == true
+        ? ''
+        : (setConnectionVisible(true),
+          setTimeout(() => {
+            setConnectionVisible(false);
+          }, 4000));
+    });
+  }, []);
+
   React.useEffect(() => {
     getStoreData();
     fetchDepartment();
@@ -69,6 +85,10 @@ const LibraryScreen = ({navigation}) => {
 
   return (
     <SafeAreaView style={styles.container}>
+      <ConnectionStatus
+        message="No Internet, Could not fetch data "
+        visible={connectionVisible}
+      />
       <HeaderComponent
         title="LIBRARY CLEARANCE"
         onPress={() => {
