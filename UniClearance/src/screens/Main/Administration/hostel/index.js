@@ -40,8 +40,6 @@ const HostelScreen = ({navigation}) => {
   //upon rendering
   React.useEffect(() => {
     NetInfo.fetch().then(state => {
-      console.log('Connection type is', state.type);
-      console.log('Is connected?', state.isConnected);
       state.isConnected == true
         ? ''
         : (setConnectionVisible(true),
@@ -88,6 +86,7 @@ const HostelScreen = ({navigation}) => {
       <ConnectionStatus
         message="No Internet, Could not fetch data "
         visible={connectionVisible}
+        backgroundColor={theme.colors.red}
       />
       <HeaderComponent
         title="HOSTEL CLEARANCE"
