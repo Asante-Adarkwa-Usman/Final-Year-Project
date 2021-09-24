@@ -1,18 +1,20 @@
 import * as React from 'react';
 import {View, StyleSheet, Text, Dimensions, Modal} from 'react-native';
-import PropTypes from 'prop-types';
+import theme from '../../Theme';
 
 const {width} = Dimensions.get('window');
 const ConnectionStatus = ({...props}) => {
   return (
-    <Modal animationType="slide" transparent={true} visible={props.visible}>
+    <Modal
+      style={styles.container}
+      animationType="slide"
+      transparent={true}
+      visible={props.visible}>
       <View
         style={{
           position: 'absolute',
           bottom: 0,
-          backgroundColor: props.backgroundColor
-            ? props.backgroundColor
-            : '#3d4451',
+          backgroundColor: '#3d4451',
           width: width,
           paddingHorizontal: 24,
           paddingVertical: 14,
@@ -31,8 +33,10 @@ const ConnectionStatus = ({...props}) => {
   );
 };
 
-export default ConnectionStatus;
+const styles = StyleSheet.create({
+  container: {
+    // flex: 1,
+  },
+});
 
-ConnectionStatus.propTypes = {
-  backgroundColor: PropTypes.any,
-};
+export default ConnectionStatus;
