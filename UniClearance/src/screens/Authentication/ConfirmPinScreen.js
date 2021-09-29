@@ -16,28 +16,84 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import PrimaryButton from '../../components/button/primary';
+import {otpVerifyURL} from '../../network/URL';
+import AxiosConfig from '../../network/utils/axiosConfig';
 import OTPInputView from '@twotalltotems/react-native-otp-input';
+import {Success, Failure, ConnectionStatus} from '../../components/snackbar';
+import {FullScreenLoader} from '../../components';
+import axios from 'axios';
 
 // create a component
 const width = 280;
 const height = 150;
 const ConfirmPinScreen = ({navigation}) => {
   const [code, setCode] = React.useState('');
+  const [loading, setLoading] = React.useState(false);
+  const [successVisible, setSuccessVisible] = React.useState(false);
+  const [errorVisible, setErrorVisible] = React.useState(false);
+  const [connectionVisible, setConnectionVisible] = React.useState(false);
+
+  const confirmPin = () => {
+    setLoading(true);
+    const config = AxiosConfig();
+    // otp
+    const otpCode = {
+      otp: code,
+    };
+    axios
+      .post(otpVerifyURL, otpCode.otp, config)
+      .then(response => {
+        setLoading(false);
+        console.log(response.data);
+        setSuccessVisible(true);
+        setTimeout(() => {
+          setSuccessVisible(false);
+          navigation.navigate('ResetPassword');
+        }, 4000);
+      })
+      .catch(error => {
+        setLoading(false);
+        console.log(error);
+        if (error.response) {
+          setErrorVisible(true);
+          setTimeout(() => {
+            setErrorVisible(false);
+          }, 4000);
+        } else if (error.message === 'Network Error') {
+          setLoading(false);
+          setConnectionVisible(true);
+          setTimeout(() => {
+            setConnectionVisible(false);
+          }, 4000);
+        }
+      });
+  };
   return (
     <SafeAreaView>
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+        <FullScreenLoader isFetching={loading} />
+        <Success
+          message="Pin Successfully Confirmed"
+          visible={successVisible}
+        />
+        <Failure message="Wrong Pin,Try Again " visible={errorVisible} />
+        <ConnectionStatus
+          message="No Internet, Check Your Internet Connection "
+          visible={connectionVisible}
+          backgroundColor={theme.colors.red}
+        />
         <ScrollView showsVerticalScrollIndicator={false}>
           <View style={{alignSelf: 'center', marginTop: theme.spacing.xl * 2}}>
             <BookSVG width={width} height={height} />
           </View>
           <View style={{marginTop: theme.spacing.xl, alignSelf: 'center'}}>
-            <Text style={styles.verifyEmailStyle}>CONFIRM EMAIL</Text>
+            <Text style={styles.verifyEmailStyle}>CONFIRM PIN</Text>
           </View>
           <View
             style={{marginLeft: theme.spacing.xl, marginTop: theme.spacing.l}}>
             <Text style={styles.provideTextStyle}>
-              Enter the four digits sent to your Email
+              Enter the six digits sent to your Email
             </Text>
           </View>
           <View style={{alignItems: 'center'}}>
@@ -50,25 +106,26 @@ const ConfirmPinScreen = ({navigation}) => {
               codeInputFieldStyle={styles.underlineStyleBase}
               codeInputHighlightStyle={styles.underlineStyleHighLighted}
               onCodeFilled={code => {
-                console.log(`Code is ${code}, you are good to go`);
+                console.log(`Code is ${code}`);
               }}
             />
           </View>
-          <View style={styles.linkTextStyle}>
-            <Text style={styles.provideTextStyle}>Haven't received Email?</Text>
+          <View
+            style={{
+              marginLeft: theme.spacing.xl,
+              marginTop: theme.spacing.m,
+            }}>
             <Text
-              style={[
-                styles.provideTextStyle,
-                {color: theme.colors.primary, marginLeft: theme.spacing.s},
-              ]}
-              onPress={() => alert('resend pin')}>
-              Resend
+              style={[styles.provideTextStyle, {color: theme.colors.primary}]}
+              onPress={() => navigation.navigate('Login')}>
+              Go back to login
             </Text>
           </View>
           <View style={{bottom: theme.spacing.s}}>
             <PrimaryButton
               text="Confirm"
-              onPress={() => navigation.navigate('ResetPassword')}
+              onPress={confirmPin}
+              // onPress={() => navigation.navigate('ResetPassword')}
             />
           </View>
         </ScrollView>

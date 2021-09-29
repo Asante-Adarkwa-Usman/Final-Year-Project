@@ -5,6 +5,7 @@ import AuthenticationNavigator from './src/navigation';
 import {Provider as StoreProvider} from 'react-redux';
 import store from './src/state-management/store';
 import NetInfo from '@react-native-community/netinfo';
+import theme from './src/Theme';
 import {ConnectionStatus} from './src/components/snackbar';
 
 const App = () => {
@@ -29,6 +30,7 @@ const App = () => {
         <ConnectionStatus
           message="No Internet, Check Your Internet Connection "
           visible={connectionVisible}
+          backgroundColor={theme.colors.red}
         />
         <AuthenticationNavigator />
       </NavigationContainer>

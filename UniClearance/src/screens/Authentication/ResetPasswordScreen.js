@@ -16,19 +16,86 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import {TextInput, Provider as PaperProvider} from 'react-native-paper';
+import {resetPasswordURL} from '../../network/URL';
 import PrimaryButton from '../../components/button/primary';
+import {
+  FullScreenLoader,
+  ResetPasswordValidationSchema,
+} from '../../components';
+import {Success, Failure, ConnectionStatus} from '../../components/snackbar';
+import AxiosConfig from '../../network/utils/axiosConfig';
+import {useFormik} from 'formik';
+import axios from 'axios';
 
 // create a component
 const width = 280;
 const height = 150;
 const ResetPasswordScreen = ({navigation}) => {
-  const [password, setPassword] = React.useState('');
   const [confirmPassword, setConfirmPassword] = React.useState('');
+  const [loading, setLoading] = React.useState(false);
+  const [successVisible, setSuccessVisible] = React.useState(false);
+  const [errorVisible, setErrorVisible] = React.useState(false);
+  const [connectionVisible, setConnectionVisible] = React.useState(false);
+
+  //Form Validation
+  const formik = useFormik({
+    validationSchema: ResetPasswordValidationSchema,
+    initialValues: {
+      password: '',
+      password_confirmation: '',
+    },
+    onSubmit: values => {
+      setLoading(true);
+      const config = AxiosConfig();
+      axios
+        .post(resetPasswordURL, values, config)
+        .then(response => {
+          console.log(response.data);
+          setLoading(false);
+          setSuccessVisible(true);
+          setTimeout(() => {
+            setSuccessVisible(false);
+            navigation.replace('Login');
+          }, 4000);
+        })
+        .catch(error => {
+          setLoading(false);
+          console.log(error.message);
+          if (error.response) {
+            setErrorVisible(true);
+            setTimeout(() => {
+              setErrorVisible(false);
+            }, 7000);
+          } else if (error.request) {
+            setLoading(false);
+            setConnectionVisible(true);
+            setTimeout(() => {
+              setConnectionVisible(false);
+            }, 7000);
+          }
+        });
+    },
+  });
+
   return (
     <PaperProvider>
       <SafeAreaView>
         <KeyboardAvoidingView
           behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+          <FullScreenLoader isFetching={loading} />
+          <Success
+            message="Password Successfully Changed"
+            visible={successVisible}
+          />
+          <Failure
+            message="Failed, Check Your Credentials and Try Again "
+            visible={errorVisible}
+          />
+          <ConnectionStatus
+            message="No Internet, Check Your Internet Connection "
+            visible={connectionVisible}
+            backgroundColor={theme.colors.red}
+          />
           <ScrollView showsVerticalScrollIndicator={false}>
             <View
               style={{alignSelf: 'center', marginTop: theme.spacing.xl * 2}}>
@@ -43,7 +110,6 @@ const ResetPasswordScreen = ({navigation}) => {
                 label="New Password"
                 mode="outlined"
                 autoCorrect={false}
-                // minLenght={6}
                 // secureTextEntry={true}
                 theme={{
                   colors: {
@@ -51,9 +117,13 @@ const ResetPasswordScreen = ({navigation}) => {
                     underlineColor: 'transparent',
                   },
                 }}
-                value={password}
-                onChangeText={password => setPassword(password)}
+                value={formik.values.password}
+                onBlur={formik.handleBlur('password')}
+                onChangeText={formik.handleChange('password')}
               />
+              {formik.errors.password && (
+                <Text style={styles.errorStyle}>{formik.errors.password}</Text>
+              )}
               <TextInput
                 style={[styles.input, {marginTop: theme.spacing.s}]}
                 label="Confirm Password"
@@ -66,11 +136,20 @@ const ResetPasswordScreen = ({navigation}) => {
                     underlineColor: 'transparent',
                   },
                 }}
-                value={confirmPassword}
-                onChangeText={confirmPassword =>
-                  setConfirmPassword(confirmPassword)
-                }
+                value={formik.values.password_confirmation}
+                onBlur={formik.handleBlur('password_confirmation')}
+                onChangeText={formik.handleChange('password_confirmation')}
               />
+              {formik.values.password_confirmation !==
+              formik.values.password ? (
+                formik.errors.password_confirmation && (
+                  <Text style={styles.errorStyle}>
+                    {formik.errors.password_confirmation}
+                  </Text>
+                )
+              ) : (
+                <Text>''</Text>
+              )}
             </View>
             <View
               style={{
@@ -86,7 +165,8 @@ const ResetPasswordScreen = ({navigation}) => {
             <View style={{marginTop: theme.spacing.s, bottom: theme.spacing.s}}>
               <PrimaryButton
                 text="Reset"
-                onPress={() => navigation.navigate('Login')}
+                onPress={formik.handleSubmit}
+                disabled={!formik.isValid}
               />
             </View>
           </ScrollView>
@@ -126,6 +206,7 @@ const styles = StyleSheet.create({
     fontFamily: 'roboto',
     textAlign: 'left',
   },
+  errorStyle: {fontSize: theme.spacing.m, color: theme.colors.red},
 });
 
 //make this component available to the app

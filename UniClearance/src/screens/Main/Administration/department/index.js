@@ -14,24 +14,29 @@ import {
   ScrollView,
   SafeAreaView,
 } from 'react-native';
-import HostelSVG from '../../../../assets/svg/hostel.svg';
 import {PrimaryButton} from '../../../../components/button';
 import axios from 'axios';
 import AxiosConfig from '../../../../network/utils/axiosConfig';
-import {departmentURL} from '../../../../network/URL';
+import {departmentURL, clearedStudentDeptURL} from '../../../../network/URL';
 import {
   ClearanceFailed,
   HeaderComponent,
   ClearanceSuccessful,
   StudentInfo,
+  FullScreenLoader,
 } from '../../../../components';
 import store from '../../../../state-management/store';
 import {ConnectionStatus} from '../../../../components/snackbar';
 import NetInfo from '@react-native-community/netinfo';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+const storage = AsyncStorage;
 
 // create a component
 const DepartmentScreen = ({navigation}) => {
   const [fullname, setFullname] = React.useState('');
+  const [loading, setLoading] = React.useState(false);
+  const [success, setSuccess] = React.useState(false);
+  const [failure, setFailure] = React.useState(false);
   const [deptId, setDeptId] = React.useState();
   const [userToken, setUserToken] = React.useState('');
   const [deptName, setDeptName] = React.useState('');
@@ -80,8 +85,30 @@ const DepartmentScreen = ({navigation}) => {
         console.log(error.message);
       });
   };
+
+  // Department Clearance
+  const departmentClearance = () => {
+    setLoading(true);
+    const config = AxiosConfig(userToken);
+    axios
+      .post(clearedStudentDeptURL, {}, config)
+      .then(response => {
+        setLoading(false);
+        console.log(response.data);
+        setSuccess(true);
+        storage.setItem('DepartmentCleared', 'true');
+        storage.setItem('ClearedOnce', 'true');
+      })
+      .catch(error => {
+        setLoading(false);
+        console.log(error.response.data);
+        setFailure(true);
+      });
+  };
+
   return (
     <SafeAreaView style={styles.container}>
+      <FullScreenLoader isFetching={loading} />
       <ConnectionStatus
         message="No Internet, Could not fetch data "
         visible={connectionVisible}
@@ -93,9 +120,6 @@ const DepartmentScreen = ({navigation}) => {
           navigation.navigate('Home');
         }}
       />
-      {/* <View>
-        <HostelSVG width={430} height={240} />
-      </View> */}
       <View>
         <Image
           style={{width: wp('100'), height: hp('40'), resizeMode: 'cover'}}
@@ -112,14 +136,15 @@ const DepartmentScreen = ({navigation}) => {
           level="400"
         />
         <View style={styles.borderWidthStyle} />
-        {/* <ClearanceFailed reason="You broke a chair that belongs to the hostel in Level 200" /> */}
-        {/* <ClearanceSuccessful /> */}
+        {success === true ? <ClearanceSuccessful /> : <Text>''</Text>}
+        {failure === true ? (
+          <ClearanceFailed reason="The reasons" />
+        ) : (
+          <Text>''</Text>
+        )}
       </ScrollView>
       <View style={styles.buttonContainer}>
-        <PrimaryButton
-          text="Request Clearance"
-          onPress={() => alert('request clearance failed')}
-        />
+        <PrimaryButton text="Request Clearance" onPress={departmentClearance} />
       </View>
     </SafeAreaView>
   );
@@ -129,6 +154,7 @@ const DepartmentScreen = ({navigation}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#FFFFFF',
   },
   buttonContainer: {
     bottom: theme.spacing.m,

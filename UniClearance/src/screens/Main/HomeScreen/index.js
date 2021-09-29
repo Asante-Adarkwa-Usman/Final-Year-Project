@@ -14,7 +14,6 @@ import {
 } from 'react-native-responsive-screen';
 import theme from '../../../Theme';
 import StudentSVG from '../../../assets/svg/student.svg';
-import RecentClearedSVG from '../../../assets/svg/recentCleared.svg';
 import {
   Colors,
   ProgressBar,
@@ -25,22 +24,51 @@ import {
   SecondaryButton,
   ButtonWithImage,
 } from '../../../components/button';
-import {UserDetails, AnnouncementView} from '../../../components';
+import {
+  UserDetails,
+  AnnouncementView,
+  RecentClearedComponent,
+} from '../../../components';
 import store from '../../../state-management/store';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+const storage = AsyncStorage;
 
-const progress = 1.0;
+const progress = 0;
 const HomeScreen = ({navigation}) => {
   const [userDataFullname, setUserDataFullname] = React.useState('');
   const [userDataUsername, setUserDataUsername] = React.useState('');
+  const [hostelStatus, setHostelStatus] = React.useState(false);
+  const [departmentStatus, setDepartmentStatus] = React.useState(false);
+  const [libraryStatus, setLibraryStatus] = React.useState(false);
+  const [accountStatus, setAccountStatus] = React.useState(false);
+  const [clearedStatus, setClearedStatus] = React.useState(false);
+
   React.useEffect(() => {
     getStoreData();
   });
+
+  React.useEffect(() => {
+    fetchAsyncStorage();
+  }, []);
 
   // get data from redux store
   const getStoreData = () => {
     const state = store.getState();
     setUserDataFullname(state.userDetails.userDetails.data.user.fullname);
     setUserDataUsername(state.userDetails.userDetails.data.user.username);
+  };
+  //Fetching from async storage
+  const fetchAsyncStorage = async () => {
+    let HostelData = await storage.getItem('HostelCleared');
+    let AccountData = await storage.getItem('AccountCleared');
+    let LibraryData = await storage.getItem('LibraryCleared');
+    let DepartmentData = await storage.getItem('DepartmentCleared');
+    let AllClearedData = await storage.getItem('ClearedOnce');
+    setHostelStatus(HostelData);
+    setAccountStatus(AccountData);
+    setLibraryStatus(LibraryData);
+    setDepartmentStatus(DepartmentData);
+    setClearedStatus(AllClearedData);
   };
 
   return (
@@ -134,60 +162,37 @@ const HomeScreen = ({navigation}) => {
             <Text style={styles.departmentStyle}>Recent</Text>
           </View>
           <View>
-            <View
-              style={{
-                flex: 1,
-                alignItems: 'center',
-                marginLeft: 10,
-                alignSelf: 'center',
-              }}>
-              <StudentSVG width={180} height={120} />
-            </View>
             <ScrollView
               horizontal={true}
               showsHorizontalScrollIndicator={false}>
-              {/* <View style={{marginRight: theme.spacing.m}}>
-              <RecentClearedSVG />
-              <View
-                style={{position: 'absolute', bottom: 10, alignSelf: 'center'}}>
-                <Text
-                  style={{
-                    fontFamily: 'roboto',
-                    fontWeight: 'bold',
-                    color: theme.colors.white,
-                  }}>
-                  HOSTEL CLEARED
-                </Text>
+              <View style={styles.svgStyle}>
+                <StudentSVG width={180} height={120} />
               </View>
-            </View> */}
-              {/* <View style={{marginRight: theme.spacing.m}}>
-              <RecentClearedSVG />
-              <View
-                style={{position: 'absolute', bottom: 10, alignSelf: 'center'}}>
-                <Text
-                  style={{
-                    fontFamily: 'roboto',
-                    fontWeight: 'bold',
-                    color: theme.colors.white,
-                  }}>
-                  DEPARTMENT CLEARED
-                </Text>
-              </View>
-            </View>
-            <View style={{marginRight: theme.spacing.m}}>
-              <RecentClearedSVG />
-              <View
-                style={{position: 'absolute', bottom: 10, alignSelf: 'center'}}>
-                <Text
-                  style={{
-                    fontFamily: 'roboto',
-                    fontWeight: 'bold',
-                    color: theme.colors.white,
-                  }}>
-                  LIBRARY CLEARED
-                </Text>
-              </View>
-            </View> */}
+              {/* {departmentStatus === true ? (
+                ((<RecentClearedComponent title="DEPARTMENT CLEARED" />),
+                progress + 0.25)
+              ) : (
+                <Text>''</Text>
+              )}
+              {hostelStatus === true ? (
+                ((<RecentClearedComponent title="HOSTEL CLEARED" />),
+                progress + 0.25)
+              ) : (
+                <Text>''</Text>
+              )}
+
+              {accountStatus === true ? (
+                ((<RecentClearedComponent title="ACCOUNT CLEARED" />),
+                progress + 0.25)
+              ) : (
+                <Text>''</Text>
+              )}
+              {libraryStatus === true ? (
+                ((<RecentClearedComponent title="LIBRARY CLEARED" />),
+                progress + 0.25)
+              ) : (
+                <Text>''</Text>
+              )} */}
             </ScrollView>
           </View>
           <View
@@ -322,6 +327,12 @@ const styles = StyleSheet.create({
     marginLeft: theme.spacing.m,
     marginTop: theme.spacing.m,
     marginBottom: theme.spacing.m - 2,
+  },
+  svgStyle: {
+    flex: 1,
+    alignItems: 'center',
+    marginLeft: 10,
+    alignSelf: 'center',
   },
   recentImageStyle: {
     resizeMode: 'contain',

@@ -25,13 +25,15 @@ import {verifyEmailURL} from '../../network/URL';
 import {Success, Failure, ConnectionStatus} from '../../components/snackbar';
 import {FullScreenLoader, VerifyEmailValidationSchema} from '../../components';
 import {useFormik} from 'formik';
-import NetInfo from '@react-native-community/netinfo';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+const storage = AsyncStorage;
 
 // create a component
 const width = 280;
 const height = 150;
-const VerifyEmailScreen = ({sendUserEmail, navigation}) => {
+const VerifyEmailScreen = ({navigation}) => {
   const [loading, setLoading] = React.useState(false);
+  const [message, setMessage] = React.useState('');
   const [successVisible, setSuccessVisible] = React.useState(false);
   const [errorVisible, setErrorVisible] = React.useState(false);
   const [connectionVisible, setConnectionVisible] = React.useState(false);
@@ -40,26 +42,27 @@ const VerifyEmailScreen = ({sendUserEmail, navigation}) => {
   const formik = useFormik({
     validationSchema: VerifyEmailValidationSchema,
     initialValues: {
+      username: '',
       email: '',
     },
     onSubmit: values => {
-      //post user email
       setLoading(true);
       const config = AxiosConfig();
       axios
         .post(verifyEmailURL, values, config)
-        .then(res => {
-          //dispatch user data
-          // sendUserEmail(res.data);
+        .then(response => {
+          console.log(response.data);
+          setMessage(response.data.message);
+          storage.setItem('otpToken', JSON.stringify(response.data.token));
           setLoading(false);
           setSuccessVisible(true);
           setTimeout(() => {
             setSuccessVisible(false);
-            navigation.replace('ComfirmPin');
+            navigation.replace('ConfirmPin');
           }, 4000);
         })
         .catch(error => {
-          console.log(error.message);
+          console.log(error.response.data);
           if (error.response) {
             setLoading(false);
             setErrorVisible(true);
@@ -82,18 +85,16 @@ const VerifyEmailScreen = ({sendUserEmail, navigation}) => {
       <SafeAreaView>
         <KeyboardAvoidingView
           behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-          <FullScreenLoader isFetching={loading} text={'Verifying Email...'} />
-          <Success
-            message="Check your Email for the auth pin"
-            visible={successVisible}
-          />
+          <FullScreenLoader isFetching={loading} />
+          <Success message={message} visible={successVisible} />
           <Failure
-            message="Failed, Check Email and Try Again "
+            message="Failed, Check details and Try Again "
             visible={errorVisible}
           />
           <ConnectionStatus
             message="No Internet, Check Your Internet Connection "
             visible={connectionVisible}
+            backgroundColor={theme.colors.red}
           />
           <ScrollView showsVerticalScrollIndicator={false}>
             <View
@@ -109,14 +110,34 @@ const VerifyEmailScreen = ({sendUserEmail, navigation}) => {
                 marginTop: theme.spacing.l,
               }}>
               <Text style={styles.provideTextStyle}>
-                Provide email for the Account
+                Provide your Student ID and Email
               </Text>
             </View>
             <View style={styles.inputContainer}>
               <TextInput
                 style={styles.input}
-                label="email"
-                placeholder="email"
+                label="Student ID"
+                mode="outlined"
+                autoCorrect={false}
+                theme={{
+                  colors: {
+                    primary: theme.colors.primary,
+                    underlineColor: 'transparent',
+                  },
+                }}
+                placeholderTextColor={theme.colors.offWhite}
+                value={formik.values.username}
+                onBlur={formik.handleBlur('username')}
+                onChangeText={formik.handleChange('username')}
+                left={<TextInput.Icon name="account" />}
+              />
+              {formik.errors.username && (
+                <Text style={styles.errorStyle}>{formik.errors.username}</Text>
+              )}
+              <TextInput
+                style={styles.input}
+                label="Email"
+                placeholder="Email"
                 mode="outlined"
                 autoCorrect={false}
                 theme={{
@@ -151,6 +172,7 @@ const VerifyEmailScreen = ({sendUserEmail, navigation}) => {
               <PrimaryButton
                 text="Verify"
                 onPress={formik.handleSubmit}
+                // onPress={() => navigation.navigate('ConfirmPin')}
                 disabled={!formik.isValid}
               />
             </View>

@@ -37,20 +37,6 @@ const LoginScreen = ({getUserData, navigation}) => {
   const [errorVisible, setErrorVisible] = React.useState(false);
   const [connectionVisible, setConnectionVisible] = React.useState(false);
 
-  React.useEffect(() => {
-    //Show notice upon rendering
-    Popup.show({
-      type: 'Danger',
-      title: 'Notice',
-      textBody:
-        'Please change the default password to a desired one before login',
-      buttonText: 'Continue',
-      callback: () => {
-        Popup.hide();
-      },
-    });
-  }, []);
-
   // Form Validation
   const formik = useFormik({
     validationSchema: LoginValidationSchema,
@@ -115,6 +101,7 @@ const LoginScreen = ({getUserData, navigation}) => {
             <ConnectionStatus
               message="No Internet, Check Your Internet Connection "
               visible={connectionVisible}
+              backgroundColor={theme.colors.red}
             />
             <ScrollView showsVerticalScrollIndicator={false}>
               <View style={styles.container}>
@@ -177,7 +164,7 @@ const LoginScreen = ({getUserData, navigation}) => {
                 <Text
                   onPress={() => navigation.navigate('VerifyEmail')}
                   style={styles.resetText}>
-                  Reset Password
+                  Forget Password
                 </Text>
               </View>
               <View>

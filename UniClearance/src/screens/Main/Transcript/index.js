@@ -39,7 +39,7 @@ const TranscriptScreen = ({navigation}) => {
         <HeaderComponent
           title="Transcript"
           onPress={() => {
-            navigation.navigate('Home');
+            navigation.goBack();
           }}
         />
         {requestTranscript === false ? (
@@ -50,7 +50,7 @@ const TranscriptScreen = ({navigation}) => {
         ) : (
           <ScrollView showsVerticalScrollIndicator={false}>
             <RequestTranscript pending={true} copies={copies} year={year} />
-            <RequestTranscript pending={false} copies={copies} year={year} />
+            {/* <RequestTranscript pending={false} copies={copies} year={year} /> */}
           </ScrollView>
         )}
         <View style={{position: 'absolute', bottom: 10, alignSelf: 'center'}}>
