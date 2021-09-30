@@ -124,8 +124,8 @@ const ConfirmPinScreen = ({navigation}) => {
           <View style={{bottom: theme.spacing.s}}>
             <PrimaryButton
               text="Confirm"
-              onPress={confirmPin}
-              // onPress={() => navigation.navigate('ResetPassword')}
+              // onPress={confirmPin}
+              onPress={() => navigation.navigate('ResetPassword')}
             />
           </View>
         </ScrollView>

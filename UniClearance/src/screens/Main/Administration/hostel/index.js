@@ -93,11 +93,12 @@ const HostelScreen = ({navigation}) => {
     axios
       .post(clearedStudentDeptURL, {}, config)
       .then(response => {
-        setLoading(false);
         console.log(response.data);
-        setSuccess(true);
         storage.setItem('HostelCleared', 'true');
-        storage.setItem('ClearedOnce', 'true');
+        setTimeout(() => {
+          setLoading(false);
+          setSuccess(true);
+        }, 4000);
       })
       .catch(error => {
         setLoading(false);

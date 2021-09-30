@@ -11,5 +11,5 @@ export const userURL = `${baseURL}/users`;
 export const libraryClearanceURL = `${baseURL}/libary_clearance`;
 export const departmentIssuesURL = `${baseURL}/department-issues`;
 export const verifyEmailURL = `${baseURL}/reset_password/verify_email`;
-export const otpVerifyURL = `${baseURL}/verify_otp/${token}`; //pass token
+export const otpVerifyURL = `${baseURL}/reset_password/verify_otp/${token}`; //pass token
 export const resetPasswordURL = `${baseURL}/reset_password/reset/${token}`; //pass token

@@ -30,25 +30,14 @@ import {
   RecentClearedComponent,
 } from '../../../components';
 import store from '../../../state-management/store';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-const storage = AsyncStorage;
 
-const progress = 0;
+let progress = 1.0;
 const HomeScreen = ({navigation}) => {
   const [userDataFullname, setUserDataFullname] = React.useState('');
   const [userDataUsername, setUserDataUsername] = React.useState('');
-  const [hostelStatus, setHostelStatus] = React.useState(false);
-  const [departmentStatus, setDepartmentStatus] = React.useState(false);
-  const [libraryStatus, setLibraryStatus] = React.useState(false);
-  const [accountStatus, setAccountStatus] = React.useState(false);
-  const [clearedStatus, setClearedStatus] = React.useState(false);
 
   React.useEffect(() => {
     getStoreData();
-  });
-
-  React.useEffect(() => {
-    fetchAsyncStorage();
   }, []);
 
   // get data from redux store
@@ -56,19 +45,6 @@ const HomeScreen = ({navigation}) => {
     const state = store.getState();
     setUserDataFullname(state.userDetails.userDetails.data.user.fullname);
     setUserDataUsername(state.userDetails.userDetails.data.user.username);
-  };
-  //Fetching from async storage
-  const fetchAsyncStorage = async () => {
-    let HostelData = await storage.getItem('HostelCleared');
-    let AccountData = await storage.getItem('AccountCleared');
-    let LibraryData = await storage.getItem('LibraryCleared');
-    let DepartmentData = await storage.getItem('DepartmentCleared');
-    let AllClearedData = await storage.getItem('ClearedOnce');
-    setHostelStatus(HostelData);
-    setAccountStatus(AccountData);
-    setLibraryStatus(LibraryData);
-    setDepartmentStatus(DepartmentData);
-    setClearedStatus(AllClearedData);
   };
 
   return (
@@ -95,14 +71,14 @@ const HomeScreen = ({navigation}) => {
             />
           </View>
         </View>
-        <View style={styles.progressContainer}>
+        {/* <View style={styles.progressContainer}>
           <ProgressBar
             style={styles.progressStyle}
             progress={progress}
             color={Colors.red800}
           />
           <Text style={styles.clearedStyle}>{progress * 100}% Cleared</Text>
-        </View>
+        </View> */}
       </View>
       <ScrollView showsVerticalScrollIndicator={false}>
         <SafeAreaView>
@@ -158,43 +134,30 @@ const HomeScreen = ({navigation}) => {
               </View>
             </View>
           </ScrollView>
-          <View style={styles.recentContainer}>
+          {/* <View style={styles.recentContainer}>
             <Text style={styles.departmentStyle}>Recent</Text>
-          </View>
-          <View>
+          </View> */}
+          {/* <View>
             <ScrollView
               horizontal={true}
               showsHorizontalScrollIndicator={false}>
-              <View style={styles.svgStyle}>
-                <StudentSVG width={180} height={120} />
-              </View>
-              {/* {departmentStatus === true ? (
-                ((<RecentClearedComponent title="DEPARTMENT CLEARED" />),
-                progress + 0.25)
+              {departmentStatus ||
+              hostelStatus ||
+              libraryStatus ||
+              accountStatus == null ? (
+                <View style={styles.svgStyle}>
+                  <StudentSVG width={180} height={120} />
+                </View>
               ) : (
-                <Text>''</Text>
+                <ScrollView horizontal={true}>
+                  <RecentClearedComponent title="DEPARTMENT CLEARED" />
+                  <RecentClearedComponent title="HOSTEL CLEARED" />
+                  <RecentClearedComponent title="ACCOUNT CLEARED" />
+                  <RecentClearedComponent title="LIBRARY CLEARED" />
+                </ScrollView>
               )}
-              {hostelStatus === true ? (
-                ((<RecentClearedComponent title="HOSTEL CLEARED" />),
-                progress + 0.25)
-              ) : (
-                <Text>''</Text>
-              )}
-
-              {accountStatus === true ? (
-                ((<RecentClearedComponent title="ACCOUNT CLEARED" />),
-                progress + 0.25)
-              ) : (
-                <Text>''</Text>
-              )}
-              {libraryStatus === true ? (
-                ((<RecentClearedComponent title="LIBRARY CLEARED" />),
-                progress + 0.25)
-              ) : (
-                <Text>''</Text>
-              )} */}
             </ScrollView>
-          </View>
+          </View> */}
           <View
             style={{
               marginLeft: theme.spacing.m,
@@ -262,11 +225,9 @@ const HomeScreen = ({navigation}) => {
       </ScrollView>
       <View style={{marginVertical: theme.spacing.l}}>
         <PrimaryButton
-          text="Request Certificate"
-          disabled={progress === 1.0 ? false : true}
-          onPress={() =>
-            alert('Certificate request is a future update feature')
-          }
+          text="View Clearance Summary"
+          // disabled={progress == 1.0 ? true : false}
+          onPress={() => navigation.navigate('Receipt')}
         />
       </View>
     </PaperProvider>

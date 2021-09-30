@@ -35,6 +35,7 @@ const ResetPasswordScreen = ({navigation}) => {
   const [loading, setLoading] = React.useState(false);
   const [successVisible, setSuccessVisible] = React.useState(false);
   const [errorVisible, setErrorVisible] = React.useState(false);
+  const [errorMessage, setErrorMessage] = React.useState(false);
   const [connectionVisible, setConnectionVisible] = React.useState(false);
 
   //Form Validation
@@ -42,7 +43,7 @@ const ResetPasswordScreen = ({navigation}) => {
     validationSchema: ResetPasswordValidationSchema,
     initialValues: {
       password: '',
-      password_confirmation: '',
+      passwordConfirmation: '',
     },
     onSubmit: values => {
       setLoading(true);
@@ -60,7 +61,8 @@ const ResetPasswordScreen = ({navigation}) => {
         })
         .catch(error => {
           setLoading(false);
-          console.log(error.message);
+          console.log(error.response.data);
+          setErrorMessage(error.response.data);
           if (error.response) {
             setErrorVisible(true);
             setTimeout(() => {
@@ -87,10 +89,7 @@ const ResetPasswordScreen = ({navigation}) => {
             message="Password Successfully Changed"
             visible={successVisible}
           />
-          <Failure
-            message="Failed, Check Your Credentials and Try Again "
-            visible={errorVisible}
-          />
+          <Failure message={errorMessage} visible={errorVisible} />
           <ConnectionStatus
             message="No Internet, Check Your Internet Connection "
             visible={connectionVisible}
@@ -136,12 +135,11 @@ const ResetPasswordScreen = ({navigation}) => {
                     underlineColor: 'transparent',
                   },
                 }}
-                value={formik.values.password_confirmation}
-                onBlur={formik.handleBlur('password_confirmation')}
-                onChangeText={formik.handleChange('password_confirmation')}
+                value={formik.values.passwordConfirmation}
+                onBlur={formik.handleBlur('passwordConfirmation')}
+                onChangeText={formik.handleChange('passwordConfirmation')}
               />
-              {formik.values.password_confirmation !==
-              formik.values.password ? (
+              {formik.values.passwordConfirmation !== formik.values.password ? (
                 formik.errors.password_confirmation && (
                   <Text style={styles.errorStyle}>
                     {formik.errors.password_confirmation}

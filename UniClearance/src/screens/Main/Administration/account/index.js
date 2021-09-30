@@ -92,16 +92,19 @@ const AccountScreen = ({navigation}) => {
     axios
       .post(libraryClearanceURL, {}, config)
       .then(response => {
-        setLoading(false);
         console.log(response.data);
-        setSuccess(true);
         storage.setItem('AccountCleared', 'true');
-        storage.setItem('ClearedOnce', 'true');
+        setTimeout(() => {
+          setLoading(false);
+          setSuccess(true);
+        }, 4000);
       })
       .catch(error => {
-        setLoading(false);
         console.log(error.message);
-        setFailure(true);
+        setTimeout(() => {
+          setLoading(false);
+          setFailure(true);
+        }, 4000);
       });
   };
 
@@ -140,7 +143,7 @@ const AccountScreen = ({navigation}) => {
         <View style={styles.borderWidthStyle} />
         {success === true ? <ClearanceSuccessful /> : <Text>''</Text>}
         {failure === true ? (
-          <ClearanceFailed reason="The reasons" />
+          <ClearanceFailed reason="You owe school fees of 500 cedis. Kindly settle and try again" />
         ) : (
           <Text>''</Text>
         )}

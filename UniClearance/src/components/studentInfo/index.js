@@ -2,6 +2,7 @@
 import * as React from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 import theme from '../../Theme';
+import PropTypes from 'prop-types';
 
 // create a component
 const StudentInfo = ({...props}) => {
@@ -11,6 +12,14 @@ const StudentInfo = ({...props}) => {
         <Text style={[styles.hostelStyle, {marginBottom: theme.spacing.m}]}>
           {props.title}
         </Text>
+      </View>
+      <View style={{flexDirection: 'row'}}>
+        <View style={{alignSelf: 'flex-start', marginLeft: theme.spacing.m}}>
+          <Text style={styles.textStyle}>{props.StudentID}</Text>
+        </View>
+        <View style={{marginLeft: theme.spacing.xl * 2}}>
+          <Text style={styles.textBoldStyle}>{props.StudentID}</Text>
+        </View>
       </View>
       <View style={{flexDirection: 'row'}}>
         <View style={{alignSelf: 'flex-start', marginLeft: theme.spacing.m}}>
@@ -73,3 +82,10 @@ const styles = StyleSheet.create({
 
 //make this component available to the app
 export default StudentInfo;
+
+StudentInfo.propTypes = {
+  studentID: PropTypes.any,
+  StudentID: PropTypes.any,
+  studentName: PropTypes.any,
+  department: PropTypes.any,
+};

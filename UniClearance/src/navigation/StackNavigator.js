@@ -8,7 +8,7 @@ import {
   AnnouncementDetailScreen,
   SettingScreen,
   TranscriptScreen,
-  TranscriptRequestedScreen,
+  ReceiptScreen,
 } from '../screens/Main';
 import {
   DepartmentScreen,
@@ -64,6 +64,11 @@ const HomeStackNavigator = () => {
       <Stack.Screen
         name="Transcript"
         component={TranscriptScreen}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="Receipt"
+        component={ReceiptScreen}
         options={{headerShown: false}}
       />
     </Stack.Navigator>

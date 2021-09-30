@@ -26,7 +26,8 @@ const AnnouncementScreen = ({navigation}) => {
   // React.useEffect(() => {
   //   fetchPosts();
   // }, [fetchPosts]);
-  return (
+  //www.google.com/url?sa=i&url=https%3A%2F%2Fwww.maacsiliguri.com%2Fvar-plus.php&psig=AOvVaw3ibnYI_2IeaQQiIxzhmagE&ust=1633076304190000&source=images&cd=vfe&ved=0CAYQjRxqFwoTCNDZ3rqhpvMCFQAAAAAdAAAAABAO
+  https: return (
     <SafeAreaView style={styles.container}>
       <View style={styles.buttonContainer}>
         <TouchableOpacity

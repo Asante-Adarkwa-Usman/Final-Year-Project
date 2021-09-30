@@ -93,16 +93,19 @@ const LibraryScreen = ({navigation}) => {
     axios
       .post(libraryClearanceURL, {}, config)
       .then(response => {
-        setLoading(false);
         console.log(response.data);
-        setSuccess(true);
         storage.setItem('LibraryCleared', 'true');
-        storage.setItem('ClearedOnce', 'true');
+        setTimeout(() => {
+          setLoading(false);
+          setSuccess(true);
+        }, 4000);
       })
       .catch(error => {
-        setLoading(false);
         console.log(error.message);
-        setFailure(true);
+        setTimeout(() => {
+          setLoading(false);
+          setFailure(true);
+        }, 4000);
       });
   };
 
